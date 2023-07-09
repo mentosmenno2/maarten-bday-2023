@@ -14,7 +14,6 @@ html, body {
 	height: 100%;
 	margin: 0;
 	padding: 10px;
-
 }
 
 body {
@@ -37,6 +36,7 @@ h1, h2, h3, h4, h5 {
 	border: 5px solid #cccccc;
 	aspect-ratio: 1 / 1;
 	height: 100%;
+	max-height: 90vw;
 	overflow: hidden;
 	position: relative;
 }
