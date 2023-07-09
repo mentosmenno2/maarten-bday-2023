@@ -37,6 +37,7 @@ function initializeGame() {
 
 function addGameEventListeners() {
 	$( '.level-ducky-dash' ).on( 'mousemove', onMouseMove );
+	$( '.level-ducky-dash' ).on( 'touchmove', onTouchMove );
 }
 
 function startGame() {
@@ -46,6 +47,11 @@ function startGame() {
 function onMouseMove( event ) {
 	var bounds = $( '.level-ducky-dash' )[0].getBoundingClientRect();
 	gameState.player.mouseX = event.clientX - bounds.left;
+}
+
+function onTouchMove( event ) {
+	var bounds = $( '.level-ducky-dash' )[0].getBoundingClientRect();
+	gameState.player.mouseX = event.touches[0].clientX - bounds.left;
 }
 
 function update(progress) {

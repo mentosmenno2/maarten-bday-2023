@@ -16,4 +16,9 @@ class LevelStart extends AbstractLevel
 	{
 		return new ChatStart();
 	}
+
+	public function getInstructions(): string
+	{
+		return 'Make sure sound on your device is working. Have fun!';
+	}
 }
