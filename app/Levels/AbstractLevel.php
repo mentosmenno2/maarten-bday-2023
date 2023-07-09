@@ -9,6 +9,8 @@ abstract class AbstractLevel implements JsonSerializable
 {
 	abstract public function getId(): string;
 
+	abstract public function getName(): string;
+
 	abstract public function getChat(): ?AbstractChat;
 
 	public function getInstructions(): string

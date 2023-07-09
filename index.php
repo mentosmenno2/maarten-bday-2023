@@ -48,7 +48,7 @@ $nextLevel = $game->getNextLevel();
 		>
 			<?php if ($currentLevel) { ?>
 				<?php ( new Templates() )->echoTemplate('instructions', array(
-					'text' => $currentLevel->getInstructions(),
+					'level' => $currentLevel,
 				)); ?>
 
 				<?php ( new Templates() )->echoTemplate('levels/' . $currentLevel->getId(), array(
