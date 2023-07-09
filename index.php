@@ -69,14 +69,20 @@ $nextLevel = $game->getNextLevel();
 			<p>&#169; Menno van den Ende - 2023</p>
 		</footer>
 
-		<audio class="audio-rubberduck" preload="auto">
-			<source src="assets/audio/rubberduck.mp3" type="audio/mpeg">
+		<audio class="audio audio-effect audio-effect-rubberduck" preload="auto">
+			<source src="assets/audio/effects/rubberduck.mp3" type="audio/mpeg">
 		</audio>
-		<audio class="audio-rubberduck2" preload="auto">
-			<source src="assets/audio/rubberduck2.mp3" type="audio/mpeg">
+		<audio class="audio audio-effect audio-effect-rubberduck2" preload="auto">
+			<source src="assets/audio/effects/rubberduck2.mp3" type="audio/mpeg">
 		</audio>
-		<audio class="audio-fail" preload="auto">
-			<source src="assets/audio/fail.mp3" type="audio/mpeg">
+		<audio class="audio audio-effect-fail" preload="auto">
+			<source src="assets/audio/effects/fail.mp3" type="audio/mpeg">
+		</audio>
+		<audio class="audio audio-music audio-music-chat" preload="auto" loop>
+			<source src="assets/audio/music/chat.mp3" type="audio/mpeg">
+		</audio>
+		<audio class="audio audio-music audio-music-ingame" preload="auto" loop>
+			<source src="assets/audio/music/ingame.mp3" type="audio/mpeg">
 		</audio>
 
 

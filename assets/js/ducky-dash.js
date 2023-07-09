@@ -41,6 +41,7 @@ function addGameEventListeners() {
 }
 
 function startGame() {
+	$( '.audio-music-ingame' )[0].play();
 	window.requestAnimationFrame(loop);
 }
 
@@ -60,7 +61,7 @@ function update(progress) {
 	if ( gameState.player.invulnerable > 0 ) {
 		gameState.player.invulnerable -= progress;
 	} else {
-		gameState.player.y += progress / 50;
+		gameState.player.y += progress * ( $( '.level-ducky-dash' ).height() / 50000 );
 	}
 	gameState.player.x = Math.max( 0, gameState.player.x );
 	gameState.player.x = Math.min( $( '.level-ducky-dash' ).width() - $( '.character-enemy' ).width(), gameState.player.x );
@@ -72,7 +73,7 @@ function update(progress) {
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= progress;
 	} else {
-		gameState.enemy.y += progress / 50;
+		gameState.enemy.y += progress * ( $( '.level-ducky-dash' ).height() / 50000 );
 	}
 	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
 	gameState.enemy.x = Math.min( $( '.level-ducky-dash' ).width() - $( '.character-enemy' ).width(), gameState.enemy.x );
@@ -81,7 +82,7 @@ function update(progress) {
 
 	// Move obstacles
 	gameState.obstacles.forEach(( obstacle, index ) => {
-		obstacle.y -= progress / 10;
+		obstacle.y -= progress * ( $( '.level-ducky-dash' ).height() / 5000 );
 
 		if ( obstacle.y < 0 ) {
 			resetObstacle(index);
@@ -95,7 +96,7 @@ function update(progress) {
 			$( '.obstacle' ).eq(index)[0].getBoundingClientRect()
 		) ) {
 			gameState.player.invulnerable = 2000;
-			$( '.audio-fail' )[0].play();
+			$( '.audio-effect-fail' )[0].play();
 		}
 
 		if ( obstacle.active && gameState.enemy.invulnerable <= 0 && boundingBoxesHit(
@@ -103,7 +104,7 @@ function update(progress) {
 			$( '.obstacle' ).eq(index)[0].getBoundingClientRect()
 		) ) {
 			gameState.enemy.invulnerable = 2000;
-			$( '.audio-fail' )[0].play();
+			$( '.audio-effect-fail' )[0].play();
 		}
 	});
 
@@ -172,15 +173,17 @@ function loop(timestamp) {
 	draw();
 
 	if ( gameState.won ) {
-		$( '.audio-rubberduck2' )[0].play();
+		$( '.audio-effect-rubberduck2' )[0].play();
 		setTimeout(() => {
+			$( '.audio-music-ingame' )[0].pause();
 			gameCompleted();
 		}, 1000);
 		return;
 	} else if ( gameState.lost ) {
-		$( '.audio-rubberduck1' )[0].play();
+		$( '.audio-effect-rubberduck1' )[0].play();
 
 		setTimeout(() => {
+			$( '.audio-music-ingame' )[0].pause();
 			window.location.reload();
 		}, 1000);
 		return;

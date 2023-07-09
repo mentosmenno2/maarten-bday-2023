@@ -23,7 +23,7 @@ class ChatStart extends AbstractChat
 			new EnemyMessage('Your present is now mine!'),
 			new PlayerMessage('Noooooooooo!'),
 			new EnemyMessage('I you want it, you have to deserve it first.'),
-			new EnemyMessage('I challenge YOU, to beat ME in all challenges.'),
+			new EnemyMessage('I challenge YOU, to beat ME in a list of challenges.'),
 			new EnemyMessage('If you do you\'ll get your gift back.'),
 			new EnemyMessage('But if you don\'t, I will keep it forever!'),
 			new EnemyMessage('MOEHAHAHAHAHAAAH'),

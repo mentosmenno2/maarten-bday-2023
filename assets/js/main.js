@@ -1,6 +1,9 @@
 var levelObject = JSON.parse( $('.game').attr( 'data-level' ) );
 
 function initialize() {
+	$( '.audio-music' ).each( function( index ) {
+		$( this )[0].volume = 0.01;
+	} );
 	addEventListeners();
 	initializeGame();
 }
@@ -35,6 +38,7 @@ var messageGeneratorTimeouts = [];
 
 function initializeChat() {
 	addChatEventListeners();
+	$( '.audio-music-chat' )[0].play();
 	$( '.chat' ).show();
 	showChatMessage();
 }
@@ -49,11 +53,13 @@ function onChatClick() {
 
 function showChatMessage() {
 	if ( ! levelObject.chat ) {
+		$( '.audio-music-chat' )[0].pause();
 		goToNextLevel();
 	}
 
 	var chatMessage = levelObject.chat.messages[currentChatMessageIndex] ?? null;
 	if ( ! chatMessage ) {
+		$( '.audio-music-chat' )[0].pause();
 		goToNextLevel();
 	}
 
@@ -70,9 +76,9 @@ function showChatMessage() {
 	$chatTalkerElement = $( '.talker-' + chatMessage.talker );
 
 	if ( chatMessage.talker == 'player' ) {
-		$( '.audio-rubberduck2' )[0].play();
+		$( '.audio-effect-rubberduck2' )[0].play();
 	} else {
-		$( '.audio-rubberduck' )[0].play();
+		$( '.audio-effect-rubberduck' )[0].play();
 	}
 
 	for (var i = 0; i < chatMessage.message.length; i++) {
