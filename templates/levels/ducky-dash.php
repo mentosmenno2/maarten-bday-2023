@@ -12,7 +12,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	<div class="finish"></div>
 
 	<div class="character character-player">
-		<img class="pixelated" alt="" src="assets/images/duck.png" >
+		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
 	</div>
 	<div class="character character-enemy">
 		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >

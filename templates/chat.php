@@ -16,7 +16,7 @@
 
 	<div class="talker__container" >
 		<div class="talker talker-player" >
-			<img class="pixelated" alt="" src="assets/images/duck.png" >
+			<img class="pixelated flipped-horizontal" alt="" src="assets/images/maarten-duck.png" >
 		</div>
 		<div class="talker talker-enemy" >
 			<img class="pixelated" alt="" src="assets/images/evil-duck.png" >

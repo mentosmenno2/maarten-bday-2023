@@ -145,7 +145,7 @@ img.pixelated {
 	width: 100%;
 }
 
-.talker.talker-player > img {
+.flipped-horizontal {
 	-webkit-transform: scaleX(-1);
 	transform: scaleX(-1);
 }
