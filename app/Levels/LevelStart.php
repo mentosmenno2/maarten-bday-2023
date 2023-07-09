@@ -19,6 +19,6 @@ class LevelStart extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'Make sure sound on your device is working. Have fun!';
+		return 'Make sure sound on your device is working. You can control everything in the game window using the mouse and/or touch. Have fun!';
 	}
 }
