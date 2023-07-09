@@ -1,6 +1,6 @@
 <?php
 
-namespace Mentosmenno2\ImageCropPositioner;
+namespace Mentosmenno2\MaartenBday2023;
 
 class Templates
 {
@@ -36,6 +36,7 @@ class Templates
 			return;
 		}
 
+		extract($_template_args);
 		require $_filepath;
 	}
 }

@@ -1,0 +1,22 @@
+.level.level-start {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.button.button-start {
+	font-size: 40px;
+	border-width: 5px;
+}
+
+.present {
+	position: absolute;
+	height: 20%;
+
+	-moz-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	transition: all .5s linear;
+}

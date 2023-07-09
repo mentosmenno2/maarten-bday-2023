@@ -3,16 +3,17 @@
 namespace Mentosmenno2\MaartenBday2023\Levels;
 
 use Mentosmenno2\MaartenBday2023\Chats\AbstractChat;
+use Mentosmenno2\MaartenBday2023\Chats\ChatStart;
 
-class LevelBuildDuck extends AbstractLevel
+class LevelStart extends AbstractLevel
 {
 	public function getId(): string
 	{
-		return 'build-duck';
+		return 'start';
 	}
 
 	public function getChat(): ?AbstractChat
 	{
-		return null;
+		return new ChatStart();
 	}
 }
