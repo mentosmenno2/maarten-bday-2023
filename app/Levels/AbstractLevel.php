@@ -16,7 +16,8 @@ abstract class AbstractLevel implements JsonSerializable
 		return '';
 	}
 
-	public function jsonSerialize(): mixed
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize()
 	{
 		return array(
 			'id' => $this->getId(),

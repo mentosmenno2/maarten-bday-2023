@@ -13,7 +13,8 @@ abstract class AbstractChat implements JsonSerializable
 	 */
 	abstract public function getMessages(): array;
 
-	public function jsonSerialize(): mixed
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize()
 	{
 		return array(
 			'messages' => $this->getMessages(),

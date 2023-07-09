@@ -15,7 +15,8 @@ class AbstractMessage implements JsonSerializable
 		$this->message = $message;
 	}
 
-	public function jsonSerialize(): mixed
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize()
 	{
 		return array(
 			'talker' => $this->talker,
