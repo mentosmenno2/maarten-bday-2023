@@ -1,0 +1,41 @@
+<?php
+
+namespace Mentosmenno2\ImageCropPositioner;
+
+class Templates
+{
+
+	public const TEMPLATE_PART_DIRECTORY = 'templates';
+
+	/**
+	 * @param string $_template
+	 * @param array<string,mixed> $_template_args
+	 * @return string
+	 */
+	public function getTemplate(string $_template, array $_template_args = array()): string
+	{
+		ob_start();
+		$this->echoTemplate($_template, $_template_args);
+		$data = ob_get_clean();
+		if (! $data) {
+			return '';
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param string $_template
+	 * @param array<string,mixed> $_template_args
+	 * @return void
+	 */
+	public function echoTemplate(string $_template, array $_template_args = array()): void
+	{
+		$_filepath = constant('MAARTEN_BDAY_2023_ROOT_DIR') . '/' . self::TEMPLATE_PART_DIRECTORY . '/' . $_template . '.php';
+		if (! file_exists($_filepath)) {
+			return;
+		}
+
+		require $_filepath;
+	}
+}
