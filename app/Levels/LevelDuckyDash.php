@@ -3,6 +3,7 @@
 namespace Mentosmenno2\MaartenBday2023\Levels;
 
 use Mentosmenno2\MaartenBday2023\Chats\AbstractChat;
+use Mentosmenno2\MaartenBday2023\Chats\ChatDuckyDash;
 
 class LevelDuckyDash extends AbstractLevel
 {
@@ -18,6 +19,6 @@ class LevelDuckyDash extends AbstractLevel
 
 	public function getChat(): ?AbstractChat
 	{
-		return null;
+		return new ChatDuckyDash();
 	}
 }
