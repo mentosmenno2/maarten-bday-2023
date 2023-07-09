@@ -66,10 +66,8 @@ function update(progress) {
 	}
 	gameState.player.x = Math.max( 0, gameState.player.x );
 	gameState.player.x = Math.min( $( '.level-ducky-dash' ).width() - $( '.character-player' ).width(), gameState.player.x );
-	gameState.player.x = Math.round( gameState.player.x );
 	gameState.player.y = Math.max( 0, gameState.player.y );
 	gameState.player.y = Math.min( $( '.level-ducky-dash' ).height() - $( '.character-player' ).height(), gameState.player.y );
-	gameState.player.y = Math.round( gameState.player.y );
 
 	// Move enemy
 	gameState.enemy.x += progress * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
@@ -80,15 +78,12 @@ function update(progress) {
 	}
 	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
 	gameState.enemy.x = Math.min( $( '.level-ducky-dash' ).width() - $( '.character-enemy' ).width(), gameState.enemy.x );
-	gameState.enemy.x = Math.round( gameState.enemy.x );
 	gameState.enemy.y = Math.max( 0, gameState.enemy.y );
 	gameState.enemy.y = Math.min( $( '.level-ducky-dash' ).height() - $( '.character-enemy' ).height(), gameState.enemy.y );
-	gameState.enemy.y = Math.round( gameState.enemy.y );
 
 	// Move obstacles
 	gameState.obstacles.forEach(( obstacle, index ) => {
 		obstacle.y -= progress * ( $( '.level-ducky-dash' ).height() / 5000 );
-		obstacle.y = Math.round( obstacle.y );
 
 		if ( obstacle.y + $( '.obstacle' ).eq(index).height() < 0 ) {
 			resetObstacle(index);
@@ -141,9 +136,9 @@ function draw() {
 	// Player
 	var oldPlayerX = parseInt( $( '.character-player' ).css( 'left' ).replace( 'px', '' ) );
 	$( '.character-player' ).css( 'left', Math.round( gameState.player.x ) + 'px' );
-	if ( oldPlayerX < gameState.player.x ) {
+	if ( oldPlayerX < Math.round( gameState.player.x ) ) {
 		$( '.character-player img' ).addClass( 'flipped-horizontal' );
-	} else if ( oldPlayerX > gameState.player.x ) {
+	} else if ( oldPlayerX > Math.round( gameState.player.x ) ) {
 		$( '.character-player img' ).removeClass( 'flipped-horizontal' );
 	}
 
@@ -157,9 +152,9 @@ function draw() {
 	// Characters
 	var oldEnemyX = parseInt( $( '.character-enemy' ).css( 'left' ).replace( 'px', '' ) );
 	$( '.character-enemy' ).css( 'left', Math.round( gameState.enemy.x ) + 'px' );
-	if ( oldEnemyX < gameState.enemy.x ) {
+	if ( oldEnemyX < Math.round( gameState.enemy.x ) ) {
 		$( '.character-enemy img' ).addClass( 'flipped-horizontal' );
-	} else if ( oldEnemyX > gameState.enemy.x ) {
+	} else if ( oldEnemyX > Math.round( gameState.enemy.x ) ) {
 		$( '.character-enemy img' ).removeClass( 'flipped-horizontal' );
 	}
 
