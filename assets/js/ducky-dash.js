@@ -51,6 +51,7 @@ function onMouseMove( event ) {
 }
 
 function onTouchMove( event ) {
+	event.preventDefault();
 	var bounds = $( '.level-ducky-dash' )[0].getBoundingClientRect();
 	gameState.player.mouseX = event.touches[0].clientX - bounds.left;
 }
