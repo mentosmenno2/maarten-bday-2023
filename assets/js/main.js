@@ -12,7 +12,7 @@ function gameCompleted() {
 
 function goToNextLevel() {
 	var url = new URL(window.location.href);
-	url.searchParams.set('level', 'apple');
+	url.searchParams.set('level', $('.game').attr( 'data-next-level' ));
 	window.location.href = url.toString();
 }
 
@@ -38,6 +38,10 @@ function onChatClick() {
 }
 
 function showChatMessage() {
+	if ( ! levelObject.chat ) {
+		goToNextLevel();
+	}
+
 	var chatMessage = levelObject.chat.messages[currentChatMessageIndex] ?? null;
 	if ( ! chatMessage ) {
 		goToNextLevel();
