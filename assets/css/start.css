@@ -6,11 +6,6 @@
 	align-items: center;
 }
 
-.button.button-start {
-	font-size: 40px;
-	border-width: 5px;
-}
-
 .present {
 	position: absolute;
 	height: 20%;

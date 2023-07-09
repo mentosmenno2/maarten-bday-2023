@@ -3,11 +3,10 @@ function initializeGame() {
 }
 
 function addGameEventListeners() {
-	$( '.button-start' ).on( 'click', onGameStartButtonClick );
 	$( document ).on( 'showChatMessage', onShowChatMessage )
 }
 
-function onGameStartButtonClick() {
+function startGame() {
 	gameCompleted();
 }
 

@@ -11,6 +11,11 @@ abstract class AbstractLevel implements JsonSerializable
 
 	abstract public function getChat(): ?AbstractChat;
 
+	public function getInstructions(): string
+	{
+		return '';
+	}
+
 	public function jsonSerialize(): mixed
 	{
 		return array(

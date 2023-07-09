@@ -4,5 +4,6 @@ parameters:
 	editorUrl: 'vscode://file/%%file%%:%%line%%'
 	paths:
 		- app
+		- templates
 		- index.php
 		- autoloader.php

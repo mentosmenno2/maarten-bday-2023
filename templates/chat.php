@@ -1,3 +1,9 @@
+<?php
+/**
+ *
+ */
+?>
+
 <div class="chat">
 	<div class="textballoon__container" >
 		<div class="textballoon textballoon-player" >

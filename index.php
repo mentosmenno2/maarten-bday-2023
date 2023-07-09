@@ -47,7 +47,13 @@ $nextLevel = $game->getNextLevel();
 			data-level="<?php echo htmlspecialchars(json_encode($currentLevel?: '') ?: '', ENT_QUOTES); ?>"
 		>
 			<?php if ($currentLevel) { ?>
-				<?php ( new Templates() )->echoTemplate('levels/' . $currentLevel->getId()); ?>
+				<?php ( new Templates() )->echoTemplate('instructions', array(
+					'text' => $currentLevel->getInstructions(),
+				)); ?>
+
+				<?php ( new Templates() )->echoTemplate('levels/' . $currentLevel->getId(), array(
+					'level' => $currentLevel,
+				)); ?>
 			<?php } else { ?>
 				<div class="level">
 					<p>Cheater!</p>
@@ -62,6 +68,17 @@ $nextLevel = $game->getNextLevel();
 		<footer>
 			<p>&#169; Menno van den Ende - 2023</p>
 		</footer>
+
+		<audio class="audio-rubberduck" preload="auto">
+			<source src="assets/audio/rubberduck.mp3" type="audio/mpeg">
+		</audio>
+		<audio class="audio-rubberduck2" preload="auto">
+			<source src="assets/audio/rubberduck2.mp3" type="audio/mpeg">
+		</audio>
+		<audio class="audio-fail" preload="auto">
+			<source src="assets/audio/fail.mp3" type="audio/mpeg">
+		</audio>
+
 
 		<script src="assets/js/jquery-3.7.0.min.js"></script>
 		<?php if ($currentLevel) { ?>

@@ -37,10 +37,9 @@ function initializeGame() {
 
 function addGameEventListeners() {
 	$( '.level-ducky-dash' ).on( 'mousemove', onMouseMove );
-	$( '.button-start' ).on( 'click', onGameStartButtonClick );
 }
 
-function onGameStartButtonClick() {
+function startGame() {
 	window.requestAnimationFrame(loop);
 }
 
@@ -90,6 +89,7 @@ function update(progress) {
 			$( '.obstacle' ).eq(index)[0].getBoundingClientRect()
 		) ) {
 			gameState.player.invulnerable = 2000;
+			$( '.audio-fail' )[0].play();
 		}
 
 		if ( obstacle.active && gameState.enemy.invulnerable <= 0 && boundingBoxesHit(
@@ -97,6 +97,7 @@ function update(progress) {
 			$( '.obstacle' ).eq(index)[0].getBoundingClientRect()
 		) ) {
 			gameState.enemy.invulnerable = 2000;
+			$( '.audio-fail' )[0].play();
 		}
 	});
 
@@ -165,10 +166,17 @@ function loop(timestamp) {
 	draw();
 
 	if ( gameState.won ) {
-		gameCompleted();
+		$( '.audio-rubberduck2' )[0].play();
+		setTimeout(() => {
+			gameCompleted();
+		}, 1000);
 		return;
 	} else if ( gameState.lost ) {
-		window.location.reload();
+		$( '.audio-rubberduck1' )[0].play();
+
+		setTimeout(() => {
+			window.location.reload();
+		}, 1000);
 		return;
 	}
 

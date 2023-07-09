@@ -1,7 +1,17 @@
 var levelObject = JSON.parse( $('.game').attr( 'data-level' ) );
 
 function initialize() {
+	addEventListeners();
 	initializeGame();
+}
+
+function addEventListeners() {
+	$( '.button-start' ).on( 'click', onButtonStartClick );
+}
+
+function onButtonStartClick() {
+	$( '.instructions' ).hide();
+	startGame();
 }
 
 function gameCompleted() {
@@ -58,6 +68,12 @@ function showChatMessage() {
 	$chatMessageElement.show();
 
 	$chatTalkerElement = $( '.talker-' + chatMessage.talker );
+
+	if ( chatMessage.talker == 'player' ) {
+		$( '.audio-rubberduck2' )[0].play();
+	} else {
+		$( '.audio-rubberduck' )[0].play();
+	}
 
 	for (var i = 0; i < chatMessage.message.length; i++) {
 		messageGeneratorTimeouts.push( setTimeout(function () {
