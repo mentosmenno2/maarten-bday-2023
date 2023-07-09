@@ -12,7 +12,7 @@ class ChatDuckyDash extends AbstractChat
 		return array(
 			new PlayerMessage('Take that evil duck!'),
 			new PlayerMessage('This was easy, now give back my present.'),
-			new EnemyMessage('You fool'),
+			new EnemyMessage('You fool.'),
 			new EnemyMessage('You think beating me in only one challenge is enough to get your present back?'),
 			new EnemyMessage('WHAHAHAHAHAAAH'),
 			new PlayerMessage('Well, yes.'),
