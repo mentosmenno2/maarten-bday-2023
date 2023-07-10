@@ -95,9 +95,17 @@ function showChatMessage() {
 			var shouldMoveTalker = currentText.length % 5 === 0;
 			if ( shouldMoveTalker ) {
 				var pixels = ( currentText.length % 2  == 0 ) ? 10 : 0;
+				$chatTalkerElement.css("-webkit-transform", 'translateY(' + pixels + 'px)');
+				$chatTalkerElement.css("-moz-transform", 'translateY(' + pixels + 'px)');
+				$chatTalkerElement.css("-ms-transform", 'translateY(' + pixels + 'px)');
+				$chatTalkerElement.css("-o-transform", 'translateY(' + pixels + 'px)');
 				$chatTalkerElement.css("transform", 'translateY(' + pixels + 'px)');
 			}
 			if ( newText.length === chatMessage.message.length ) {
+				$chatTalkerElement.css("-webkit-transform", 'translateY(0px)');
+				$chatTalkerElement.css("-moz-transform", 'translateY(0px)');
+				$chatTalkerElement.css("-ms-transform", 'translateY(0px)');
+				$chatTalkerElement.css("-o-transform", 'translateY(0px)');
 				$chatTalkerElement.css("transform", 'translateY(0px)');
 			}
 		}, i * 20 ) );
