@@ -2,7 +2,7 @@ var levelObject = JSON.parse( $('.game').attr( 'data-level' ) );
 
 function initialize() {
 	$( '.audio-music' ).each( function( index ) {
-		$( this )[0].volume = 0.01;
+		$( this )[0].volume = 0.02;
 	} );
 	addEventListeners();
 	initializeGame();
@@ -76,8 +76,12 @@ function showChatMessage() {
 	$chatTalkerElement = $( '.talker-' + chatMessage.talker );
 
 	if ( chatMessage.talker == 'player' ) {
+		$( '.audio-effect-rubberduck2' )[0].pause();
+		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck2' )[0].play();
 	} else {
+		$( '.audio-effect-rubberduck' )[0].pause();
+		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck' )[0].play();
 	}
 

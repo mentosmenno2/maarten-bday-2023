@@ -97,6 +97,8 @@ function update(progress) {
 			$( '.obstacle' ).eq(index)[0].getBoundingClientRect()
 		) ) {
 			gameState.player.invulnerable = 2000;
+			$( '.audio-effect-fail' )[0].pause();
+			$( '.audio-effect-fail' )[0].currentTime = 0;
 			$( '.audio-effect-fail' )[0].play();
 		}
 
@@ -105,6 +107,8 @@ function update(progress) {
 			$( '.obstacle' ).eq(index)[0].getBoundingClientRect()
 		) ) {
 			gameState.enemy.invulnerable = 2000;
+			$( '.audio-effect-fail' )[0].pause();
+			$( '.audio-effect-fail' )[0].currentTime = 0;
 			$( '.audio-effect-fail' )[0].play();
 		}
 	});
@@ -188,6 +192,8 @@ function loop(timestamp) {
 	draw();
 
 	if ( gameState.won ) {
+		$( '.audio-effect-rubberduck2' )[0].pause();
+		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck2' )[0].play();
 		setTimeout(() => {
 			$( '.audio-music-ingame' )[0].pause();
@@ -195,6 +201,8 @@ function loop(timestamp) {
 		}, 1000);
 		return;
 	} else if ( gameState.lost ) {
+		$( '.audio-effect-rubberduck1' )[0].pause();
+		$( '.audio-effect-rubberduck1' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck1' )[0].play();
 
 		setTimeout(() => {
