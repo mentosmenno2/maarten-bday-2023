@@ -169,6 +169,10 @@ img.pixelated {
 	padding: 20px;
 }
 
+.instructions-text {
+	overflow-y: auto;
+}
+
 .instructions .button-start {
 	font-size: 40px;
 	border-width: 5px;
