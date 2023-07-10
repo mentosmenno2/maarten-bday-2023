@@ -15,14 +15,34 @@
 }
 
 .healthbar-wrapper {
-	width: calc( 100% - 20px );
+	width: calc( 50% - 15px );
 	height: 10px;
 	position: relative;
-	top: 10px;
-	left: 10px;
 	background-color: black;
 	border-radius: 5px;
 	overflow: hidden;
+
+	-webkit-transform: translateY(100%) rotate(-90deg);
+	-moz-transform: translateY(100%) rotate(-90deg);
+	-ms-transform: translateY(100%) rotate(-90deg);
+	-o-transform: translateY(100%) rotate(-90deg);
+	transform: translateY(100%) rotate(-90deg);
+
+	-webkit-transform-origin: top left;
+    -moz-transform-origin: top left;
+    -ms-transform-origin: top left;
+    -o-transform-origin: top left;
+    transform-origin: top left;
+}
+
+.healthbar-wrapper-player {
+	top: calc( 100% - 20px );
+	left: 10px;
+}
+
+.healthbar-wrapper-enemy {
+	top: calc( 50% - 25px );
+	left: 10px;
 }
 
 .healthbar-text {
