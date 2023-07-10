@@ -17,7 +17,7 @@ class ChatStart extends AbstractChat
 			new EnemyMessage('And you\'ve recieved a gift from Menno?'),
 			new PlayerMessage('...'),
 			new PlayerMessage('Yes I did?'),
-			new EnemyMessage('All these years you\'ve reveived specially made gifts from Menno.'),
+			new EnemyMessage('All these years you\'ve recieved specially made gifts from Menno.'),
 			new EnemyMessage('But never have I...'),
 			new EnemyMessage('But that will change today.'),
 			new EnemyMessage('Your present is now mine!'),

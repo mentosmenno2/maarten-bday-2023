@@ -30,8 +30,6 @@ function initializeGame() {
 		gameState.obstacles[index].active = false;
 	}
 
-	addGameEventListeners();
-
 	draw();
 }
 
@@ -41,6 +39,7 @@ function addGameEventListeners() {
 }
 
 function startGame() {
+	addGameEventListeners();
 	$( '.audio-music-ingame' )[0].play();
 	window.requestAnimationFrame(loop);
 }
