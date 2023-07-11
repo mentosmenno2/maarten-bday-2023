@@ -52,18 +52,18 @@ function setGameObjectsSizes() {
 	gameState.enemy.height = $( '.level-whack-a-duck' ).height() * 0.05;
 }
 
-function update(progress) {
+function update(deltaTime) {
 	setGameObjectsSizes();
 
 	// Go underground if not up anymore
-	gameState.enemy.up = Math.max( 0, gameState.enemy.up - progress );
+	gameState.enemy.up = Math.max( 0, gameState.enemy.up - deltaTime );
 	if ( gameState.enemy.up <= 0 && gameState.enemy.underground <= 0 ) {
 		gameState.enemy.underground = ( Math.random() * 3000 ) + 1000;
 		randomizeEnemyPosition();
 	}
 
 	// Go up if not undergroun anymore
-	gameState.enemy.underground = Math.max( 0, gameState.enemy.underground - progress );
+	gameState.enemy.underground = Math.max( 0, gameState.enemy.underground - deltaTime );
 	if ( gameState.enemy.underground <= 0 && gameState.enemy.up <= 0 ) {
 		gameState.enemy.up = ( Math.random() * 1000 ) + 1000;
 	}
@@ -110,9 +110,9 @@ function loop(timestamp) {
 		gameState.lastRenderTime = timestamp;
 	}
 
-	var progress = timestamp - gameState.lastRenderTime;
+	var deltaTime = timestamp - gameState.lastRenderTime;
 
-	update(progress);
+	update(deltaTime);
 	draw();
 
 	if ( gameState.enemy.health <= 0 ) {

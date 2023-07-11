@@ -59,7 +59,7 @@ function setGameObjectsSizesAndYPosition() {
 	gameState.enemy.y = $( '.level-quack-vs-quack' ).height() - gameState.player.height - 10;
 }
 
-function update(progress) {
+function update(deltaTime) {
 	setGameObjectsSizesAndXPosition();
 
 	// Move player
@@ -92,9 +92,9 @@ function loop(timestamp) {
 		gameState.lastRenderTime = timestamp;
 	}
 
-	var progress = timestamp - gameState.lastRenderTime;
+	var deltaTime = timestamp - gameState.lastRenderTime;
 
-	update(progress);
+	update(deltaTime);
 	draw();
 
 	// Win / lose detection, return

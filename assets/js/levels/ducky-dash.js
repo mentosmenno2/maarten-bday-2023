@@ -9,6 +9,7 @@ var gameState = {
 		height: 0,
 		mouseX: 0,
 		invulnerable: 0,
+		speed: 0.2
 	},
 	enemy: {
 		x: 0,
@@ -83,15 +84,16 @@ function setGameObjectsSizes() {
 	}
 }
 
-function update(progress) {
+function update(deltaTime) {
 	setGameObjectsSizes();
 
 	// Move player
-	gameState.player.x = gameState.player.mouseX - ( gameState.player.width / 2 );
+	gameState.player.x = calculateNewGameObjectPositionX( gameState.player, deltaTime, gameState.player.mouseX );
+
 	if ( gameState.player.invulnerable > 0 ) {
-		gameState.player.invulnerable -= progress;
+		gameState.player.invulnerable -= deltaTime;
 	} else {
-		gameState.player.y += progress * ( $( '.level-ducky-dash' ).height() / 50000 );
+		gameState.player.y += deltaTime * ( $( '.level-ducky-dash' ).height() / 50000 );
 	}
 	gameState.player.x = Math.max( 0, gameState.player.x );
 	gameState.player.x = Math.min( $( '.level-ducky-dash' ).width() - gameState.player.width, gameState.player.x );
@@ -99,11 +101,11 @@ function update(progress) {
 	gameState.player.y = Math.min( $( '.level-ducky-dash' ).height() - gameState.player.height, gameState.player.y );
 
 	// Move enemy
-	gameState.enemy.x += progress * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
+	gameState.enemy.x += deltaTime * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
 	if ( gameState.enemy.invulnerable > 0 ) {
-		gameState.enemy.invulnerable -= progress;
+		gameState.enemy.invulnerable -= deltaTime;
 	} else {
-		gameState.enemy.y += progress * ( $( '.level-ducky-dash' ).height() / 50000 );
+		gameState.enemy.y += deltaTime * ( $( '.level-ducky-dash' ).height() / 50000 );
 	}
 	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
 	gameState.enemy.x = Math.min( $( '.level-ducky-dash' ).width() - gameState.enemy.width, gameState.enemy.x );
@@ -112,7 +114,7 @@ function update(progress) {
 
 	// Move obstacles
 	gameState.obstacles.forEach(( obstacle, index ) => {
-		obstacle.y -= progress * ( $( '.level-ducky-dash' ).height() / 5000 );
+		obstacle.y -= deltaTime * ( $( '.level-ducky-dash' ).height() / 5000 );
 
 		if ( obstacle.y + obstacle.height < 0 ) {
 			resetObstacle(index);
@@ -214,9 +216,9 @@ function loop(timestamp) {
 		gameState.lastRenderTime = timestamp;
 	}
 
-	var progress = timestamp - gameState.lastRenderTime;
+	var deltaTime = timestamp - gameState.lastRenderTime;
 
-	update(progress);
+	update(deltaTime);
 	draw();
 
 	if ( gameState.won ) {

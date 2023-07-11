@@ -71,6 +71,26 @@ function gameObjectToBoundingBox( gameObject ) {
 	}
 }
 
+// Game object movement funcitons
+
+function calculateNewGameObjectPositionX( gameObject, deltaTime, targetX ) {
+	var centeredPlayerPosition = ( gameObject.x + gameObject.width / 2 );
+	var mouseIsRightOfCenteredPlayerPosition = ( centeredPlayerPosition < targetX );
+	var mouseDistance = mouseIsRightOfCenteredPlayerPosition ? targetX - centeredPlayerPosition : centeredPlayerPosition - targetX;
+	var actualMoveDistance = Math.min( deltaTime * gameObject.speed, mouseDistance );
+	return gameObject.x + ( mouseIsRightOfCenteredPlayerPosition ? actualMoveDistance : -actualMoveDistance )
+}
+
+function calculateNewGameObjectPositionY( gameObject, deltaTime, targetY ) {
+	var centeredPlayerPosition = ( gameObject.y + gameObject.height / 2 );
+	var mouseIsRightOfCenteredPlayerPosition = ( centeredPlayerPosition < targetY );
+	var mouseDistance = mouseIsRightOfCenteredPlayerPosition ? targetY - centeredPlayerPosition : centeredPlayerPosition - targetY;
+	var actualMoveDistance = Math.min( deltaTime * gameObject.speed, mouseDistance );
+	return gameObject.y + ( mouseIsRightOfCenteredPlayerPosition ? actualMoveDistance : -actualMoveDistance )
+}
+
+// Bounding boxes
+
 function boundingBoxesHit(rect1, rect2) {
 	return !(rect1.right < rect2.left ||
 		rect1.left > rect2.right ||
