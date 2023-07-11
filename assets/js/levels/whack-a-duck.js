@@ -1,4 +1,7 @@
 var gameState = {
+	width: $( '.level' ).width(),
+	height: $( '.level' ).height(),
+	resizeTimeout: null,
 	lastRenderTime: null,
 	player: {
 		mouseX: 0,
@@ -17,13 +20,15 @@ var gameState = {
 }
 
 function initializeGame() {
+	$( window ).on( 'resize', onResize );
+
 	setGameObjectsSizes();
 	randomizeEnemyPosition();
 	draw();
 }
 
 function addGameEventListeners() {
-	$( '.level-whack-a-duck' ).on( 'click', onClick );
+	$( '.level' ).on( 'click', onClick );
 }
 
 function startGame() {
@@ -33,23 +38,47 @@ function startGame() {
 }
 
 function onClick( event ) {
-	var mousePosition = getPositionFromMouseEvent( event, $( '.level-whack-a-duck' ) );
+	var mousePosition = getPositionFromMouseEvent( event, $( '.level' ) );
 	gameState.player.mouseX = mousePosition.x;
 	gameState.player.mouseY = mousePosition.y;
 	gameState.player.clicked = true;
 }
 
+function onResize() {
+	if ( gameState.resizeTimeout ) {
+		clearTimeout( gameState.resizeTimeout );
+		gameState.resizeTimeout = null;
+	}
+
+	// Get old sizes before elements are resized
+	var oldWidth = gameState.width;
+	var oldHeight = gameState.height;
+
+	// In a timeout, as browser first fires the resize event before redrawing elements.
+	gameState.resizeTimeout = setTimeout(() => {
+		gameState.width = $( '.level' ).width();
+		gameState.height = $( '.level' ).height();
+
+		setGameObjectsSizes();
+
+		gameState.enemy.x *= gameState.width / oldWidth;
+		gameState.enemy.y *= gameState.height / oldHeight;
+
+		draw();
+	}, 1);
+}
+
 function randomizeEnemyPosition() {
-	gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level-whack-a-duck' ) );
+	gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level' ) );
 
 	while ( mouseHitsEnemy() ) {
-		gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level-whack-a-duck' ) );
+		gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level' ) );
 	}
 }
 
 function setGameObjectsSizes() {
-	gameState.enemy.width = $( '.level-whack-a-duck' ).width() * 0.05;
-	gameState.enemy.height = $( '.level-whack-a-duck' ).height() * 0.05;
+	gameState.enemy.width = $( '.level' ).width() * 0.05;
+	gameState.enemy.height = $( '.level' ).height() * 0.05;
 }
 
 function update(deltaTime) {

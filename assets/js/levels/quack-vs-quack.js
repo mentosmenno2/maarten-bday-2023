@@ -1,4 +1,7 @@
 var gameState = {
+	width: $( '.level' ).width(),
+	height: $( '.level' ).height(),
+	resizeTimeout: null,
 	lastRenderTime: null,
 	player: {
 		mouseX: 0,
@@ -20,16 +23,18 @@ var gameState = {
 }
 
 function initializeGame() {
+	$( window ).on( 'resize', onResize );
+
 	setGameObjectsSizesAndYPosition();
-	gameState.player.x = ( $( '.level-quack-vs-quack' ).width() / 2 ) - ( gameState.player.width / 2 );
-	gameState.enemy.x = ( $( '.level-quack-vs-quack' ).width() / 2 ) - ( gameState.enemy.width / 2 );
+	gameState.player.x = ( $( '.level' ).width() / 2 ) - ( gameState.player.width / 2 );
+	gameState.enemy.x = ( $( '.level' ).width() / 2 ) - ( gameState.enemy.width / 2 );
 
 	draw();
 }
 
 function addGameEventListeners() {
-	$( '.level-quack-vs-quack' ).on( 'mousemove', onMouseMove );
-	$( '.level-quack-vs-quack' ).on( 'touchmove', onTouchMove );
+	$( '.level' ).on( 'mousemove', onMouseMove );
+	$( '.level' ).on( 'touchmove', onTouchMove );
 }
 
 function startGame() {
@@ -39,24 +44,48 @@ function startGame() {
 }
 
 function onMouseMove( event ) {
-	var bounds = $( '.level-quack-vs-quack' )[0].getBoundingClientRect();
+	var bounds = $( '.level' )[0].getBoundingClientRect();
 	gameState.player.mouseX = event.clientX - bounds.left;
 }
 
 function onTouchMove( event ) {
 	event.preventDefault();
-	var bounds = $( '.level-quack-vs-quack' )[0].getBoundingClientRect();
+	var bounds = $( '.level' )[0].getBoundingClientRect();
 	gameState.player.mouseX = event.touches[0].clientX - bounds.left;
 }
 
+function onResize() {
+	if ( gameState.resizeTimeout ) {
+		clearTimeout( gameState.resizeTimeout );
+		gameState.resizeTimeout = null;
+	}
+
+	// Get old sizes before elements are resized
+	var oldWidth = gameState.width;
+	var oldHeight = gameState.height;
+
+	// In a timeout, as browser first fires the resize event before redrawing elements.
+	gameState.resizeTimeout = setTimeout(() => {
+		gameState.width = $( '.level-whack-a-duck' ).width();
+		gameState.height = $( '.level-whack-a-duck' ).height();
+
+		setGameObjectsSizes();
+
+		gameState.enemy.x *= gameState.width / oldWidth;
+		gameState.enemy.y *= gameState.height / oldHeight;
+
+		draw();
+	}, 1);
+}
+
 function setGameObjectsSizesAndYPosition() {
-	gameState.player.width = $( '.level-quack-vs-quack' ).width() * 0.05;
-	gameState.player.height = $( '.level-quack-vs-quack' ).height() * 0.05;
+	gameState.player.width = $( '.level' ).width() * 0.05;
+	gameState.player.height = $( '.level' ).height() * 0.05;
 	gameState.player.y = 10;
 
-	gameState.enemy.width = $( '.level-quack-vs-quack' ).width() * 0.05;
-	gameState.enemy.height = $( '.level-quack-vs-quack' ).height() * 0.05;
-	gameState.enemy.y = $( '.level-quack-vs-quack' ).height() - gameState.player.height - 10;
+	gameState.enemy.width = $( '.level' ).width() * 0.05;
+	gameState.enemy.height = $( '.level' ).height() * 0.05;
+	gameState.enemy.y = $( '.level' ).height() - gameState.player.height - 10;
 }
 
 function update(deltaTime) {
