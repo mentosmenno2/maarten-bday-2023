@@ -73,20 +73,53 @@ function gameObjectToBoundingBox( gameObject ) {
 
 // Game object movement funcitons
 
+function calculateGameObjectXDistance( gameObject, targetX ) {
+	var centeredPlayerPosition = gameObject.x + ( gameObject.width / 2 );
+	var mouseIsRightOfCenteredPlayerPosition = ( centeredPlayerPosition < targetX );
+	return mouseIsRightOfCenteredPlayerPosition ? targetX - centeredPlayerPosition : centeredPlayerPosition - targetX;
+}
+
+function calculateGameObjectYDistance( gameObject, targetY ) {
+	var centeredPlayerPosition = gameObject.y + ( gameObject.height / 2 );
+	var mouseIsAboveCenteredPlayerPosition = ( centeredPlayerPosition < targetY );
+	return mouseIsAboveCenteredPlayerPosition ? targetY - centeredPlayerPosition : centeredPlayerPosition - targetY;
+}
+
 function calculateNewGameObjectPositionX( gameObject, deltaTime, targetX ) {
 	var centeredPlayerPosition = ( gameObject.x + gameObject.width / 2 );
 	var mouseIsRightOfCenteredPlayerPosition = ( centeredPlayerPosition < targetX );
-	var mouseDistance = mouseIsRightOfCenteredPlayerPosition ? targetX - centeredPlayerPosition : centeredPlayerPosition - targetX;
+	var mouseDistance = calculateGameObjectXDistance( gameObject, targetX );
 	var actualMoveDistance = Math.min( deltaTime * gameObject.speed, mouseDistance );
 	return gameObject.x + ( mouseIsRightOfCenteredPlayerPosition ? actualMoveDistance : -actualMoveDistance )
 }
 
 function calculateNewGameObjectPositionY( gameObject, deltaTime, targetY ) {
 	var centeredPlayerPosition = ( gameObject.y + gameObject.height / 2 );
-	var mouseIsRightOfCenteredPlayerPosition = ( centeredPlayerPosition < targetY );
-	var mouseDistance = mouseIsRightOfCenteredPlayerPosition ? targetY - centeredPlayerPosition : centeredPlayerPosition - targetY;
+	var mouseIsAboveCenteredPlayerPosition = ( centeredPlayerPosition < targetY );
+	var mouseDistance = calculateGameObjectYDistance( gameObject, targetY );
 	var actualMoveDistance = Math.min( deltaTime * gameObject.speed, mouseDistance );
-	return gameObject.y + ( mouseIsRightOfCenteredPlayerPosition ? actualMoveDistance : -actualMoveDistance )
+	return gameObject.y + ( mouseIsAboveCenteredPlayerPosition ? actualMoveDistance : -actualMoveDistance )
+}
+
+function calculateNewGameObjectPosition( gameObject, deltaTime, targetPosition ) {
+	var newX = targetPosition.x - ( gameObject.x + ( gameObject.width / 2 ) );
+	var newY = targetPosition.y - ( gameObject.y + ( gameObject.height / 2 ) );
+	var distance = Math.sqrt( newX * newX + newY * newY );
+	if ( distance > 0 ) {
+		newX /= distance;
+		newY /= distance;
+	} else {
+		newX = 0;
+		newY = 0;
+	}
+
+	newX *= Math.min( deltaTime * gameObject.speed, calculateGameObjectXDistance( gameObject, targetPosition.x ) );
+	newY *= Math.min( deltaTime * gameObject.speed, calculateGameObjectYDistance( gameObject, targetPosition.y ) );
+
+	return {
+		x: gameObject.x + newX,
+		y: gameObject.y + newY,
+	}
 }
 
 // Bounding boxes
