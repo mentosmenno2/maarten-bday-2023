@@ -87,6 +87,7 @@ $nextLevel = $game->getNextLevel();
 
 
 		<script src="assets/js/jquery-3.7.0.min.js"></script>
+		<script src="assets/js/helpers.js"></script>
 		<?php if ($currentLevel) { ?>
 			<script src="assets/js/levels/<?php echo $currentLevel->getId(); ?>.js"></script>
 		<?php } ?>

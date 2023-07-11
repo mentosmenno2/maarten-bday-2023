@@ -5,12 +5,16 @@ var gameState = {
 	player: {
 		x: 0,
 		y: 0,
+		width: 0,
+		height: 0,
 		mouseX: 0,
 		invulnerable: 0,
 	},
 	enemy: {
-		x: ( $( '.level-ducky-dash' ).width() / 2 ) - ( $( '.character-enemy' ).width() / 2 ),
+		x: 0,
 		y: 0,
+		width: 0,
+		height: 0,
 		invulnerable: 0,
 	},
 	obstacles: [
@@ -19,14 +23,28 @@ var gameState = {
 }
 
 function initializeGame() {
+
+	// Create obstacle game objects
 	for (var index = 0; index < 10; index++) {
 		gameState.obstacles.push ({
 			x: 0,
 			y: 0,
+			width: 0,
+			height: 0,
 			active: false
 		});
+	}
+
+	setGameObjectsSizes();
+
+	// Set default game object positions
+	gameState.enemy.x = ( $( '.level-ducky-dash' ).width() / 2 ) - ( gameState.enemy.width / 2 );
+
+	for (var index = 0; index < gameState.obstacles.length; index++) {
 		resetObstacle(index);
-		gameState.obstacles[index].y = index * $( '.obstacle' ).eq(index).width();
+
+		// Force position the fist time and force inactive
+		gameState.obstacles[index].y = index * gameState.obstacles[index].width;
 		gameState.obstacles[index].active = false;
 	}
 
@@ -55,18 +73,32 @@ function onTouchMove( event ) {
 	gameState.player.mouseX = event.touches[0].clientX - bounds.left;
 }
 
+function setGameObjectsSizes() {
+	gameState.player.width = $( '.level-ducky-dash' ).width() * 0.05;
+	gameState.player.height = $( '.level-ducky-dash' ).height() * 0.05;
+	gameState.enemy.width = $( '.level-ducky-dash' ).width() * 0.05;
+	gameState.enemy.height = $( '.level-ducky-dash' ).height() * 0.05;
+
+	for (var index = 0; index < gameState.obstacles.length; index++) {
+		gameState.obstacles[index].width = $( '.level-ducky-dash' ).width() * 0.1;
+		gameState.obstacles[index].height = $( '.level-ducky-dash' ).height() * 0.1;
+	}
+}
+
 function update(progress) {
+	setGameObjectsSizes();
+
 	// Move player
-	gameState.player.x = gameState.player.mouseX - ( $( '.character-player' ).width() / 2 );
+	gameState.player.x = gameState.player.mouseX - ( gameState.player.width / 2 );
 	if ( gameState.player.invulnerable > 0 ) {
 		gameState.player.invulnerable -= progress;
 	} else {
 		gameState.player.y += progress * ( $( '.level-ducky-dash' ).height() / 50000 );
 	}
 	gameState.player.x = Math.max( 0, gameState.player.x );
-	gameState.player.x = Math.min( $( '.level-ducky-dash' ).width() - $( '.character-player' ).width(), gameState.player.x );
+	gameState.player.x = Math.min( $( '.level-ducky-dash' ).width() - gameState.player.width, gameState.player.x );
 	gameState.player.y = Math.max( 0, gameState.player.y );
-	gameState.player.y = Math.min( $( '.level-ducky-dash' ).height() - $( '.character-player' ).height(), gameState.player.y );
+	gameState.player.y = Math.min( $( '.level-ducky-dash' ).height() - gameState.player.height, gameState.player.y );
 
 	// Move enemy
 	gameState.enemy.x += progress * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
@@ -76,15 +108,15 @@ function update(progress) {
 		gameState.enemy.y += progress * ( $( '.level-ducky-dash' ).height() / 50000 );
 	}
 	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
-	gameState.enemy.x = Math.min( $( '.level-ducky-dash' ).width() - $( '.character-enemy' ).width(), gameState.enemy.x );
+	gameState.enemy.x = Math.min( $( '.level-ducky-dash' ).width() - gameState.enemy.width, gameState.enemy.x );
 	gameState.enemy.y = Math.max( 0, gameState.enemy.y );
-	gameState.enemy.y = Math.min( $( '.level-ducky-dash' ).height() - $( '.character-enemy' ).height(), gameState.enemy.y );
+	gameState.enemy.y = Math.min( $( '.level-ducky-dash' ).height() - gameState.enemy.height, gameState.enemy.y );
 
 	// Move obstacles
 	gameState.obstacles.forEach(( obstacle, index ) => {
 		obstacle.y -= progress * ( $( '.level-ducky-dash' ).height() / 5000 );
 
-		if ( obstacle.y + $( '.obstacle' ).eq(index).height() < 0 ) {
+		if ( obstacle.y + obstacle.height < 0 ) {
 			resetObstacle(index);
 		}
 	});
@@ -121,22 +153,16 @@ function update(progress) {
 }
 
 function resetObstacle(index) {
-	gameState.obstacles[index] = {
-		x: Math.random() * ( $( '.level-ducky-dash' ).width() - $( '.obstacle' ).eq(index).width() ),
-		y: $( '.level-ducky-dash' ).height(),
-		active: true,
-	}
-}
-
-function boundingBoxesHit(rect1, rect2) {
-	return !(rect1.right < rect2.left ||
-		rect1.left > rect2.right ||
-		rect1.bottom < rect2.top ||
-		rect1.top > rect2.bottom)
+	gameState.obstacles[index].x = Math.random() * ( $( '.level-ducky-dash' ).width() - gameState.obstacles[index].width );
+	gameState.obstacles[index].y = $( '.level-ducky-dash' ).height(),
+	gameState.obstacles[index].active = true;
 }
 
 function draw() {
 	// Player
+	$( '.character-player' ).width( gameState.player.width );
+	$( '.character-player' ).height( gameState.player.height );
+
 	var oldPlayerX = parseInt( $( '.character-player' ).css( 'left' ).replace( 'px', '' ) );
 	$( '.character-player' ).css( 'left', Math.round( gameState.player.x ) + 'px' );
 	if ( oldPlayerX < Math.round( gameState.player.x ) ) {
@@ -152,7 +178,10 @@ function draw() {
 		$( '.character-player' ).removeClass( 'invulnerable' );
 	}
 
-	// Characters
+	// Enemy
+	$( '.character-enemy' ).width( gameState.enemy.width );
+	$( '.character-enemy' ).height( gameState.enemy.height );
+
 	var oldEnemyX = parseInt( $( '.character-enemy' ).css( 'left' ).replace( 'px', '' ) );
 	$( '.character-enemy' ).css( 'left', Math.round( gameState.enemy.x ) + 'px' );
 	if ( oldEnemyX < Math.round( gameState.enemy.x ) ) {
@@ -170,6 +199,8 @@ function draw() {
 
 	// Obstacles
 	gameState.obstacles.forEach((obstacle, index) => {
+		$( '.obstacle' ).eq(index).width( obstacle.width );
+		$( '.obstacle' ).eq(index).height( obstacle.height );
 		$( '.obstacle' ).eq(index).css( 'left', Math.round( obstacle.x ) + 'px' );
 		$( '.obstacle' ).eq(index).css( 'bottom', Math.round( obstacle.y ) + 'px' );
 		if ( obstacle.active ) {

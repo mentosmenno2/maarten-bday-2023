@@ -16,8 +16,6 @@
 
 .character {
 	position: absolute;
-	height: 5%;
-	aspect-ratio: 1 / 1;
 }
 
 .character.invulnerable {
@@ -34,7 +32,5 @@
 
 .obstacle {
 	position: absolute;
-	height: 10%;
-	aspect-ratio: 1 / 1;
 	background-color: orange;
 }

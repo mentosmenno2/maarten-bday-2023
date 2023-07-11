@@ -33,19 +33,17 @@ function startGame() {
 }
 
 function onClick( event ) {
-	var bounds = $( '.level-whack-a-duck' )[0].getBoundingClientRect();
-	gameState.player.mouseX = event.clientX - bounds.left;
-	gameState.player.mouseY = $( '.level-whack-a-duck' ).height() - ( event.clientY - bounds.top );
+	var mousePosition = getMousePositionFromClickEvent( event, $( '.level-whack-a-duck' ) );
+	gameState.player.mouseX = mousePosition.x;
+	gameState.player.mouseY = mousePosition.y;
 	gameState.player.clicked = true;
 }
 
 function randomizeEnemyPosition() {
-	gameState.enemy.x = Math.random() * ( $( '.level-whack-a-duck' ).width() - gameState.enemy.width );
-	gameState.enemy.y = Math.random() * ( $( '.level-whack-a-duck' ).height() - gameState.enemy.height );
+	gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level-whack-a-duck' ) );
 
 	while ( mouseHitsEnemy() ) {
-		gameState.enemy.x = Math.random() * ( $( '.level-whack-a-duck' ).width() - gameState.enemy.width );
-		gameState.enemy.y = Math.random() * ( $( '.level-whack-a-duck' ).height() - gameState.enemy.height );
+		gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level-whack-a-duck' ) );
 	}
 }
 
@@ -90,8 +88,7 @@ function update(progress) {
 }
 
 function mouseHitsEnemy() {
-	return ( gameState.player.mouseX >= gameState.enemy.x && gameState.player.mouseX <= gameState.enemy.x + gameState.enemy.width )
-	&& ( gameState.player.mouseY >= gameState.enemy.y && gameState.player.mouseY <= gameState.enemy.y + gameState.enemy.height );
+	return getGameObjectTouchesPosition( gameState.enemy, gameState.player.mouseX, gameState.player.mouseY );
 }
 
 function draw() {

@@ -4,8 +4,6 @@
 
 .character {
 	position: absolute;
-	height: 5%;
-	aspect-ratio: 1 / 1;
 }
 
 .character > img {
