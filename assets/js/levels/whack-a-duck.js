@@ -33,7 +33,7 @@ function startGame() {
 }
 
 function onClick( event ) {
-	var mousePosition = getMousePositionFromClickEvent( event, $( '.level-whack-a-duck' ) );
+	var mousePosition = getPositionFromMouseEvent( event, $( '.level-whack-a-duck' ) );
 	gameState.player.mouseX = mousePosition.x;
 	gameState.player.mouseY = mousePosition.y;
 	gameState.player.clicked = true;

@@ -63,14 +63,12 @@ function startGame() {
 }
 
 function onMouseMove( event ) {
-	var bounds = $( '.level-ducky-dash' )[0].getBoundingClientRect();
-	gameState.player.mouseX = event.clientX - bounds.left;
+	gameState.player.mouseX = getPositionXFromMouseEvent( event, $( '.level-ducky-dash' ) );
 }
 
 function onTouchMove( event ) {
 	event.preventDefault();
-	var bounds = $( '.level-ducky-dash' )[0].getBoundingClientRect();
-	gameState.player.mouseX = event.touches[0].clientX - bounds.left;
+	gameState.player.mouseX = getPositionXFromTouchEvent( event, $( '.level-ducky-dash' ) );
 }
 
 function setGameObjectsSizes() {

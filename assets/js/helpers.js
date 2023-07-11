@@ -1,19 +1,38 @@
 // Mouse position functions
 
-function getMousePositionXFromClickEvent( event, $levelElement ) {
+function getPositionXFromMouseEvent( event, $levelElement ) {
 	var bounds = $levelElement[0].getBoundingClientRect();
 	return event.clientX - bounds.left;
 }
 
-function getMousePositionYFromClickEvent( event, $levelElement ) {
+function getPositionYFromMouseEvent( event, $levelElement ) {
 	var bounds = $levelElement[0].getBoundingClientRect();
 	return $levelElement.height() - ( event.clientY - bounds.top );
 }
 
-function getMousePositionFromClickEvent( event, $levelElement ) {
+function getPositionFromMouseEvent( event, $levelElement ) {
 	return {
-		x: getMousePositionXFromClickEvent( event, $levelElement ),
-		y: getMousePositionYFromClickEvent( event, $levelElement )
+		x: getPositionXFromMouseEvent( event, $levelElement ),
+		y: getPositionYFromMouseEvent( event, $levelElement )
+	}
+}
+
+// Touch position functions
+
+function getPositionXFromTouchEvent( event, $levelElement ) {
+	var bounds = $levelElement[0].getBoundingClientRect();
+	return event.touches[0].clientX - bounds.left;
+}
+
+function getPositionYFromTouchEvent( event, $levelElement ) {
+	var bounds = $levelElement[0].getBoundingClientRect();
+	return $levelElement.height() - ( event.touches[0].clientY - bounds.top );
+}
+
+function getPositionFromTouchEvent( event, $levelElement ) {
+	return {
+		x: getPositionXFromTouchEvent( event, $levelElement ),
+		y: getPositionYFromTouchEvent( event, $levelElement )
 	}
 }
 
