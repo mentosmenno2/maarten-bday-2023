@@ -1,7 +1,8 @@
 var gameState = {
-	width: $( '.level' ).width(),
-	height: $( '.level' ).height(),
-	resizeTimeout: null,
+	level: {
+		width: $( '.level' ).width(),
+		height: $( '.level' ).height(),
+	},
 	lastRenderTime: null,
 	won: false,
 	lost: false,
@@ -46,7 +47,7 @@ function initializeGame() {
 	setGameObjectsSpeeds();
 
 	// Set default game object positions
-	gameState.enemy.x = ( gameState.width / 2 ) - ( gameState.enemy.width / 2 );
+	gameState.enemy.x = ( gameState.level.width / 2 ) - ( gameState.enemy.width / 2 );
 
 	for (var index = 0; index < gameState.obstacles.length; index++) {
 		resetObstacle(index);
@@ -80,31 +81,26 @@ function onTouchMove( event ) {
 }
 
 function onResize() {
-	if ( gameState.resizeTimeout ) {
-		clearTimeout( gameState.resizeTimeout );
-		gameState.resizeTimeout = null;
-	}
-
 	// Get old sizes before elements are resized
-	var oldWidth = gameState.width;
-	var oldHeight = gameState.height;
+	var oldWidth = gameState.level.width;
+	var oldHeight = gameState.level.height;
 
 	// In a timeout, as browser first fires the resize event before redrawing elements.
-	gameState.resizeTimeout = setTimeout(() => {
-		gameState.width = $( '.level' ).width();
-		gameState.height = $( '.level' ).height();
+	setTimeout(() => {
+		gameState.level.width = $( '.level' ).width();
+		gameState.level.height = $( '.level' ).height();
 
 		setGameObjectsSizes();
 		setGameObjectsSpeeds();
 
-		gameState.player.x *= gameState.width / oldWidth;
-		gameState.player.y *= gameState.height / oldHeight;
-		gameState.enemy.x *= gameState.width / oldWidth;
-		gameState.enemy.y *= gameState.height / oldHeight;
+		gameState.player.x *= gameState.level.width / oldWidth;
+		gameState.player.y *= gameState.level.height / oldHeight;
+		gameState.enemy.x *= gameState.level.width / oldWidth;
+		gameState.enemy.y *= gameState.level.height / oldHeight;
 
 		for (var index = 0; index < gameState.obstacles.length; index++) {
-			gameState.obstacles[index].x *= gameState.width / oldWidth;
-			gameState.obstacles[index].y *= gameState.height / oldHeight;
+			gameState.obstacles[index].x *= gameState.level.width / oldWidth;
+			gameState.obstacles[index].y *= gameState.level.height / oldHeight;
 		}
 
 		draw();
@@ -112,23 +108,23 @@ function onResize() {
 }
 
 function setGameObjectsSizes() {
-	gameState.player.width = gameState.width * 0.05;
-	gameState.player.height = gameState.height * 0.05;
-	gameState.enemy.width = gameState.width * 0.05;
-	gameState.enemy.height = gameState.height * 0.05;
+	gameState.player.width = gameState.level.width * 0.05;
+	gameState.player.height = gameState.level.height * 0.05;
+	gameState.enemy.width = gameState.level.width * 0.05;
+	gameState.enemy.height = gameState.level.height * 0.05;
 
 	for (var index = 0; index < gameState.obstacles.length; index++) {
-		gameState.obstacles[index].width = gameState.width * 0.1;
-		gameState.obstacles[index].height = gameState.height * 0.1;
+		gameState.obstacles[index].width = gameState.level.width * 0.1;
+		gameState.obstacles[index].height = gameState.level.height * 0.1;
 	}
 }
 
 function setGameObjectsSpeeds() {
-	gameState.player.speed = 0.2 * ( gameState.height / 1000 );
-	gameState.enemy.speed = 0.2 * ( gameState.height / 1000 );
+	gameState.player.speed = 0.2 * ( gameState.level.height / 1000 );
+	gameState.enemy.speed = 0.2 * ( gameState.level.height / 1000 );
 
 	for (var index = 0; index < gameState.obstacles.length; index++) {
-		gameState.obstacles[index].speed = 0.2 * ( gameState.height / 1000 );
+		gameState.obstacles[index].speed = 0.2 * ( gameState.level.height / 1000 );
 	}
 }
 
@@ -139,24 +135,24 @@ function update(deltaTime) {
 	if ( gameState.player.invulnerable > 0 ) {
 		gameState.player.invulnerable -= deltaTime;
 	} else {
-		gameState.player.y += deltaTime * ( gameState.height / 50000 );
+		gameState.player.y += deltaTime * ( gameState.level.height / 50000 );
 	}
 	gameState.player.x = Math.max( 0, gameState.player.x );
-	gameState.player.x = Math.min( gameState.width - gameState.player.width, gameState.player.x );
+	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
 	gameState.player.y = Math.max( 0, gameState.player.y );
-	gameState.player.y = Math.min( gameState.height - gameState.player.height, gameState.player.y );
+	gameState.player.y = Math.min( gameState.level.height - gameState.player.height, gameState.player.y );
 
 	// Move enemy
 	gameState.enemy.x += deltaTime * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	} else {
-		gameState.enemy.y += deltaTime * ( gameState.height / 50000 );
+		gameState.enemy.y += deltaTime * ( gameState.level.height / 50000 );
 	}
 	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
-	gameState.enemy.x = Math.min( gameState.width - gameState.enemy.width, gameState.enemy.x );
+	gameState.enemy.x = Math.min( gameState.level.width - gameState.enemy.width, gameState.enemy.x );
 	gameState.enemy.y = Math.max( 0, gameState.enemy.y );
-	gameState.enemy.y = Math.min( gameState.height - gameState.enemy.height, gameState.enemy.y );
+	gameState.enemy.y = Math.min( gameState.level.height - gameState.enemy.height, gameState.enemy.y );
 
 	// Move obstacles
 	gameState.obstacles.forEach(( obstacle, index ) => {
@@ -199,8 +195,8 @@ function update(deltaTime) {
 }
 
 function resetObstacle(index) {
-	gameState.obstacles[index].x = Math.random() * ( gameState.width - gameState.obstacles[index].width );
-	gameState.obstacles[index].y = gameState.height,
+	gameState.obstacles[index].x = Math.random() * ( gameState.level.width - gameState.obstacles[index].width );
+	gameState.obstacles[index].y = gameState.level.height,
 	gameState.obstacles[index].active = true;
 }
 

@@ -1,7 +1,6 @@
 var gameState = {
 	width: $( '.level' ).width(),
 	height: $( '.level' ).height(),
-	resizeTimeout: null,
 	lastRenderTime: null,
 	player: {
 		mouseX: 0,
@@ -45,24 +44,19 @@ function onClick( event ) {
 }
 
 function onResize() {
-	if ( gameState.resizeTimeout ) {
-		clearTimeout( gameState.resizeTimeout );
-		gameState.resizeTimeout = null;
-	}
-
 	// Get old sizes before elements are resized
-	var oldWidth = gameState.width;
-	var oldHeight = gameState.height;
+	var oldWidth = gameState.level.width;
+	var oldHeight = gameState.level.height;
 
 	// In a timeout, as browser first fires the resize event before redrawing elements.
-	gameState.resizeTimeout = setTimeout(() => {
-		gameState.width = $( '.level' ).width();
-		gameState.height = $( '.level' ).height();
+	setTimeout(() => {
+		gameState.level.width = $( '.level' ).width();
+		gameState.level.height = $( '.level' ).height();
 
 		setGameObjectsSizes();
 
-		gameState.enemy.x *= gameState.width / oldWidth;
-		gameState.enemy.y *= gameState.height / oldHeight;
+		gameState.enemy.x *= gameState.level.width / oldWidth;
+		gameState.enemy.y *= gameState.level.height / oldHeight;
 
 		draw();
 	}, 1);
@@ -77,8 +71,8 @@ function randomizeEnemyPosition() {
 }
 
 function setGameObjectsSizes() {
-	gameState.enemy.width = $( '.level' ).width() * 0.05;
-	gameState.enemy.height = $( '.level' ).height() * 0.05;
+	gameState.enemy.width = gameState.level.width * 0.05;
+	gameState.enemy.height = gameState.level.height * 0.05;
 }
 
 function update(deltaTime) {

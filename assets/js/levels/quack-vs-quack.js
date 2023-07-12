@@ -1,7 +1,6 @@
 var gameState = {
 	width: $( '.level' ).width(),
 	height: $( '.level' ).height(),
-	resizeTimeout: null,
 	lastRenderTime: null,
 	player: {
 		mouseX: 0,
@@ -9,6 +8,7 @@ var gameState = {
 		y: 0,
 		width: 0,
 		height: 0,
+		speed: 0,
 		invulnerable: 0,
 		health: 100
 	},
@@ -17,6 +17,7 @@ var gameState = {
 		y: 0,
 		width: 0,
 		height: 0,
+		speed: 0,
 		invulnerable: 0,
 		health: 100
 	},
@@ -25,9 +26,14 @@ var gameState = {
 function initializeGame() {
 	$( window ).on( 'resize', onResize );
 
-	setGameObjectsSizesAndYPosition();
-	gameState.player.x = ( $( '.level' ).width() / 2 ) - ( gameState.player.width / 2 );
-	gameState.enemy.x = ( $( '.level' ).width() / 2 ) - ( gameState.enemy.width / 2 );
+	setGameObjectsSizes();
+	setGameObjectsSpeeds();
+
+	gameState.player.y = 10;
+	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
+
+	gameState.player.x = ( gameState.level.width / 2 ) - ( gameState.player.width / 2 );
+	gameState.enemy.x = ( gameState.level.width / 2 ) - ( gameState.enemy.width / 2 );
 
 	draw();
 }
@@ -55,42 +61,43 @@ function onTouchMove( event ) {
 }
 
 function onResize() {
-	if ( gameState.resizeTimeout ) {
-		clearTimeout( gameState.resizeTimeout );
-		gameState.resizeTimeout = null;
-	}
-
 	// Get old sizes before elements are resized
-	var oldWidth = gameState.width;
-	var oldHeight = gameState.height;
+	var oldWidth = gameState.level.width;
+	var oldHeight = gameState.level.height;
 
 	// In a timeout, as browser first fires the resize event before redrawing elements.
-	gameState.resizeTimeout = setTimeout(() => {
-		gameState.width = $( '.level-whack-a-duck' ).width();
-		gameState.height = $( '.level-whack-a-duck' ).height();
+	setTimeout(() => {
+		gameState.level.width = $( '.level' ).width();
+		gameState.level.height = $( '.level' ).height();
 
 		setGameObjectsSizes();
+		setGameObjectsSpeeds();
 
-		gameState.enemy.x *= gameState.width / oldWidth;
-		gameState.enemy.y *= gameState.height / oldHeight;
+		gameState.player.x *= gameState.level.width / oldWidth;
+		gameState.player.y *= gameState.level.height / oldHeight;
+		gameState.enemy.x *= gameState.level.width / oldWidth;
+		gameState.enemy.y *= gameState.level.height / oldHeight;
 
 		draw();
 	}, 1);
 }
 
-function setGameObjectsSizesAndYPosition() {
-	gameState.player.width = $( '.level' ).width() * 0.05;
-	gameState.player.height = $( '.level' ).height() * 0.05;
+function setGameObjectsSizes() {
+	gameState.player.width = gameState.level.width * 0.05;
+	gameState.player.height = gameState.level.height * 0.05;
 	gameState.player.y = 10;
 
-	gameState.enemy.width = $( '.level' ).width() * 0.05;
-	gameState.enemy.height = $( '.level' ).height() * 0.05;
-	gameState.enemy.y = $( '.level' ).height() - gameState.player.height - 10;
+	gameState.enemy.width = gameState.level.width * 0.05;
+	gameState.enemy.height = gameState.level.height * 0.05;
+	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
+}
+
+function setGameObjectsSpeeds() {
+	gameState.player.speed = 0.2 * ( gameState.level.height / 1000 );
+	gameState.enemy.speed = 0.2 * ( gameState.level.height / 1000 );
 }
 
 function update(deltaTime) {
-	setGameObjectsSizesAndXPosition();
-
 	// Move player
 
 	// Move enemy
