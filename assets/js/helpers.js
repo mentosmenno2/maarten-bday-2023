@@ -64,10 +64,10 @@ function gameObjectsHit( gameObject1, gameObject2 ) {
 
 function gameObjectToBoundingBox( gameObject ) {
 	return {
-		top: gameObject.y + gameObject.height,
-		right: gameObject1.x + gameObject.width,
-		bottom: gameObject.y,
-		left: gameObject1.x,
+		top: gameObject.y,
+		right: gameObject.x + gameObject.width,
+		bottom: gameObject.y + gameObject.height,
+		left: gameObject.x,
 	}
 }
 
@@ -128,7 +128,7 @@ function boundingBoxesHit(rect1, rect2) {
 	return !(rect1.right < rect2.left ||
 		rect1.left > rect2.right ||
 		rect1.bottom < rect2.top ||
-		rect1.top > rect2.bottom)
+		rect1.top > rect2.bottom);
 }
 
 function getBoundingBoxFromBoundingClientRect( boundingClientRect, $levelElement ) {

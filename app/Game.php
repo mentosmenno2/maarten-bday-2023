@@ -6,7 +6,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckyDash;
 use Mentosmenno2\MaartenBday2023\Levels\LevelQuackVSQuack;
 use Mentosmenno2\MaartenBday2023\Levels\LevelStart;
-use Mentosmenno2\MaartenBday2023\Levels\LevelWhackADuck;
+use Mentosmenno2\MaartenBday2023\Levels\LevelTagADuck;
 
 class Game
 {
@@ -21,7 +21,7 @@ class Game
 		$this->levels = array(
 			new LevelStart(),
 			new LevelDuckyDash(),
-			new LevelWhackADuck(),
+			new LevelTagADuck(),
 			new LevelQuackVSQuack(),
 		);
 	}

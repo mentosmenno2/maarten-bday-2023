@@ -5,9 +5,13 @@ var gameState = {
 	},
 	lastRenderTime: null,
 	player: {
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		speed: 0,
 		mouseX: 0,
 		mouseY: 0,
-		clicked: false,
 	},
 	enemy: {
 		x: 0,
@@ -24,12 +28,18 @@ function initializeGame() {
 	$( window ).on( 'resize', onResize );
 
 	setGameObjectsSizes();
+	setGameObjectsSpeeds();
+
+	// Set default game object positions
+	gameState.player.x = ( gameState.level.width / 2 ) - ( gameState.player.width / 2 );
+	gameState.player.y = ( gameState.level.height / 2 ) - ( gameState.player.height / 2 );
 	randomizeEnemyPosition();
 	draw();
 }
 
 function addGameEventListeners() {
-	$( '.level' ).on( 'click', onClick );
+	$( '.level' ).on( 'mousemove', onMouseMove );
+	$( '.level' ).on( 'touchmove', onTouchMove );
 }
 
 function startGame() {
@@ -38,11 +48,15 @@ function startGame() {
 	window.requestAnimationFrame(loop);
 }
 
-function onClick( event ) {
-	var mousePosition = getPositionFromMouseEvent( event, $( '.level' ) );
-	gameState.player.mouseX = mousePosition.x;
-	gameState.player.mouseY = mousePosition.y;
-	gameState.player.clicked = true;
+function onMouseMove( event ) {
+	gameState.player.mouseX = getPositionXFromMouseEvent( event, $( '.level' ) );
+	gameState.player.mouseY = getPositionYFromMouseEvent( event, $( '.level' ) );
+}
+
+function onTouchMove( event ) {
+	event.preventDefault();
+	gameState.player.mouseX = getPositionXFromTouchEvent( event, $( '.level' ) );
+	gameState.player.mouseY = getPositionYFromTouchEvent( event, $( '.level' ) );
 }
 
 function onResize() {
@@ -56,7 +70,10 @@ function onResize() {
 		gameState.level.height = $( '.level' ).height();
 
 		setGameObjectsSizes();
+		setGameObjectsSpeeds();
 
+		gameState.player.x *= gameState.level.width / oldWidth;
+		gameState.player.y *= gameState.level.height / oldHeight;
 		gameState.enemy.x *= gameState.level.width / oldWidth;
 		gameState.enemy.y *= gameState.level.height / oldHeight;
 
@@ -66,15 +83,21 @@ function onResize() {
 
 function randomizeEnemyPosition() {
 	gameState.enemy = randomizeGameObjectPosition( gameState.enemy, gameState.level );
-
-	while ( mouseHitsEnemy() ) {
+	while ( gameObjectsHit( gameState.player, gameState.enemy ) ) {
 		gameState.enemy = randomizeGameObjectPosition( gameState.enemy, gameState.level );
 	}
 }
 
 function setGameObjectsSizes() {
+	gameState.player.width = gameState.level.width * 0.05;
+	gameState.player.height = gameState.level.height * 0.05;
 	gameState.enemy.width = gameState.level.width * 0.05;
 	gameState.enemy.height = gameState.level.height * 0.05;
+}
+
+function setGameObjectsSpeeds() {
+	gameState.player.speed = 0.5 * ( gameState.level.height / 1000 );
+	gameState.enemy.speed = 0.5 * ( gameState.level.height / 1000 );
 }
 
 function update(deltaTime) {
@@ -88,33 +111,40 @@ function update(deltaTime) {
 	// Go up if not undergroun anymore
 	gameState.enemy.underground = Math.max( 0, gameState.enemy.underground - deltaTime );
 	if ( gameState.enemy.underground <= 0 && gameState.enemy.up <= 0 ) {
-		gameState.enemy.up = ( Math.random() * 1000 ) + 1000;
+		gameState.enemy.up = ( Math.random() * 1000 ) + 2000;
 	}
 
-	// Check if clicked
-	if ( gameState.player.clicked ) {
-		gameState.player.clicked = false;
+	// Move player
+	var newPlayerPosition = calculateNewGameObjectPosition( gameState.player, deltaTime, {
+		x: gameState.player.mouseX,
+		y: gameState.player.mouseY
+	} );
+	gameState.player.x = newPlayerPosition.x;
+	gameState.player.y = newPlayerPosition.y;
+	gameState.player.x = Math.max( 0, gameState.player.x );
+	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
+	gameState.player.y = Math.max( 0, gameState.player.y );
+	gameState.player.y = Math.min( gameState.level.height - gameState.player.height, gameState.player.y );
 
-		if ( mouseHitsEnemy() && gameState.enemy.underground <= 0 ) {
-			gameState.enemy.underground = ( Math.random() * 3000 ) + 1000;
-			randomizeEnemyPosition();
-			gameState.enemy.health -= 10;
-			$( '.audio-effect-rubberduck' )[0].pause();
-			$( '.audio-effect-rubberduck' )[0].currentTime = 0;
-			$( '.audio-effect-rubberduck' )[0].play();
-		} else {
-			$( '.audio-effect-fail' )[0].pause();
-			$( '.audio-effect-fail' )[0].currentTime = 0;
-			$( '.audio-effect-fail' )[0].play();
-		}
+	// Check if hitting
+	if ( gameObjectsHit( gameState.player, gameState.enemy ) && gameState.enemy.underground <= 0 ) {
+		gameState.enemy.underground = ( Math.random() * 3000 ) + 1000;
+		randomizeEnemyPosition();
+		gameState.enemy.health -= 10;
+		$( '.audio-effect-rubberduck' )[0].pause();
+		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck' )[0].play();
 	}
-}
-
-function mouseHitsEnemy() {
-	return getGameObjectTouchesPosition( gameState.enemy, gameState.player.mouseX, gameState.player.mouseY );
 }
 
 function draw() {
+	// Player
+	$( '.character-player' ).width( gameState.player.width );
+	$( '.character-player' ).height( gameState.player.height );
+	$( '.character-player' ).css( 'left', gameState.player.x + 'px' );
+	$( '.character-player' ).css( 'bottom', gameState.player.y + 'px' );
+
+	// Enemy
 	$( '.character-enemy' ).width( gameState.enemy.width );
 	$( '.character-enemy' ).height( gameState.enemy.height );
 	$( '.character-enemy' ).css( 'left', gameState.enemy.x + 'px' );
@@ -125,6 +155,7 @@ function draw() {
 		$( '.character-enemy' ).show();
 	}
 
+	// Healthbar
 	$( '.healthbar-progress' ).css( 'width', gameState.enemy.health + '%' );
 }
 

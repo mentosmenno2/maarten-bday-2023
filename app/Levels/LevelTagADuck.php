@@ -5,21 +5,21 @@ namespace Mentosmenno2\MaartenBday2023\Levels;
 use Mentosmenno2\MaartenBday2023\Chats\AbstractChat;
 use Mentosmenno2\MaartenBday2023\Chats\ChatWhackADuck;
 
-class LevelWhackADuck extends AbstractLevel
+class LevelTagADuck extends AbstractLevel
 {
 	public function getId(): string
 	{
-		return 'whack-a-duck';
+		return 'tag-a-duck';
 	}
 
 	public function getName(): string
 	{
-		return 'Whack A Duck';
+		return 'Tag A Duck';
 	}
 
 	public function getInstructions(): string
 	{
-		return 'When the evil duck pops up, hit it before it dissapears again.';
+		return 'When the evil duck pops up, tag it before it dissapears again.';
 	}
 
 	public function getChat(): ?AbstractChat
