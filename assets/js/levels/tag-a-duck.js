@@ -12,6 +12,7 @@ var gameState = {
 		speed: 0,
 		mouseX: 0,
 		mouseY: 0,
+		tags: 0,
 	},
 	enemy: {
 		x: 0,
@@ -20,7 +21,6 @@ var gameState = {
 		height: 0,
 		underground: ( Math.random() * 2000 ) + 1000,
 		up: 0,
-		health: 100,
 	},
 }
 
@@ -130,7 +130,7 @@ function update(deltaTime) {
 	if ( gameObjectsHit( gameState.player, gameState.enemy ) && gameState.enemy.underground <= 0 ) {
 		gameState.enemy.underground = ( Math.random() * 3000 ) + 1000;
 		randomizeEnemyPosition();
-		gameState.enemy.health -= 10;
+		gameState.player.tags++;
 		$( '.audio-effect-rubberduck' )[0].pause();
 		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck' )[0].play();
@@ -155,8 +155,8 @@ function draw() {
 		$( '.character-enemy' ).show();
 	}
 
-	// Healthbar
-	$( '.healthbar-progress' ).css( 'width', gameState.enemy.health + '%' );
+	// Progress bar
+	$( '.progressbar-progress' ).css( 'width', ( gameState.player.tags ) * 10 + '%' );
 }
 
 function loop(timestamp) {
@@ -169,7 +169,7 @@ function loop(timestamp) {
 	update(deltaTime);
 	draw();
 
-	if ( gameState.enemy.health <= 0 ) {
+	if ( gameState.enemy.tags >= 10 ) {
 		$( '.audio-effect-rubberduck2' )[0].pause();
 		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck2' )[0].play();

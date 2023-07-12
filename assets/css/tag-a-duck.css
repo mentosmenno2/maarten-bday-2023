@@ -12,7 +12,7 @@
 	height: 100%;
 }
 
-.healthbar-wrapper {
+.progressbar-wrapper {
 	width: calc( 100% - 20px );
 	height: 10px;
 	position: relative;
@@ -23,7 +23,7 @@
 	overflow: hidden;
 }
 
-.healthbar-text {
+.progressbar-text {
 	color: white;
 	width: 100%;
 	text-align: center;
@@ -34,7 +34,7 @@
 	top: 0;
 }
 
-.healthbar-progress {
+.progressbar-progress {
 	height: 100%;
 	background-color: red;
 	border-radius: 5px;

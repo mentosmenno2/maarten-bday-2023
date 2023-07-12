@@ -7,9 +7,9 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 ?>
 
 <div class="level level-tag-a-duck">
-	<div class="healthbar-wrapper">
-		<div class="healthbar-progress"></div>
-		<span class="healthbar-text">Evil duck health</span>
+	<div class="progressbar-wrapper">
+		<div class="progressbar-progress"></div>
+		<span class="progressbar-text">Times tagged</span>
 	</div>
 
 	<div class="character character-player">
