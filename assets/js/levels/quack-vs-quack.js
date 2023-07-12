@@ -31,11 +31,15 @@ function initializeGame() {
 	setGameObjectsSizes();
 	setGameObjectsSpeeds();
 
-	gameState.player.y = 10;
-	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
-
+	// Set defaut game object positions
 	gameState.player.x = ( gameState.level.width / 2 ) - ( gameState.player.width / 2 );
+	gameState.player.y = 10;
 	gameState.enemy.x = ( gameState.level.width / 2 ) - ( gameState.enemy.width / 2 );
+	gameState.enemy.y = gameState.level.height - gameState.enemy.height - 10;
+
+	// Set default mouse positions
+	gameState.player.mouseX = gameState.player.x + ( gameState.player.width / 2 );
+	gameState.player.mouseY = gameState.player.y + ( gameState.player.height / 2 );
 
 	draw();
 }

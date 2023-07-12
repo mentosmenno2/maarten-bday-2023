@@ -47,7 +47,11 @@ function initializeGame() {
 	setGameObjectsSpeeds();
 
 	// Set default game object positions
-	gameState.enemy.x = ( gameState.level.width / 2 ) - ( gameState.enemy.width / 2 );
+	gameState.player.x = ( gameState.level.width / 2 ) - gameState.enemy.width;
+	gameState.enemy.x = ( gameState.level.width / 2 );
+
+	// Set default mouse positions
+	gameState.player.mouseX = gameState.player.x + ( gameState.player.width / 2 );
 
 	for (var index = 0; index < gameState.obstacles.length; index++) {
 		resetObstacle(index);

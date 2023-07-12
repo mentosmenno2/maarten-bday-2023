@@ -13,6 +13,7 @@ var gameState = {
 		mouseX: 0,
 		mouseY: 0,
 		tags: 0,
+		didTagTimer: 0
 	},
 	enemy: {
 		x: 0,
@@ -20,7 +21,7 @@ var gameState = {
 		width: 0,
 		height: 0,
 		underground: ( Math.random() * 2000 ) + 1000,
-		up: 0,
+		up: 0
 	},
 }
 
@@ -33,6 +34,11 @@ function initializeGame() {
 	// Set default game object positions
 	gameState.player.x = ( gameState.level.width / 2 ) - ( gameState.player.width / 2 );
 	gameState.player.y = ( gameState.level.height / 2 ) - ( gameState.player.height / 2 );
+
+	// Set default mouse positions
+	gameState.player.mouseX = gameState.player.x + ( gameState.player.width / 2 );
+	gameState.player.mouseY = gameState.player.y + ( gameState.player.height / 2 );
+
 	randomizeEnemyPosition();
 	draw();
 }
@@ -114,6 +120,9 @@ function update(deltaTime) {
 		gameState.enemy.up = ( Math.random() * 1000 ) + 2000;
 	}
 
+	// Update did tag timers
+	gameState.player.didTagTimer = Math.max( 0, gameState.player.didTagTimer - deltaTime );
+
 	// Move player
 	var newPlayerPosition = calculateNewGameObjectPosition( gameState.player, deltaTime, {
 		x: gameState.player.mouseX,
@@ -131,6 +140,7 @@ function update(deltaTime) {
 		gameState.enemy.underground = ( Math.random() * 3000 ) + 1000;
 		randomizeEnemyPosition();
 		gameState.player.tags++;
+		gameState.player.didTagTimer = 500;
 		$( '.audio-effect-rubberduck' )[0].pause();
 		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck' )[0].play();
@@ -143,6 +153,11 @@ function draw() {
 	$( '.character-player' ).height( gameState.player.height );
 	$( '.character-player' ).css( 'left', gameState.player.x + 'px' );
 	$( '.character-player' ).css( 'bottom', gameState.player.y + 'px' );
+	if ( gameState.player.didTagTimer > 0 ) {
+		$( '.character-player' ).addClass( 'did-tag' );
+	} else {
+		$( '.character-player' ).removeClass( 'did-tag' );
+	}
 
 	// Enemy
 	$( '.character-enemy' ).width( gameState.enemy.width );
