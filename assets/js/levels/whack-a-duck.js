@@ -1,6 +1,8 @@
 var gameState = {
-	width: $( '.level' ).width(),
-	height: $( '.level' ).height(),
+	level: {
+		width: $( '.level' ).width(),
+		height: $( '.level' ).height(),
+	},
 	lastRenderTime: null,
 	player: {
 		mouseX: 0,
@@ -49,7 +51,7 @@ function onResize() {
 	var oldHeight = gameState.level.height;
 
 	// In a timeout, as browser first fires the resize event before redrawing elements.
-	setTimeout(() => {
+		setTimeout(() => {
 		gameState.level.width = $( '.level' ).width();
 		gameState.level.height = $( '.level' ).height();
 

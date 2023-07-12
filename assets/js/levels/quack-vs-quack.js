@@ -1,6 +1,8 @@
 var gameState = {
-	width: $( '.level' ).width(),
-	height: $( '.level' ).height(),
+	level: {
+		width: $( '.level' ).width(),
+		height: $( '.level' ).height(),
+	},
 	lastRenderTime: null,
 	player: {
 		mouseX: 0,
