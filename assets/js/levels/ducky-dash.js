@@ -12,7 +12,7 @@ var gameState = {
 		height: 0,
 		mouseX: 0,
 		invulnerable: 0,
-		speed: 0.2
+		speed: 0
 	},
 	enemy: {
 		x: 0,
@@ -20,6 +20,7 @@ var gameState = {
 		width: 0,
 		height: 0,
 		invulnerable: 0,
+		speed: 0
 	},
 	obstacles: [
 
@@ -36,11 +37,13 @@ function initializeGame() {
 			y: 0,
 			width: 0,
 			height: 0,
-			active: false
+			active: false,
+			speed: 0
 		});
 	}
 
 	setGameObjectsSizes();
+	setGameObjectsSpeeds();
 
 	// Set default game object positions
 	gameState.enemy.x = ( gameState.width / 2 ) - ( gameState.enemy.width / 2 );
@@ -92,6 +95,7 @@ function onResize() {
 		gameState.height = $( '.level' ).height();
 
 		setGameObjectsSizes();
+		setGameObjectsSpeeds();
 
 		gameState.player.x *= gameState.width / oldWidth;
 		gameState.player.y *= gameState.height / oldHeight;
@@ -119,9 +123,16 @@ function setGameObjectsSizes() {
 	}
 }
 
-function update(deltaTime) {
-	setGameObjectsSizes();
+function setGameObjectsSpeeds() {
+	gameState.player.speed = 0.2 * ( gameState.height / 1000 );
+	gameState.enemy.speed = 0.2 * ( gameState.height / 1000 );
 
+	for (var index = 0; index < gameState.obstacles.length; index++) {
+		gameState.obstacles[index].speed = 0.2 * ( gameState.height / 1000 );
+	}
+}
+
+function update(deltaTime) {
 	// Move player
 	gameState.player.x = calculateNewGameObjectPositionX( gameState.player, deltaTime, gameState.player.mouseX );
 
@@ -149,7 +160,7 @@ function update(deltaTime) {
 
 	// Move obstacles
 	gameState.obstacles.forEach(( obstacle, index ) => {
-		obstacle.y -= deltaTime * ( gameState.height / 5000 );
+		obstacle.y -= deltaTime * obstacle.speed;
 
 		if ( obstacle.y + obstacle.height < 0 ) {
 			resetObstacle(index);

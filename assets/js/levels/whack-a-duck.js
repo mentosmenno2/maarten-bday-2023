@@ -82,8 +82,6 @@ function setGameObjectsSizes() {
 }
 
 function update(deltaTime) {
-	setGameObjectsSizes();
-
 	// Go underground if not up anymore
 	gameState.enemy.up = Math.max( 0, gameState.enemy.up - deltaTime );
 	if ( gameState.enemy.up <= 0 && gameState.enemy.underground <= 0 ) {
