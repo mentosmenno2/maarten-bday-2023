@@ -19,9 +19,11 @@
 }
 
 .character.invulnerable {
-	-webkit-box-shadow: 0px 0px 10px 0px red;
-	-moz-box-shadow: 0px 0px 10px 0px red;
-	box-shadow: 0px 0px 10px 0px red;
+	-webkit-box-shadow: 0px 0px 10px 10px red;
+	-moz-box-shadow: 0px 0px 10px 10px red;
+	box-shadow: 0px 0px 10px 10px red;
+	background-color: red;
+	border-radius: 100%;
 }
 
 .character > img {
