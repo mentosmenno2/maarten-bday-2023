@@ -37,19 +37,19 @@ function getPositionFromTouchEvent( event, $levelElement ) {
 }
 
 // Game object functions
-function randomizeGameObjectPosition( gameObject, $levelElement ) {
-	gameObject = randomizeGameObjectPositionX( gameObject, $levelElement );
-	gameObject = randomizeGameObjectPositionY( gameObject, $levelElement );
+function randomizeGameObjectPosition( gameObject, level ) {
+	gameObject = randomizeGameObjectPositionX( gameObject, level );
+	gameObject = randomizeGameObjectPositionY( gameObject, level );
 	return gameObject;
 }
 
-function randomizeGameObjectPositionX( gameObject, $levelElement ) {
-	gameObject.x = Math.random() * ( $levelElement.width() - gameObject.width );
+function randomizeGameObjectPositionX( gameObject, level ) {
+	gameObject.x = Math.random() * ( level.width - gameObject.width );
 	return gameObject;
 }
 
-function randomizeGameObjectPositionY( gameObject, $levelElement ) {
-	gameObject.y = Math.random() * ( $levelElement.height() - gameObject.height );
+function randomizeGameObjectPositionY( gameObject, level ) {
+	gameObject.y = Math.random() * ( level.height - gameObject.height );
 	return gameObject;
 }
 

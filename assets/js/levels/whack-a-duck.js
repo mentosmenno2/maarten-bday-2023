@@ -65,10 +65,10 @@ function onResize() {
 }
 
 function randomizeEnemyPosition() {
-	gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level' ) );
+	gameState.enemy = randomizeGameObjectPosition( gameState.enemy, gameState.level );
 
 	while ( mouseHitsEnemy() ) {
-		gameState.enemy = randomizeGameObjectPosition( gameState.enemy, $( '.level' ) );
+		gameState.enemy = randomizeGameObjectPosition( gameState.enemy, gameState.level );
 	}
 }
 
