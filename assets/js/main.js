@@ -23,6 +23,14 @@ function onButtonStartClick() {
 	startGame();
 }
 
+/**
+ * Checks if game is won.
+ * - 0: enemy
+ * - 1: player 1
+ * - 2: player 2
+ * - -1: draw
+ * @param {number} won
+ */
 function gameCompleted( won ) {
 	if ( null !== won ) {
 		initializeResults( won );
@@ -54,8 +62,10 @@ function initializeResults( playerNumberWon ) {
 			$( '.results-mp-player-number' ).text( playerNumberWon );
 			$( '.results-option-won-mp' ).show();
 		}
-	} else {
+	} else if ( playerNumberWon === 0 ) {
 		$( '.results-option-lost' ).show();
+	} else {
+		$( '.results-option-draw' ).show();
 	}
 
 	$( '.results' ).css( 'display', 'flex' );

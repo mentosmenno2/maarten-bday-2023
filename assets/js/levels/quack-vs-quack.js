@@ -315,9 +315,9 @@ function loop(timestamp) {
 	} else if ( gameState.player.health <= 0 ) {
 		$( '.audio-music-ingame' )[0].pause();
 
-		$( '.audio-effect-rubberduck1' )[0].pause();
-		$( '.audio-effect-rubberduck1' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck1' )[0].play();
+		$( '.audio-effect-rubberduck' )[0].pause();
+		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck' )[0].play();
 
 		gameCompleted( false );
 		return;

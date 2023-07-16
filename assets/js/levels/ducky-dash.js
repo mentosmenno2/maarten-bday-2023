@@ -54,6 +54,7 @@ function initializeGame() {
 
 	// Set default mouse positions
 	gameState.player.targetX = gameState.player.x + ( gameState.player.width / 2 );
+	gameState.enemy.targetX = gameState.enemy.x + ( gameState.enemy.width / 2 );
 
 	for (var index = 0; index < gameState.obstacles.length; index++) {
 		resetObstacle(index);
@@ -69,6 +70,11 @@ function initializeGame() {
 function addGameEventListeners() {
 	$( '.level' ).on( 'mousemove', onMouseMove );
 	$( '.level' ).on( 'touchmove', onTouchMove );
+
+	if ( gameOptions.players > 1 ) {
+		$( document ).on( 'keydown', onKeyDown );
+		$( document ).on( 'keyup', onKeyUp );
+	}
 }
 
 function startGame() {
@@ -84,6 +90,16 @@ function onMouseMove( event ) {
 function onTouchMove( event ) {
 	event.preventDefault();
 	gameState.player.targetX = getPositionXFromTouchEvent( event, $( '.level' ) );
+}
+
+function onKeyDown( event ) {
+	registerHoldingButton( event.keyCode );
+	gameState.enemy.targetX = getTargetXFromKeys( gameState.enemy, gameState.level );
+}
+
+function onKeyUp( event ) {
+	unRegisterHoldingButton( event.keyCode );
+	gameState.enemy.targetX = getTargetXFromKeys( gameState.enemy, gameState.level );
 }
 
 function onResize() {
@@ -150,7 +166,7 @@ function update(deltaTime) {
 
 	// Move enemy
 	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
-	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, determineEnemyTargetX() );
+	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players > 1 ? gameState.enemy.targetX : determineEnemyTargetX() );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	} else {
@@ -196,7 +212,8 @@ function update(deltaTime) {
 	// Detect finish
 	if ( boundingBoxesHit( $( '.character-player' )[0].getBoundingClientRect(), $( '.finish' )[0].getBoundingClientRect() ) ) {
 		gameState.player.won = true;
-	} else if ( boundingBoxesHit( $( '.character-enemy' )[0].getBoundingClientRect(), $( '.finish' )[0].getBoundingClientRect() ) ) {
+	}
+	if ( boundingBoxesHit( $( '.character-enemy' )[0].getBoundingClientRect(), $( '.finish' )[0].getBoundingClientRect() ) ) {
 		gameState.enemy.won = true;
 	}
 }
@@ -280,23 +297,31 @@ function loop(timestamp) {
 	update(deltaTime);
 	draw();
 
-	if ( gameState.player.won ) {
+	if ( gameState.player.won && gameState.enemy.won ) {
+		$( '.audio-music-ingame' )[0].pause();
+		gameCompleted( -1 );
+		return;
+	} else if ( gameState.player.won ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck2' )[0].pause();
 		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck2' )[0].play();
 
-		gameCompleted( true );
+		gameCompleted( 1 );
 		return;
 	} else if ( gameState.enemy.won ) {
 		$( '.audio-music-ingame' )[0].pause();
 
-		$( '.audio-effect-rubberduck1' )[0].pause();
-		$( '.audio-effect-rubberduck1' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck1' )[0].play();
+		$( '.audio-effect-rubberduck' )[0].pause();
+		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck' )[0].play();
 
-		gameCompleted( false );
+		if ( gameOptions.players > 1 ) {
+			gameCompleted( 2 );
+		} else {
+			gameCompleted( 0 );
+		}
 		return;
 	}
 
