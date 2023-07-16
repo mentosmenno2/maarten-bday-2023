@@ -3,11 +3,14 @@ function initializeGame() {
 }
 
 function addGameEventListeners() {
-	$( document ).on( 'showChatMessage', onShowChatMessage )
+	$( document ).on( 'showChatMessage', onShowChatMessage );
+	$( '.button-setting-mode' ).on( 'click', onModeButtonClick );
+	$( '.button-setting-minigame' ).on( 'click', onMinigameButtonClick );
 }
 
 function startGame() {
-	gameCompleted( null );
+	$( '.setting-container' ).hide();
+	$( '.setting-container-mode' ).show();
 }
 
 function onShowChatMessage( event, index ) {
@@ -22,4 +25,19 @@ function onShowChatMessage( event, index ) {
 		var width = $('.present').width();
 		$('.present').css( 'left', 'calc(70% - ' + width + 'px)' );
 	}
+}
+
+function onModeButtonClick() {
+	gameOptions.mode = $( this ).attr( 'data-mode' );
+	if ( gameOptions.mode == 'story' ) {
+		gameCompleted( null );
+	} else {
+		$( '.setting-container' ).hide();
+		$( '.setting-container-minigame' ).show();
+	}
+}
+
+function onMinigameButtonClick() {
+	gameOptions.nextLevel = $( this ).attr( 'data-level' );
+	gameCompleted( null );
 }

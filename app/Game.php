@@ -51,4 +51,18 @@ class Game
 
 		return $this->levels[$index + 1] ?? $this->levels[0];
 	}
+
+	/**
+	 * @return array<string,string>
+	 */
+	public function getLevelSelectOptions(): array
+	{
+		$options = array();
+		foreach ($this->levels as $level) {
+			if ($level->getId() !== 'start') {
+				$options[$level->getId()] = $level->getName();
+			}
+		}
+		return $options;
+	}
 }

@@ -53,6 +53,7 @@ $nextLevel = $game->getNextLevel();
 
 				<?php ( new Templates() )->echoTemplate('levels/' . $currentLevel->getId(), array(
 					'level' => $currentLevel,
+					'game'  => $game,
 				)); ?>
 			<?php } else { ?>
 				<div class="level">

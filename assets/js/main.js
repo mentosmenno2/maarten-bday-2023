@@ -1,4 +1,9 @@
-var levelObject = JSON.parse( $('.game').attr( 'data-level' ) );
+var urlObject = new URL(window.location.href);
+var gameOptions = {
+	level: JSON.parse( $('.game').attr( 'data-level' ) ),
+	nextLevel: $('.game').attr( 'data-next-level' ),
+	mode: urlObject.searchParams.get( 'mode' ) ? urlObject.searchParams.get( 'mode' ) : 'story',
+};
 
 function initialize() {
 	$( '.audio-music' ).each( function( index ) {
@@ -27,7 +32,13 @@ function gameCompleted( won ) {
 
 function goToNextLevel() {
 	var url = new URL(window.location.href);
-	url.searchParams.set('level', $('.game').attr( 'data-next-level' ));
+	if ( gameOptions.mode === 'story' ) {
+		url.searchParams.set('level', gameOptions.nextLevel);
+		url.searchParams.set('mode', gameOptions.mode);
+	} else {
+		url.searchParams.set('level', 'start');
+		url.searchParams.set('mode', gameOptions.mode);
+	}
 	window.location.href = url.toString();
 }
 
@@ -69,6 +80,10 @@ var messageGeneratorTimeouts = [];
 
 function initializeChat() {
 	$( '.level' ).hide();
+	if ( gameOptions.mode !== 'story' ) {
+		goToNextLevel();
+		return;
+	}
 
 	addChatEventListeners();
 	$( '.audio-music-chat' )[0].play();
@@ -85,12 +100,12 @@ function onChatClick() {
 }
 
 function showChatMessage() {
-	if ( ! levelObject.chat ) {
+	if ( ! gameOptions.level.chat ) {
 		$( '.audio-music-chat' )[0].pause();
 		goToNextLevel();
 	}
 
-	var chatMessage = levelObject.chat.messages[currentChatMessageIndex] ?? null;
+	var chatMessage = gameOptions.level.chat.messages[currentChatMessageIndex] ?? null;
 	if ( ! chatMessage ) {
 		$( '.audio-music-chat' )[0].pause();
 		goToNextLevel();
