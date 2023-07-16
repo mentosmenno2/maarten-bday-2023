@@ -3,6 +3,7 @@ var gameOptions = {
 	level: JSON.parse( $('.game').attr( 'data-level' ) ),
 	nextLevel: $('.game').attr( 'data-next-level' ),
 	mode: urlObject.searchParams.get( 'mode' ) ? urlObject.searchParams.get( 'mode' ) : 'story',
+	players: parseInt( urlObject.searchParams.get( 'players' ) ? urlObject.searchParams.get( 'players' ) : '1' ),
 };
 
 function initialize() {
@@ -32,13 +33,9 @@ function gameCompleted( won ) {
 
 function goToNextLevel() {
 	var url = new URL(window.location.href);
-	if ( gameOptions.mode === 'story' ) {
-		url.searchParams.set('level', gameOptions.nextLevel);
-		url.searchParams.set('mode', gameOptions.mode);
-	} else {
-		url.searchParams.set('level', 'start');
-		url.searchParams.set('mode', gameOptions.mode);
-	}
+	url.searchParams.set('level', gameOptions.nextLevel);
+	url.searchParams.set('mode', gameOptions.mode);
+	url.searchParams.set('players', gameOptions.players);
 	window.location.href = url.toString();
 }
 
@@ -46,15 +43,22 @@ function goToNextLevel() {
 // Results
 // =====================
 
-function initializeResults( won ) {
+function initializeResults( playerNumberWon ) {
 	addResultsEventListeners();
 
-	$( '.results' ).css( 'display', 'flex' );
-	if ( won ) {
-		$( '.results-option-lost' ).hide();
+	$( '.results-option' ).hide();
+	if ( playerNumberWon > 0 ) {
+		if ( gameOptions.players == 1 ) {
+			$( '.results-option-won' ).show();
+		} else {
+			$( '.results-mp-player-number' ).text( playerNumberWon );
+			$( '.results-option-won-mp' ).show();
+		}
 	} else {
-		$( '.results-option-won' ).hide();
+		$( '.results-option-lost' ).show();
 	}
+
+	$( '.results' ).css( 'display', 'flex' );
 }
 
 function addResultsEventListeners() {

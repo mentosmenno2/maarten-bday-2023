@@ -6,6 +6,7 @@ function addGameEventListeners() {
 	$( document ).on( 'showChatMessage', onShowChatMessage );
 	$( '.button-setting-mode' ).on( 'click', onModeButtonClick );
 	$( '.button-setting-minigame' ).on( 'click', onMinigameButtonClick );
+	$( '.button-setting-players' ).on( 'click', onPlayersButtonClick );
 }
 
 function startGame() {
@@ -39,5 +40,11 @@ function onModeButtonClick() {
 
 function onMinigameButtonClick() {
 	gameOptions.nextLevel = $( this ).attr( 'data-level' );
+	$( '.setting-container' ).hide();
+	$( '.setting-container-players' ).show();
+}
+
+function onPlayersButtonClick() {
+	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
 	gameCompleted( null );
 }

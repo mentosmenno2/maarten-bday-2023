@@ -26,4 +26,12 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 			<?php } ?>
 		</div>
 	</div>
+
+	<div class="setting-container setting-container-players">
+		<h2>With how many players do you want to play?</h2>
+		<div class="setting-choices setting-minigame-choices" >
+			<button class="button button-setting-players" data-players="1" >1 player</button>
+			<button class="button button-setting-players" data-players="2" >2 players (requires keyboard)</button>
+		</div>
+	</div>
 </div>
