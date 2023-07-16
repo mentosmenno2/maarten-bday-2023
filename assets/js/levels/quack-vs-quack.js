@@ -6,7 +6,7 @@ var gameState = {
 	lastRenderTime: null,
 	bulletTimer: 0,
 	player: {
-		mouseX: 0,
+		targetX: 0,
 		x: 0,
 		y: 0,
 		width: 0,
@@ -43,7 +43,7 @@ function initializeGame() {
 	gameState.enemy.y = gameState.level.height - gameState.enemy.height - 10;
 
 	// Set default mouse positions
-	gameState.player.mouseX = gameState.player.x + ( gameState.player.width / 2 );
+	gameState.player.targetX = gameState.player.x + ( gameState.player.width / 2 );
 
 	draw();
 }
@@ -60,12 +60,12 @@ function startGame() {
 }
 
 function onMouseMove( event ) {
-	gameState.player.mouseX = getPositionXFromMouseEvent( event, $( '.level' ) );
+	gameState.player.targetX = getPositionXFromMouseEvent( event, $( '.level' ) );
 }
 
 function onTouchMove( event ) {
 	event.preventDefault();
-	gameState.player.mouseX = getPositionXFromTouchEvent( event, $( '.level' ) );
+	gameState.player.targetX = getPositionXFromTouchEvent( event, $( '.level' ) );
 }
 
 function onResize() {
@@ -135,7 +135,7 @@ function setGameObjectsSpeeds() {
 
 function update(deltaTime) {
 	// Move player
-	gameState.player.x = calculateNewGameObjectPositionX( gameState.player, deltaTime, gameState.player.mouseX );
+	gameState.player.x = calculateNewGameObjectPositionX( gameState.player, deltaTime, gameState.player.targetX );
 
 	if ( gameState.player.invulnerable > 0 ) {
 		gameState.player.invulnerable -= deltaTime;

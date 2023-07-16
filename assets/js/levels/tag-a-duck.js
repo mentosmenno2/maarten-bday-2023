@@ -10,8 +10,8 @@ var gameState = {
 		width: 0,
 		height: 0,
 		speed: 0,
-		mouseX: 0,
-		mouseY: 0,
+		targetX: 0,
+		targetY: 0,
 		tags: 0,
 		didTagTimer: 0
 	},
@@ -36,8 +36,8 @@ function initializeGame() {
 	gameState.player.y = ( gameState.level.height / 2 ) - ( gameState.player.height / 2 );
 
 	// Set default mouse positions
-	gameState.player.mouseX = gameState.player.x + ( gameState.player.width / 2 );
-	gameState.player.mouseY = gameState.player.y + ( gameState.player.height / 2 );
+	gameState.player.targetX = gameState.player.x + ( gameState.player.width / 2 );
+	gameState.player.targetY = gameState.player.y + ( gameState.player.height / 2 );
 
 	randomizeEnemyPosition();
 	draw();
@@ -55,14 +55,14 @@ function startGame() {
 }
 
 function onMouseMove( event ) {
-	gameState.player.mouseX = getPositionXFromMouseEvent( event, $( '.level' ) );
-	gameState.player.mouseY = getPositionYFromMouseEvent( event, $( '.level' ) );
+	gameState.player.targetX = getPositionXFromMouseEvent( event, $( '.level' ) );
+	gameState.player.targetY = getPositionYFromMouseEvent( event, $( '.level' ) );
 }
 
 function onTouchMove( event ) {
 	event.preventDefault();
-	gameState.player.mouseX = getPositionXFromTouchEvent( event, $( '.level' ) );
-	gameState.player.mouseY = getPositionYFromTouchEvent( event, $( '.level' ) );
+	gameState.player.targetX = getPositionXFromTouchEvent( event, $( '.level' ) );
+	gameState.player.targetY = getPositionYFromTouchEvent( event, $( '.level' ) );
 }
 
 function onResize() {
@@ -125,8 +125,8 @@ function update(deltaTime) {
 
 	// Move player
 	var newPlayerPosition = calculateNewGameObjectPosition( gameState.player, deltaTime, {
-		x: gameState.player.mouseX,
-		y: gameState.player.mouseY
+		x: gameState.player.targetX,
+		y: gameState.player.targetY
 	} );
 	gameState.player.x = newPlayerPosition.x;
 	gameState.player.y = newPlayerPosition.y;
