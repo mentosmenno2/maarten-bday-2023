@@ -4,8 +4,6 @@ var gameState = {
 		height: $( '.level' ).height(),
 	},
 	lastRenderTime: null,
-	won: false,
-	lost: false,
 	player: {
 		x: 0,
 		y: 0,
@@ -13,7 +11,8 @@ var gameState = {
 		height: 0,
 		mouseX: 0,
 		invulnerable: 0,
-		speed: 0
+		speed: 0,
+		won: false
 	},
 	enemy: {
 		x: 0,
@@ -21,7 +20,8 @@ var gameState = {
 		width: 0,
 		height: 0,
 		invulnerable: 0,
-		speed: 0
+		speed: 0,
+		won: false
 	},
 	obstacles: [
 
@@ -192,9 +192,9 @@ function update(deltaTime) {
 
 	// Detect finish
 	if ( boundingBoxesHit( $( '.character-player' )[0].getBoundingClientRect(), $( '.finish' )[0].getBoundingClientRect() ) ) {
-		gameState.won = true;
+		gameState.player.won = true;
 	} else if ( boundingBoxesHit( $( '.character-enemy' )[0].getBoundingClientRect(), $( '.finish' )[0].getBoundingClientRect() ) ) {
-		gameState.lost = true;
+		gameState.enemy.won = true;
 	}
 }
 
@@ -267,7 +267,7 @@ function loop(timestamp) {
 	update(deltaTime);
 	draw();
 
-	if ( gameState.won ) {
+	if ( gameState.player.won ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck2' )[0].pause();
@@ -276,7 +276,7 @@ function loop(timestamp) {
 
 		gameCompleted( true );
 		return;
-	} else if ( gameState.lost ) {
+	} else if ( gameState.enemy.won ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck1' )[0].pause();
