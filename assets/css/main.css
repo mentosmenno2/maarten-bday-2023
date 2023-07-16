@@ -81,6 +81,7 @@ img.pixelated {
 }
 
 .chat {
+	display: none;
 	width: 100%;
 	height: 100%;
 	position: relative;
@@ -177,6 +178,36 @@ img.pixelated {
 }
 
 .instructions .button-start {
+	font-size: 40px;
+	border-width: 5px;
+}
+
+.results {
+	background-color: rgba(0, 0, 0, 0.8);
+	height: 100%;
+	width: 100%;
+	display: none;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 999;
+	padding: 20px;
+}
+
+.results-option {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.results .button-results {
 	font-size: 40px;
 	border-width: 5px;
 }

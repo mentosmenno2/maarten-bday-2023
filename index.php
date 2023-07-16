@@ -61,6 +61,8 @@ $nextLevel = $game->getNextLevel();
 				</div>
 			<?php } ?>
 
+			<?php ( new Templates() )->echoTemplate('results'); ?>
+
 			<?php if ($chat) { ?>
 				<?php ( new Templates() )->echoTemplate('chat'); ?>
 			<?php } ?>

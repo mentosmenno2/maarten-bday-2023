@@ -17,16 +17,47 @@ function onButtonStartClick() {
 	startGame();
 }
 
-function gameCompleted() {
-	$( '.level' ).hide();
-
-	initializeChat();
+function gameCompleted( won ) {
+	if ( null !== won ) {
+		initializeResults( won );
+	} else {
+		initializeChat();
+	}
 }
 
 function goToNextLevel() {
 	var url = new URL(window.location.href);
 	url.searchParams.set('level', $('.game').attr( 'data-next-level' ));
 	window.location.href = url.toString();
+}
+
+// =====================
+// Results
+// =====================
+
+function initializeResults( won ) {
+	addResultsEventListeners();
+
+	$( '.results' ).css( 'display', 'flex' );
+	if ( won ) {
+		$( '.results-option-lost' ).hide();
+	} else {
+		$( '.results-option-won' ).hide();
+	}
+}
+
+function addResultsEventListeners() {
+	$( '.button-results-won' ).on( 'click', onResultsWonButtonClick );
+	$( '.button-results-lost' ).on( 'click', onResultsLostButtonClick );
+}
+
+function onResultsWonButtonClick() {
+	$( '.results' ).hide();
+	initializeChat();
+}
+
+function onResultsLostButtonClick() {
+	window.location.reload();
 }
 
 // =====================
@@ -37,6 +68,8 @@ var currentChatMessageIndex = 0;
 var messageGeneratorTimeouts = [];
 
 function initializeChat() {
+	$( '.level' ).hide();
+
 	addChatEventListeners();
 	$( '.audio-music-chat' )[0].play();
 	$( '.chat' ).show();

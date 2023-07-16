@@ -184,14 +184,12 @@ function loop(timestamp) {
 	update(deltaTime);
 	draw();
 
-	if ( gameState.enemy.tags >= 10 ) {
+	if ( gameState.player.tags >= 10 ) {
+		$( '.audio-music-ingame' )[0].pause();
 		$( '.audio-effect-rubberduck2' )[0].pause();
 		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck2' )[0].play();
-		setTimeout(() => {
-			$( '.audio-music-ingame' )[0].pause();
-			gameCompleted();
-		}, 1000);
+		gameCompleted( true );
 		return;
 	}
 

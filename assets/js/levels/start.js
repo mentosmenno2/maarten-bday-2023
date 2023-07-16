@@ -7,7 +7,7 @@ function addGameEventListeners() {
 }
 
 function startGame() {
-	gameCompleted();
+	gameCompleted( null );
 }
 
 function onShowChatMessage( event, index ) {
