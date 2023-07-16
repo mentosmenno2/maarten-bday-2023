@@ -25,6 +25,8 @@ var gameState = {
 		invulnerable: 0,
 		health: 100,
 		bullets: [],
+		targetX: 0,
+		switchTargetPositionTimer: 0
 	},
 }
 
@@ -142,7 +144,8 @@ function update(deltaTime) {
 	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
 
 	// Move enemy
-	gameState.enemy.x += deltaTime * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
+	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
+	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, determineEnemyTargetX() );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	}
@@ -221,30 +224,60 @@ function update(deltaTime) {
 	});
 }
 
+function determineEnemyTargetX() {
+	if ( gameState.enemy.switchTargetPositionTimer <= 0 ) {
+		gameState.enemy.switchTargetPositionTimer = gameState.enemy.switchTargetPositionTimer = Math.random() * 1000;
+		gameState.enemy.targetX = Math.random() * gameState.level.width;
+		return gameState.enemy.targetX;
+	}
+
+	return gameState.enemy.targetX;
+}
+
 function draw() {
+	// Player
 	$( '.character-player' ).width( gameState.player.width );
 	$( '.character-player' ).height( gameState.player.height );
-	$( '.character-player' ).css( 'left', gameState.player.x + 'px' );
-	$( '.character-player' ).css( 'bottom', gameState.player.y + 'px' );
+
+	var oldPlayerX = parseInt( $( '.character-player' ).css( 'left' ).replace( 'px', '' ) );
+	$( '.character-player' ).css( 'left', Math.round( gameState.player.x ) + 'px' );
+	if ( oldPlayerX < Math.round( gameState.player.x ) ) {
+		$( '.character-player img' ).addClass( 'flipped-horizontal' );
+	} else if ( oldPlayerX > Math.round( gameState.player.x ) ) {
+		$( '.character-player img' ).removeClass( 'flipped-horizontal' );
+	}
+
+	$( '.character-player' ).css( 'bottom', Math.round( gameState.player.y ) + 'px' );
 	if ( gameState.player.invulnerable > 0 ) {
 		$( '.character-player' ).addClass( 'invulnerable' );
 	} else {
 		$( '.character-player' ).removeClass( 'invulnerable' );
 	}
 
+	// Enemy
 	$( '.character-enemy' ).width( gameState.enemy.width );
 	$( '.character-enemy' ).height( gameState.enemy.height );
-	$( '.character-enemy' ).css( 'left', gameState.enemy.x + 'px' );
-	$( '.character-enemy' ).css( 'bottom', gameState.enemy.y + 'px' );
+
+	var oldEnemyX = parseInt( $( '.character-enemy' ).css( 'left' ).replace( 'px', '' ) );
+	$( '.character-enemy' ).css( 'left', Math.round( gameState.enemy.x ) + 'px' );
+	if ( oldEnemyX < Math.round( gameState.enemy.x ) ) {
+		$( '.character-enemy img' ).addClass( 'flipped-horizontal' );
+	} else if ( oldEnemyX > Math.round( gameState.enemy.x ) ) {
+		$( '.character-enemy img' ).removeClass( 'flipped-horizontal' );
+	}
+
+	$( '.character-enemy' ).css( 'bottom', Math.round( gameState.enemy.y ) + 'px' );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		$( '.character-enemy' ).addClass( 'invulnerable' );
 	} else {
 		$( '.character-enemy' ).removeClass( 'invulnerable' );
 	}
 
+	// Healthbars
 	$( '.healthbar-progress-player' ).css( 'width', gameState.player.health + '%' );
 	$( '.healthbar-progress-enemy' ).css( 'width', gameState.enemy.health + '%' );
 
+	// Bullets
 	gameState.player.bullets.forEach(bullet => {
 		bullet.$element.width( bullet.width );
 		bullet.$element.height( bullet.height );

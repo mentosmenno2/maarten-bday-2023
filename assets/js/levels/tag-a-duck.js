@@ -151,8 +151,16 @@ function draw() {
 	// Player
 	$( '.character-player' ).width( gameState.player.width );
 	$( '.character-player' ).height( gameState.player.height );
-	$( '.character-player' ).css( 'left', gameState.player.x + 'px' );
-	$( '.character-player' ).css( 'bottom', gameState.player.y + 'px' );
+
+	var oldPlayerX = parseInt( $( '.character-player' ).css( 'left' ).replace( 'px', '' ) );
+	$( '.character-player' ).css( 'left', Math.round( gameState.player.x ) + 'px' );
+	if ( oldPlayerX < Math.round( gameState.player.x ) ) {
+		$( '.character-player img' ).addClass( 'flipped-horizontal' );
+	} else if ( oldPlayerX > Math.round( gameState.player.x ) ) {
+		$( '.character-player img' ).removeClass( 'flipped-horizontal' );
+	}
+
+	$( '.character-player' ).css( 'bottom', Math.round( gameState.player.y ) + 'px' );
 	if ( gameState.player.didTagTimer > 0 ) {
 		$( '.character-player' ).addClass( 'did-tag' );
 	} else {
@@ -162,8 +170,16 @@ function draw() {
 	// Enemy
 	$( '.character-enemy' ).width( gameState.enemy.width );
 	$( '.character-enemy' ).height( gameState.enemy.height );
-	$( '.character-enemy' ).css( 'left', gameState.enemy.x + 'px' );
-	$( '.character-enemy' ).css( 'bottom', gameState.enemy.y + 'px' );
+
+	var oldEnemyX = parseInt( $( '.character-enemy' ).css( 'left' ).replace( 'px', '' ) );
+	$( '.character-enemy' ).css( 'left', Math.round( gameState.enemy.x ) + 'px' );
+	if ( oldEnemyX < Math.round( gameState.enemy.x ) ) {
+		$( '.character-enemy img' ).addClass( 'flipped-horizontal' );
+	} else if ( oldEnemyX > Math.round( gameState.enemy.x ) ) {
+		$( '.character-enemy img' ).removeClass( 'flipped-horizontal' );
+	}
+
+	$( '.character-enemy' ).css( 'bottom', Math.round( gameState.enemy.y ) + 'px' );
 	if ( gameState.enemy.underground > 0 || gameState.enemy.up <= 0 ) {
 		$( '.character-enemy' ).hide();
 	} else {

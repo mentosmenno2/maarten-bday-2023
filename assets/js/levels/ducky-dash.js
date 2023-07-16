@@ -21,7 +21,9 @@ var gameState = {
 		height: 0,
 		invulnerable: 0,
 		speed: 0,
-		won: false
+		won: false,
+		targetX: 0,
+		switchTargetPositionTimer: 0
 	},
 	obstacles: [
 
@@ -147,7 +149,8 @@ function update(deltaTime) {
 	gameState.player.y = Math.min( gameState.level.height - gameState.player.height, gameState.player.y );
 
 	// Move enemy
-	gameState.enemy.x += deltaTime * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
+	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
+	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, determineEnemyTargetX() );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	} else {
@@ -202,6 +205,16 @@ function resetObstacle(index) {
 	gameState.obstacles[index].x = Math.random() * ( gameState.level.width - gameState.obstacles[index].width );
 	gameState.obstacles[index].y = gameState.level.height,
 	gameState.obstacles[index].active = true;
+}
+
+function determineEnemyTargetX() {
+	if ( gameState.enemy.switchTargetPositionTimer <= 0 ) {
+		gameState.enemy.switchTargetPositionTimer = Math.random() * 1000;
+		gameState.enemy.targetX = Math.random() * gameState.level.width;
+		return gameState.enemy.targetX;
+	}
+
+	return gameState.enemy.targetX;
 }
 
 function draw() {
