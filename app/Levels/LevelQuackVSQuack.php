@@ -14,7 +14,7 @@ class LevelQuackVSQuack extends AbstractLevel
 
 	public function getName(): string
 	{
-		return 'Quack V.S. Quack';
+		return 'Quack VS Quack';
 	}
 
 	public function getInstructions(): string
