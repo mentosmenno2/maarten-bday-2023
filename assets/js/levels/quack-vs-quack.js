@@ -4,6 +4,7 @@ var gameState = {
 		height: $( '.level' ).height(),
 	},
 	lastRenderTime: null,
+	bulletTimer: 0,
 	player: {
 		mouseX: 0,
 		x: 0,
@@ -12,7 +13,8 @@ var gameState = {
 		height: 0,
 		speed: 0,
 		invulnerable: 0,
-		health: 100
+		health: 100,
+		bullets: [],
 	},
 	enemy: {
 		x: 0,
@@ -21,7 +23,8 @@ var gameState = {
 		height: 0,
 		speed: 0,
 		invulnerable: 0,
-		health: 100
+		health: 100,
+		bullets: [],
 	},
 }
 
@@ -39,7 +42,6 @@ function initializeGame() {
 
 	// Set default mouse positions
 	gameState.player.mouseX = gameState.player.x + ( gameState.player.width / 2 );
-	gameState.player.mouseY = gameState.player.y + ( gameState.player.height / 2 );
 
 	draw();
 }
@@ -56,14 +58,12 @@ function startGame() {
 }
 
 function onMouseMove( event ) {
-	var bounds = $( '.level' )[0].getBoundingClientRect();
-	gameState.player.mouseX = event.clientX - bounds.left;
+	gameState.player.mouseX = getPositionXFromMouseEvent( event, $( '.level' ) );
 }
 
 function onTouchMove( event ) {
 	event.preventDefault();
-	var bounds = $( '.level' )[0].getBoundingClientRect();
-	gameState.player.mouseX = event.touches[0].clientX - bounds.left;
+	gameState.player.mouseX = getPositionXFromTouchEvent( event, $( '.level' ) );
 }
 
 function onResize() {
@@ -84,6 +84,16 @@ function onResize() {
 		gameState.enemy.x *= gameState.level.width / oldWidth;
 		gameState.enemy.y *= gameState.level.height / oldHeight;
 
+		for (var index = 0; index < gameState.player.bullets.length; index++) {
+			gameState.player.bullets[index].x *= gameState.level.width / oldWidth;
+			gameState.player.bullets[index].y *= gameState.level.height / oldHeight;
+		}
+
+		for (var index = 0; index < gameState.enemy.bullets.length; index++) {
+			gameState.enemy.bullets[index].x *= gameState.level.width / oldWidth;
+			gameState.enemy.bullets[index].y *= gameState.level.height / oldHeight;
+		}
+
 		draw();
 	}, 1);
 }
@@ -96,23 +106,119 @@ function setGameObjectsSizes() {
 	gameState.enemy.width = gameState.level.width * 0.05;
 	gameState.enemy.height = gameState.level.height * 0.05;
 	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
+
+	for (var index = 0; index < gameState.player.bullets.length; index++) {
+		gameState.player.bullets[index].width = gameState.level.width * 0.05;
+		gameState.player.bullets[index].height = gameState.level.height * 0.05;
+	}
+
+	for (var index = 0; index < gameState.enemy.bullets.length; index++) {
+		gameState.enemy.bullets[index].width = gameState.level.width * 0.05;
+		gameState.enemy.bullets[index].height = gameState.level.height * 0.05;
+	}
 }
 
 function setGameObjectsSpeeds() {
 	gameState.player.speed = 0.2 * ( gameState.level.height / 1000 );
 	gameState.enemy.speed = 0.2 * ( gameState.level.height / 1000 );
+
+	for (var index = 0; index < gameState.player.bullets.length; index++) {
+		gameState.player.bullets[index].speed = 0.2 * ( gameState.level.height / 1000 );
+	}
+
+	for (var index = 0; index < gameState.enemy.bullets.length; index++) {
+		gameState.enemy.bullets[index].speed = 0.2 * ( gameState.level.height / 1000 );
+	}
 }
 
 function update(deltaTime) {
 	// Move player
+	gameState.player.x = calculateNewGameObjectPositionX( gameState.player, deltaTime, gameState.player.mouseX );
+
+	if ( gameState.player.invulnerable > 0 ) {
+		gameState.player.invulnerable -= deltaTime;
+	}
+	gameState.player.x = Math.max( 0, gameState.player.x );
+	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
 
 	// Move enemy
+	gameState.enemy.x += deltaTime * ( Math.random() * ( ( Math.round( Date.now() / 1000 ) % 2 == 0 ) ? 1 : -1 ) ) / ( Math.random() * 20 );
+	if ( gameState.enemy.invulnerable > 0 ) {
+		gameState.enemy.invulnerable -= deltaTime;
+	}
+	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
+	gameState.enemy.x = Math.min( gameState.level.width - gameState.enemy.width, gameState.enemy.x );
+
+	// Move bullets
+	gameState.player.bullets.forEach(( bullet, index ) => {
+		bullet.y += deltaTime * bullet.speed;
+
+		if ( bullet.y > gameState.level.height ) {
+			bullet.$element.remove();
+			gameState.player.bullets.splice(index, 1);
+		}
+	});
+	gameState.enemy.bullets.forEach(( bullet, index ) => {
+		bullet.y -= deltaTime * bullet.speed;
+
+		if ( bullet.y < 0 - bullet.height ) {
+			bullet.$element.remove();
+			gameState.enemy.bullets.splice(index, 1);
+		}
+	});
 
 	// Maybe create bullet
+	gameState.bulletTimer = Math.max( 0, gameState.bulletTimer - deltaTime );
+	if ( gameState.bulletTimer <= 0 ) {
+		gameState.bulletTimer = 1000;
+
+		var $bulletPlayerElement = $( '<div class="bullet bullet-player bullet-player-' + Date.now() + '"></div>' );
+		gameState.player.bullets.push( {
+			x: gameState.player.x,
+			y: gameState.player.y + gameState.player.height,
+			width: 0,
+			height: 0,
+			speed: 0,
+			$element: $bulletPlayerElement
+		} );
+		$( '.level' ).append($bulletPlayerElement);
+
+		var $bulletEnemyElement = $( '<div class="bullet bullet-enemy bullet-enemy-' + Date.now() + '"></div>' );
+		gameState.enemy.bullets.push( {
+			x: gameState.enemy.x,
+			y: gameState.enemy.y - gameState.enemy.height,
+			width: 0,
+			height: 0,
+			speed: 0,
+			$element: $bulletEnemyElement,
+		} );
+		$( '.level' ).append($bulletEnemyElement);
+
+		setGameObjectsSizes();
+		setGameObjectsSpeeds();
+	}
 
 	// Check bullet hit player
+	gameState.enemy.bullets.forEach(bullet => {
+		if ( gameState.player.invulnerable <= 0 && gameObjectsHit( bullet, gameState.player ) ) {
+			gameState.player.health -= 10;
+			gameState.player.invulnerable = 1500;
+			$( '.audio-effect-fail' )[0].pause();
+			$( '.audio-effect-fail' )[0].currentTime = 0;
+			$( '.audio-effect-fail' )[0].play();
+		}
+	});
 
 	// Check bullet hit enemy
+	gameState.player.bullets.forEach(bullet => {
+		if ( gameState.enemy.invulnerable <= 0 && gameObjectsHit( bullet, gameState.enemy ) ) {
+			gameState.enemy.health -= 10;
+			gameState.enemy.invulnerable = 1500;
+			$( '.audio-effect-fail' )[0].pause();
+			$( '.audio-effect-fail' )[0].currentTime = 0;
+			$( '.audio-effect-fail' )[0].play();
+		}
+	});
 }
 
 function draw() {
@@ -120,13 +226,38 @@ function draw() {
 	$( '.character-player' ).height( gameState.player.height );
 	$( '.character-player' ).css( 'left', gameState.player.x + 'px' );
 	$( '.character-player' ).css( 'bottom', gameState.player.y + 'px' );
+	if ( gameState.player.invulnerable > 0 ) {
+		$( '.character-player' ).addClass( 'invulnerable' );
+	} else {
+		$( '.character-player' ).removeClass( 'invulnerable' );
+	}
 
 	$( '.character-enemy' ).width( gameState.enemy.width );
 	$( '.character-enemy' ).height( gameState.enemy.height );
 	$( '.character-enemy' ).css( 'left', gameState.enemy.x + 'px' );
 	$( '.character-enemy' ).css( 'bottom', gameState.enemy.y + 'px' );
+	if ( gameState.enemy.invulnerable > 0 ) {
+		$( '.character-enemy' ).addClass( 'invulnerable' );
+	} else {
+		$( '.character-enemy' ).removeClass( 'invulnerable' );
+	}
 
-	$( '.healthbar-progress' ).css( 'width', gameState.enemy.health + '%' );
+	$( '.healthbar-progress-player' ).css( 'width', gameState.player.health + '%' );
+	$( '.healthbar-progress-enemy' ).css( 'width', gameState.enemy.health + '%' );
+
+	gameState.player.bullets.forEach(bullet => {
+		bullet.$element.width( bullet.width );
+		bullet.$element.height( bullet.height );
+		bullet.$element.css( 'left', bullet.x + 'px' );
+		bullet.$element.css( 'bottom', bullet.y + 'px' );
+	});
+
+	gameState.enemy.bullets.forEach(bullet => {
+		bullet.$element.width( bullet.width );
+		bullet.$element.height( bullet.height );
+		bullet.$element.css( 'left', bullet.x + 'px' );
+		bullet.$element.css( 'bottom', bullet.y + 'px' );
+	});
 }
 
 function loop(timestamp) {
@@ -139,7 +270,25 @@ function loop(timestamp) {
 	update(deltaTime);
 	draw();
 
-	// Win / lose detection, return
+	if ( gameState.enemy.health <= 0 ) {
+		$( '.audio-music-ingame' )[0].pause();
+
+		$( '.audio-effect-rubberduck2' )[0].pause();
+		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck2' )[0].play();
+
+		gameCompleted( true );
+		return;
+	} else if ( gameState.player.health <= 0 ) {
+		$( '.audio-music-ingame' )[0].pause();
+
+		$( '.audio-effect-rubberduck1' )[0].pause();
+		$( '.audio-effect-rubberduck1' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck1' )[0].play();
+
+		gameCompleted( false );
+		return;
+	}
 
 	gameState.lastRenderTime = timestamp;
 	window.requestAnimationFrame(loop);

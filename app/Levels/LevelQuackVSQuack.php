@@ -3,7 +3,7 @@
 namespace Mentosmenno2\MaartenBday2023\Levels;
 
 use Mentosmenno2\MaartenBday2023\Chats\AbstractChat;
-use Mentosmenno2\MaartenBday2023\Chats\ChatWhackADuck;
+use Mentosmenno2\MaartenBday2023\Chats\ChatQuackVsQuack;
 
 class LevelQuackVSQuack extends AbstractLevel
 {
@@ -24,6 +24,6 @@ class LevelQuackVSQuack extends AbstractLevel
 
 	public function getChat(): ?AbstractChat
 	{
-		return new ChatWhackADuck();
+		return new ChatQuackVsQuack();
 	}
 }

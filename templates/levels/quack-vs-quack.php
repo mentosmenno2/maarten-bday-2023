@@ -13,7 +13,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	</div>
 
 	<div class="healthbar-wrapper healthbar-wrapper-enemy">
-		<div class="healthbar-progress healthbar-wrapper-progress"></div>
+		<div class="healthbar-progress healthbar-progress-enemy"></div>
 		<span class="healthbar-text">Evil duck health</span>
 	</div>
 
