@@ -12,9 +12,14 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		<span class="progressbar-text">Tags</span>
 	</div>
 
-	<div class="character character-player">
+	<div class="character character-player character-player-1">
 		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
 	</div>
+
+	<div class="character character-player character-player-2">
+		<img class="pixelated" alt="" src="assets/images/duck.png" >
+	</div>
+
 	<div class="character character-enemy">
 		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
 	</div>

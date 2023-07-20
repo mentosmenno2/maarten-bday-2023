@@ -52,6 +52,10 @@ function unRegisterHoldingButton( keyCode ) {
 	}
 }
 
+function isHoldingButton() {
+	return holdingButtons.length > 0;
+}
+
 function getTargetXFromKeys( gameObject, level ) {
 	var keyDirections = 0;
 	var targetX = gameObject.x + ( gameObject.width / 2 );
@@ -73,7 +77,7 @@ function getTargetXFromKeys( gameObject, level ) {
 
 function getTargetYFromKeys( gameObject, level ) {
 	var keyDirections = 0;
-	var targetY = gameObject.y + ( gameObject / 2 );
+	var targetY = gameObject.y + ( gameObject.height / 2 );
 	if ( holdingButtons.includes(38) || holdingButtons.includes(87) ) { // Up
 		keyDirections++;
 		targetY = level.height;
@@ -84,24 +88,31 @@ function getTargetYFromKeys( gameObject, level ) {
 	}
 
 	if ( keyDirections > 1 ) {
-		targetY = gameObject.y + ( gameObject / 2 );
+		targetY = gameObject.y + ( gameObject.height / 2 );
 	}
 	return targetY;
 }
 
 function getTargetFromKeys( gameObject, level ) {
-	var targetX = getTargetXFromKeys( gameObject.x, level );
-	var targetY = getTargetYFromKeys( gameObject.y, level );
+	var targetX = getTargetXFromKeys( gameObject, level );
+	var targetY = getTargetYFromKeys( gameObject, level );
 
-	var positiveTargetX = targetX < 0 ? targetX * -1 : targetX;
-	var positiveTargetY = targetY < 0 ? targetY * -1 : targetY;
-	var maxChange = Math.min( positiveTargetX, positiveTargetY );
-	var newTargetX = targetX < 0 ? maxChange * -1 : maxChange;
-	var newTargetY = targetY < 0 ? maxChange * -1 : maxChange;
+	var gameObjectCenterX = gameObject.x + ( gameObject.width / 2 );
+	var gameObjectCenterY = gameObject.y + ( gameObject.height / 2 );
+
+	var maxDistanceLeft = gameObject.x;
+	var maxDistanceRight = level.width - ( gameObject.x + gameObject.width );
+	var maxDistanceUp = level.height - ( gameObject.y + gameObject.height );
+	var maxDistanceDown = gameObject.y;
+
+	var maxDistanceX = targetX < gameObjectCenterX ? maxDistanceLeft : maxDistanceRight;
+	var maxDistanceY = targetY < gameObjectCenterY ? maxDistanceDown : maxDistanceUp;
+
+	var maxDistance = Math.min( maxDistanceX, maxDistanceY );
 
 	return {
-		x: newTargetX,
-		y: newTargetY,
+		x: targetX,
+		y: targetY,
 	};
 }
 
