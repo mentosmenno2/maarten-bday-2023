@@ -62,11 +62,11 @@ function getTargetXFromKeys( gameObject, level ) {
 
 	if ( holdingButtons.includes(37) || holdingButtons.includes(65) ) { // Left
 		keyDirections++;
-		targetX = 0;
+		targetX = gameObject.x + ( gameObject.width / 2 ) - level.width;
 	}
 	if ( holdingButtons.includes(39) || holdingButtons.includes(68) ) { // Right
 		keyDirections++;
-		targetX = level.width;
+		targetX = gameObject.x + ( gameObject.width / 2 ) + level.width;
 	}
 
 	if ( keyDirections > 1 ) {
@@ -80,11 +80,11 @@ function getTargetYFromKeys( gameObject, level ) {
 	var targetY = gameObject.y + ( gameObject.height / 2 );
 	if ( holdingButtons.includes(38) || holdingButtons.includes(87) ) { // Up
 		keyDirections++;
-		targetY = level.height;
+		targetY = gameObject.y + ( gameObject.height / 2 ) + level.height;
 	}
 	if ( holdingButtons.includes(40) || holdingButtons.includes(83) ) { // Down
 		keyDirections++;
-		targetY = 0;
+		targetY = gameObject.y + ( gameObject.height / 2 ) - level.height;
 	}
 
 	if ( keyDirections > 1 ) {
@@ -94,25 +94,9 @@ function getTargetYFromKeys( gameObject, level ) {
 }
 
 function getTargetFromKeys( gameObject, level ) {
-	var targetX = getTargetXFromKeys( gameObject, level );
-	var targetY = getTargetYFromKeys( gameObject, level );
-
-	var gameObjectCenterX = gameObject.x + ( gameObject.width / 2 );
-	var gameObjectCenterY = gameObject.y + ( gameObject.height / 2 );
-
-	var maxDistanceLeft = gameObject.x;
-	var maxDistanceRight = level.width - ( gameObject.x + gameObject.width );
-	var maxDistanceUp = level.height - ( gameObject.y + gameObject.height );
-	var maxDistanceDown = gameObject.y;
-
-	var maxDistanceX = targetX < gameObjectCenterX ? maxDistanceLeft : maxDistanceRight;
-	var maxDistanceY = targetY < gameObjectCenterY ? maxDistanceDown : maxDistanceUp;
-
-	var maxDistance = Math.min( maxDistanceX, maxDistanceY );
-
 	return {
-		x: targetX,
-		y: targetY,
+		x: getTargetXFromKeys( gameObject, level ),
+		y: getTargetYFromKeys( gameObject, level ),
 	};
 }
 
