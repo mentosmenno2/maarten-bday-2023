@@ -195,10 +195,16 @@ function update(deltaTime) {
 	// Check ball out of bounds
 	if ( gameState.ball.y > gameState.level.height ) {
 		gameState.player.score++;
+		$( '.audio-effect-fail' )[0].pause();
+		$( '.audio-effect-fail' )[0].currentTime = 0;
+		$( '.audio-effect-fail' )[0].play();
 		resetBall();
 	}
 	if ( gameState.ball.y + gameState.ball.height < 0 ) {
 		gameState.enemy.score++;
+		$( '.audio-effect-fail' )[0].pause();
+		$( '.audio-effect-fail' )[0].currentTime = 0;
+		$( '.audio-effect-fail' )[0].play();
 		resetBall();
 	}
 }
