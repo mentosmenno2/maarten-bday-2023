@@ -11,7 +11,7 @@ var gameState = {
 		width: 0,
 		height: 0,
 		speed: 0,
-		points: 0,
+		score: 0,
 		hittingBall: false,
 	},
 	enemy: {
@@ -20,7 +20,7 @@ var gameState = {
 		width: 0,
 		height: 0,
 		speed: 0,
-		points: 0,
+		score: 0,
 		targetX: 0,
 		hittingBall: false,
 		switchTargetPositionTimer: 0
@@ -172,9 +172,9 @@ function update(deltaTime) {
 	// Ball hitting character
 	if ( gameObjectsHit( gameState.ball, gameState.player ) ) {
 		if ( ! gameState.player.hittingBall ) {
-			gameState.ball.speedX = Math.random() * 0.5 * ( gameState.level.height / 1000 );
+			gameState.ball.speedX = determineBallSpeedX( gameState.player );
 			gameState.ball.speedY *= -1;
-			gameState.ball.speedY *= 1 + (0.1 * ( gameState.level.height / 1000 ));
+			gameState.ball.speedY *= 1 + (0.05 * ( gameState.level.height / 1000 ));
 		}
 		gameState.player.hittingBall = true;
 	} else {
@@ -183,9 +183,9 @@ function update(deltaTime) {
 
 	if ( gameObjectsHit( gameState.ball, gameState.enemy ) ) {
 		if ( ! gameState.enemy.hittingBall ) {
-			gameState.ball.speedX = Math.random() * 0.5 * ( gameState.level.height / 1000 );
+			gameState.ball.speedX = determineBallSpeedX( gameState.enemy );
 			gameState.ball.speedY *= -1;
-			gameState.ball.speedY *= 1 + (0.1 * ( gameState.level.height / 1000 ));
+			gameState.ball.speedY *= 1 + (0.05 * ( gameState.level.height / 1000 ));
 		}
 		gameState.enemy.hittingBall = true;
 	} else {
@@ -194,32 +194,43 @@ function update(deltaTime) {
 
 	// Check ball out of bounds
 	if ( gameState.ball.y > gameState.level.height ) {
-		gameState.player.points++;
+		gameState.player.score++;
 		resetBall();
 	}
 	if ( gameState.ball.y + gameState.ball.height < 0 ) {
-		gameState.enemy.points++;
+		gameState.enemy.score++;
 		resetBall();
 	}
 }
 
 function determineEnemyTargetX( deltaTime ) {
-	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
+	var centerBallX = gameState.ball.x + ( gameState.ball.width / 2 );
 
-	if ( gameState.enemy.switchTargetPositionTimer <= 0 ) {
-		gameState.enemy.switchTargetPositionTimer = gameState.enemy.switchTargetPositionTimer = Math.random() * 1000;
-		gameState.enemy.targetX = Math.random() * gameState.level.width;
-		return gameState.enemy.targetX;
+	// If ball going to player, move to center
+	if ( gameState.ball.speedY < 0 ) {
+		return gameState.level.width / 2;
 	}
 
-	return gameState.enemy.targetX;
+	// If ball going to enemy, move 25% ahead of current ball X
+	if ( gameState.ball.speedX < 0 ) {
+		return centerBallX - ( gameState.enemy.width / 2 );
+	} else if ( gameState.ball.speedX > 0 ) {
+		return centerBallX + ( gameState.enemy.width / 2 );
+	}
+	return centerBallX;
+}
+
+function determineBallSpeedX( playableGameObject ) {
+	var centerBallX = gameState.ball.x + ( gameState.ball.width / 2 );
+	var percentage = ( centerBallX - playableGameObject.x - ( playableGameObject.width / 2 ) ) / ( playableGameObject.width - ( playableGameObject.width / 2 ) );
+	return percentage * 0.4 * ( gameState.level.height / 1000 );
 }
 
 function resetBall() {
 	gameState.ball.x = ( gameState.level.width / 2 ) - ( gameState.ball.width / 2 );
 	gameState.ball.y = ( gameState.level.height / 2 ) - ( gameState.ball.height / 2 );
 	gameState.ball.moveTimer = 3000;
-	gameState.ball.speedX = Math.random() * 0.5 * ( gameState.level.height / 1000 );
+	gameState.ball.speedX = Math.random() * 0.4 * ( gameState.level.height / 1000 );
 	gameState.ball.speedX *= Math.round( Math.random() ) ? 1 : -1;
 	gameState.ball.speedY = 0.2 * ( gameState.level.height / 1000 );
 	gameState.ball.speedY *= Math.round( Math.random() ) ? 1 : -1;
@@ -260,9 +271,9 @@ function draw() {
 	$( '.ball' ).css( 'left', Math.round( gameState.ball.x ) + 'px' );
 	$( '.ball' ).css( 'bottom', Math.round( gameState.ball.y ) + 'px' );
 
-	// Points
-	$( '.score-progress-player' ).text( gameState.player.points );
-	$( '.score-progress-enemy' ).text( gameState.enemy.points );
+	// Score
+	$( '.score-progress-player' ).text( gameState.player.score );
+	$( '.score-progress-enemy' ).text( gameState.enemy.score );
 
 	// Countdown
 	$( '.countdown' ).text( gameState.ball.moveTimer <= 0 ? '' : Math.ceil( gameState.ball.moveTimer / 1000 ) );
@@ -282,7 +293,7 @@ function loop(timestamp) {
 		$( '.audio-music-ingame' )[0].pause();
 		gameCompleted( -1 );
 		return;
-	} else if ( gameState.enemy.score >= 5 ) {
+	} else if ( gameState.player.score >= 5 ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck-1' )[0].pause();
@@ -291,7 +302,7 @@ function loop(timestamp) {
 
 		gameCompleted( 1 );
 		return;
-	} else if ( gameState.player.score >= 5 ) {
+	} else if ( gameState.enemy.score >= 5 ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck-2' )[0].pause();
