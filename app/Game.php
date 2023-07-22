@@ -3,6 +3,7 @@
 namespace Mentosmenno2\MaartenBday2023;
 
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
+use Mentosmenno2\MaartenBday2023\Levels\LevelDuckPong;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckyDash;
 use Mentosmenno2\MaartenBday2023\Levels\LevelQuackVSQuack;
 use Mentosmenno2\MaartenBday2023\Levels\LevelStart;
@@ -25,6 +26,7 @@ class Game
 			new LevelDuckyDash(),
 			new LevelTagADuck(),
 			new LevelQuackVSQuack(),
+			new LevelDuckPong(),
 		);
 	}
 

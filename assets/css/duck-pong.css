@@ -1,0 +1,42 @@
+.level.level-quack-vs-quack {
+	position: relative;
+}
+
+.character {
+	position: absolute;
+}
+
+.character > img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.score-wrapper {
+	font-size: 20px;
+	position: absolute;
+	height: 20px;
+	vertical-align: center;
+}
+
+.score-wrapper-player {
+	top: calc( 50% + 5px );
+	left: 10px;
+}
+
+.score-wrapper-enemy {
+	top: calc( 50% - 25px );
+	left: 10px;
+}
+
+.devider {
+	width: 100%;
+	height: 2px;
+	position: absolute;
+	left: 0;
+	top: calc(50% - 1px);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-top: 2px dashed white;
+}
