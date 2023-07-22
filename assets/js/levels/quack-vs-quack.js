@@ -160,7 +160,7 @@ function update(deltaTime) {
 	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
 
 	// Move enemy
-	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players > 1 ? gameState.enemy.targetX : determineEnemyTargetX() );
+	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players > 1 ? gameState.enemy.targetX : determineEnemyTargetX( deltaTime ) );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	}
@@ -239,7 +239,7 @@ function update(deltaTime) {
 	});
 }
 
-function determineEnemyTargetX() {
+function determineEnemyTargetX( deltaTime ) {
 	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
 
 	if ( gameState.enemy.switchTargetPositionTimer <= 0 ) {
