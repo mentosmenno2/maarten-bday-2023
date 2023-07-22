@@ -11,12 +11,14 @@ use Mentosmenno2\MaartenBday2023\Levels\LevelTagADuck;
 class Game
 {
 
+	protected static $instance = null;
+
 	/**
 	 * @var array<int,AbstractLevel>
 	 */
 	protected array $levels;
 
-	public function __construct()
+	protected function __construct()
 	{
 		$this->levels = array(
 			new LevelStart(),
@@ -24,6 +26,15 @@ class Game
 			new LevelTagADuck(),
 			new LevelQuackVSQuack(),
 		);
+	}
+
+	public static function getInstance(): Game
+	{
+		if (! static::$instance) {
+			static::$instance = new static();
+		}
+
+		return static::$instance;
 	}
 
 	public function getLevel(): ?AbstractLevel
@@ -64,5 +75,10 @@ class Game
 			}
 		}
 		return $options;
+	}
+
+	public function getPlayers(): int
+	{
+		return (int) filter_input(INPUT_GET, 'players', FILTER_VALIDATE_INT);
 	}
 }

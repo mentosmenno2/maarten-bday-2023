@@ -167,6 +167,7 @@ function update(deltaTime) {
 
 	// Update did tag timers
 	gameState.player1.didTagTimer = Math.max( 0, gameState.player1.didTagTimer - deltaTime );
+	gameState.player2.didTagTimer = Math.max( 0, gameState.player2.didTagTimer - deltaTime );
 
 	// Move player 1
 	var newPlayer1Position = calculateNewGameObjectPosition( gameState.player1, deltaTime, {
@@ -238,6 +239,7 @@ function draw() {
 	} else {
 		$( '.character-player-1' ).removeClass( 'did-tag' );
 	}
+	$( '.progressbar-progress-1' ).css( 'width', ( gameState.player1.tags ) * 10 + '%' );
 
 	// Player 2
 	if ( gameOptions.players > 1 ) {
@@ -258,8 +260,10 @@ function draw() {
 		} else {
 			$( '.character-player-2' ).removeClass( 'did-tag' );
 		}
+		$( '.progressbar-progress-2' ).css( 'width', ( gameState.player2.tags ) * 10 + '%' );
 	} else {
 		$( '.character-player-2' ).hide();
+		$( '.progressbar-wrapper-2' ).hide();
 	}
 
 	// Enemy
@@ -281,8 +285,6 @@ function draw() {
 		$( '.character-enemy' ).show();
 	}
 
-	// Progress bar
-	$( '.progressbar-progress' ).css( 'width', ( gameState.player1.tags ) * 10 + '%' );
 }
 
 function loop(timestamp) {
@@ -296,22 +298,6 @@ function loop(timestamp) {
 	draw();
 
 	var winningTags = 10;
-	if ( gameState.player1.tags >= winningTags || gameState.player2.tags >= winningTags ) {
-		$( '.audio-music-ingame' )[0].pause();
-		$( '.audio-effect-rubberduck' )[0].pause();
-		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck' )[0].play();
-		$( '.audio-effect-rubberduck2' )[0].pause();
-		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck2' )[0].play();
-		gameCompleted( -1 );
-		return;
-	} else if ( gameState.player1.tags >= winningTags ) {
-		gameCompleted( 1 );
-	} else if ( gameState.player2.tags >= winningTags ) {
-		gameCompleted( 2 );
-	}
-
 	if ( gameState.player1.tags >= winningTags || gameState.player2.tags >= winningTags ) {
 		$( '.audio-music-ingame' )[0].pause();
 
