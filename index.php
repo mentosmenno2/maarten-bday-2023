@@ -12,7 +12,7 @@ define('MAARTEN_BDAY_2023_CLI', php_sapi_name() === 'cli');
 // Autoload
 require_once __DIR__ . '/autoloader.php';
 
-$game = new Game();
+$game = Game::getInstance();
 $currentLevel = $game->getLevel();
 $chat = $currentLevel ? $currentLevel->getChat() : null;
 $nextLevel = $game->getNextLevel();

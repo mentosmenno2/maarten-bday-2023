@@ -36,6 +36,70 @@ function getPositionFromTouchEvent( event, $levelElement ) {
 	}
 }
 
+// Keydown target functions
+var holdingButtons = [];
+function registerHoldingButton( keyCode ) {
+	var index = holdingButtons.indexOf(keyCode);
+	if ( index === -1 ) {
+		holdingButtons.push( keyCode );
+	}
+}
+
+function unRegisterHoldingButton( keyCode ) {
+	var index = holdingButtons.indexOf(keyCode);
+	if ( index !== -1 ) {
+		holdingButtons.splice(index, 1);
+	}
+}
+
+function isHoldingButton() {
+	return holdingButtons.length > 0;
+}
+
+function getTargetXFromKeys( gameObject, level ) {
+	var keyDirections = 0;
+	var targetX = gameObject.x + ( gameObject.width / 2 );
+
+	if ( holdingButtons.includes(37) || holdingButtons.includes(65) ) { // Left
+		keyDirections++;
+		targetX = gameObject.x + ( gameObject.width / 2 ) - level.width;
+	}
+	if ( holdingButtons.includes(39) || holdingButtons.includes(68) ) { // Right
+		keyDirections++;
+		targetX = gameObject.x + ( gameObject.width / 2 ) + level.width;
+	}
+
+	if ( keyDirections > 1 ) {
+		targetX = gameObject.x + ( gameObject.width / 2 );
+	}
+	return targetX;
+}
+
+function getTargetYFromKeys( gameObject, level ) {
+	var keyDirections = 0;
+	var targetY = gameObject.y + ( gameObject.height / 2 );
+	if ( holdingButtons.includes(38) || holdingButtons.includes(87) ) { // Up
+		keyDirections++;
+		targetY = gameObject.y + ( gameObject.height / 2 ) + level.height;
+	}
+	if ( holdingButtons.includes(40) || holdingButtons.includes(83) ) { // Down
+		keyDirections++;
+		targetY = gameObject.y + ( gameObject.height / 2 ) - level.height;
+	}
+
+	if ( keyDirections > 1 ) {
+		targetY = gameObject.y + ( gameObject.height / 2 );
+	}
+	return targetY;
+}
+
+function getTargetFromKeys( gameObject, level ) {
+	return {
+		x: getTargetXFromKeys( gameObject, level ),
+		y: getTargetYFromKeys( gameObject, level ),
+	};
+}
+
 // Game object functions
 function randomizeGameObjectPosition( gameObject, level ) {
 	gameObject = randomizeGameObjectPositionX( gameObject, level );
