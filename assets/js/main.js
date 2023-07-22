@@ -95,7 +95,7 @@ var messageGeneratorTimeouts = [];
 function initializeChat() {
 	$( '.level' ).hide();
 	if ( gameOptions.mode !== 'story' ) {
-		goToNextLevel( 'start' );
+		goToNextLevel( gameOptions.level.id === 'start' ? null : 'start' );
 		return;
 	}
 
