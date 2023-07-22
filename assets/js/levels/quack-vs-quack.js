@@ -44,6 +44,7 @@ function initializeGame() {
 
 	// Set default mouse positions
 	gameState.player.targetX = gameState.player.x + ( gameState.player.width / 2 );
+	gameState.enemy.targetX = gameState.enemy.x + ( gameState.enemy.width / 2 );
 
 	draw();
 }
@@ -51,6 +52,11 @@ function initializeGame() {
 function addGameEventListeners() {
 	$( '.level' ).on( 'mousemove', onMouseMove );
 	$( '.level' ).on( 'touchmove', onTouchMove );
+
+	if ( gameOptions.players > 1 ) {
+		$( document ).on( 'keydown', onKeyDown );
+		$( document ).on( 'keyup', onKeyUp );
+	}
 }
 
 function startGame() {
@@ -66,6 +72,16 @@ function onMouseMove( event ) {
 function onTouchMove( event ) {
 	event.preventDefault();
 	gameState.player.targetX = getPositionXFromTouchEvent( event, $( '.level' ) );
+}
+
+function onKeyDown( event ) {
+	registerHoldingButton( event.keyCode );
+	gameState.enemy.targetX = getTargetXFromKeys( gameState.enemy, gameState.level );
+}
+
+function onKeyUp( event ) {
+	unRegisterHoldingButton( event.keyCode );
+	gameState.enemy.targetX = getTargetXFromKeys( gameState.enemy, gameState.level );
 }
 
 function onResize() {
@@ -144,8 +160,7 @@ function update(deltaTime) {
 	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
 
 	// Move enemy
-	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
-	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, determineEnemyTargetX() );
+	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players > 1 ? gameState.enemy.targetX : determineEnemyTargetX() );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	}
@@ -225,6 +240,8 @@ function update(deltaTime) {
 }
 
 function determineEnemyTargetX() {
+	gameState.enemy.switchTargetPositionTimer = Math.max( 0, gameState.enemy.switchTargetPositionTimer - deltaTime );
+
 	if ( gameState.enemy.switchTargetPositionTimer <= 0 ) {
 		gameState.enemy.switchTargetPositionTimer = gameState.enemy.switchTargetPositionTimer = Math.random() * 1000;
 		gameState.enemy.targetX = Math.random() * gameState.level.width;
@@ -303,14 +320,18 @@ function loop(timestamp) {
 	update(deltaTime);
 	draw();
 
-	if ( gameState.enemy.health <= 0 ) {
+	if ( gameState.player.health <= 0 && gameState.enemy.health <= 0 ) {
+		$( '.audio-music-ingame' )[0].pause();
+		gameCompleted( -1 );
+		return;
+	} else if ( gameState.enemy.health <= 0 ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck2' )[0].pause();
 		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck2' )[0].play();
 
-		gameCompleted( true );
+		gameCompleted( 1 );
 		return;
 	} else if ( gameState.player.health <= 0 ) {
 		$( '.audio-music-ingame' )[0].pause();
@@ -319,7 +340,11 @@ function loop(timestamp) {
 		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck' )[0].play();
 
-		gameCompleted( false );
+		if ( gameOptions.players > 1 ) {
+			gameCompleted( 2 );
+		} else {
+			gameCompleted( 0 );
+		}
 		return;
 	}
 
