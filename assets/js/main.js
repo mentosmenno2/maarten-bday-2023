@@ -39,9 +39,9 @@ function gameCompleted( won ) {
 	}
 }
 
-function goToNextLevel() {
+function goToNextLevel( level = null ) {
 	var url = new URL(window.location.href);
-	url.searchParams.set('level', gameOptions.nextLevel);
+	url.searchParams.set('level', level ? level : gameOptions.nextLevel);
 	url.searchParams.set('mode', gameOptions.mode);
 	url.searchParams.set('players', gameOptions.players);
 	window.location.href = url.toString();
@@ -95,7 +95,7 @@ var messageGeneratorTimeouts = [];
 function initializeChat() {
 	$( '.level' ).hide();
 	if ( gameOptions.mode !== 'story' ) {
-		goToNextLevel();
+		goToNextLevel( 'start' );
 		return;
 	}
 
