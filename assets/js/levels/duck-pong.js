@@ -12,6 +12,7 @@ var gameState = {
 		height: 0,
 		speed: 0,
 		points: 0,
+		hittingBall: false,
 	},
 	enemy: {
 		x: 0,
@@ -21,8 +22,18 @@ var gameState = {
 		speed: 0,
 		points: 0,
 		targetX: 0,
+		hittingBall: false,
 		switchTargetPositionTimer: 0
 	},
+	ball: {
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		speedX: 0,
+		speedY: 0,
+		moveTimer: 0,
+	}
 }
 
 function initializeGame() {
@@ -36,6 +47,8 @@ function initializeGame() {
 	gameState.player.y = 10;
 	gameState.enemy.x = ( gameState.level.width / 2 ) - ( gameState.enemy.width / 2 );
 	gameState.enemy.y = gameState.level.height - gameState.enemy.height - 10;
+
+	resetBall();
 
 	// Set default mouse positions
 	gameState.player.targetX = gameState.player.x + ( gameState.player.width / 2 );
@@ -97,18 +110,26 @@ function onResize() {
 		gameState.enemy.x *= gameState.level.width / oldWidth;
 		gameState.enemy.y *= gameState.level.height / oldHeight;
 
+		gameState.ball.x *= gameState.level.width / oldWidth;
+		gameState.ball.y *= gameState.level.height / oldHeight;
+		gameState.ball.speedX *= gameState.level.width / oldWidth;
+		gameState.ball.speedY *= gameState.level.width / oldWidth;
+
 		draw();
 	}, 1);
 }
 
 function setGameObjectsSizes() {
-	gameState.player.width = gameState.level.width * 0.05;
+	gameState.player.width = gameState.level.width * 0.05 * 3;
 	gameState.player.height = gameState.level.height * 0.05;
 	gameState.player.y = 10;
 
-	gameState.enemy.width = gameState.level.width * 0.05;
+	gameState.enemy.width = gameState.level.width * 0.05 * 3;
 	gameState.enemy.height = gameState.level.height * 0.05;
 	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
+
+	gameState.ball.width = gameState.level.width * 0.02;
+	gameState.ball.height = gameState.level.height * 0.02;
 }
 
 function setGameObjectsSpeeds() {
@@ -134,8 +155,52 @@ function update(deltaTime) {
 	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
 	gameState.enemy.x = Math.min( gameState.level.width - gameState.enemy.width, gameState.enemy.x );
 
-	// Check ball out of bounds
+	// Move ball
+	gameState.ball.moveTimer = Math.max( 0, gameState.ball.moveTimer - deltaTime );
+	if ( gameState.ball.moveTimer <= 0 ) {
+		gameState.ball.x += gameState.ball.speedX * deltaTime;
+		gameState.ball.y += gameState.ball.speedY * deltaTime;
+	}
 
+	if ( gameState.ball.x > gameState.level.width - gameState.ball.width ) {
+		gameState.ball.speedX *= -1;
+	}
+	if ( gameState.ball.x < 0 ) {
+		gameState.ball.speedX *= -1;
+	}
+
+	// Ball hitting character
+	if ( gameObjectsHit( gameState.ball, gameState.player ) ) {
+		if ( ! gameState.player.hittingBall ) {
+			gameState.ball.speedX = Math.random() * 0.5 * ( gameState.level.height / 1000 );
+			gameState.ball.speedY *= -1;
+			gameState.ball.speedY *= 1 + (0.1 * ( gameState.level.height / 1000 ));
+		}
+		gameState.player.hittingBall = true;
+	} else {
+		gameState.player.hittingBall = false;
+	}
+
+	if ( gameObjectsHit( gameState.ball, gameState.enemy ) ) {
+		if ( ! gameState.enemy.hittingBall ) {
+			gameState.ball.speedX = Math.random() * 0.5 * ( gameState.level.height / 1000 );
+			gameState.ball.speedY *= -1;
+			gameState.ball.speedY *= 1 + (0.1 * ( gameState.level.height / 1000 ));
+		}
+		gameState.enemy.hittingBall = true;
+	} else {
+		gameState.enemy.hittingBall = false;
+	}
+
+	// Check ball out of bounds
+	if ( gameState.ball.y > gameState.level.height ) {
+		gameState.player.points++;
+		resetBall();
+	}
+	if ( gameState.ball.y + gameState.ball.height < 0 ) {
+		gameState.enemy.points++;
+		resetBall();
+	}
 }
 
 function determineEnemyTargetX( deltaTime ) {
@@ -148,6 +213,16 @@ function determineEnemyTargetX( deltaTime ) {
 	}
 
 	return gameState.enemy.targetX;
+}
+
+function resetBall() {
+	gameState.ball.x = ( gameState.level.width / 2 ) - ( gameState.ball.width / 2 );
+	gameState.ball.y = ( gameState.level.height / 2 ) - ( gameState.ball.height / 2 );
+	gameState.ball.moveTimer = 3000;
+	gameState.ball.speedX = Math.random() * 0.5 * ( gameState.level.height / 1000 );
+	gameState.ball.speedX *= Math.round( Math.random() ) ? 1 : -1;
+	gameState.ball.speedY = 0.2 * ( gameState.level.height / 1000 );
+	gameState.ball.speedY *= Math.round( Math.random() ) ? 1 : -1;
 }
 
 function draw() {
@@ -177,9 +252,20 @@ function draw() {
 		$( '.character-enemy img' ).removeClass( 'flipped-horizontal' );
 	}
 
+	$( '.character-enemy' ).css( 'bottom', Math.round( gameState.enemy.y ) + 'px' );
+
+	// Ball
+	$( '.ball' ).width( gameState.ball.width );
+	$( '.ball' ).height( gameState.ball.height );
+	$( '.ball' ).css( 'left', Math.round( gameState.ball.x ) + 'px' );
+	$( '.ball' ).css( 'bottom', Math.round( gameState.ball.y ) + 'px' );
+
 	// Points
 	$( '.score-progress-player' ).text( gameState.player.points );
 	$( '.score-progress-enemy' ).text( gameState.enemy.points );
+
+	// Countdown
+	$( '.countdown' ).text( gameState.ball.moveTimer <= 0 ? '' : Math.ceil( gameState.ball.moveTimer / 1000 ) );
 }
 
 function loop(timestamp) {

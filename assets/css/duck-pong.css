@@ -4,6 +4,11 @@
 
 .character {
 	position: absolute;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: flex-start;
 }
 
 .character > img {
@@ -39,4 +44,27 @@
 	padding: 0;
 	border: 0;
 	border-top: 2px dashed white;
+}
+
+.countdown {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-size: 250px;
+	position: absolute;
+	height: 100%;
+	vertical-align: center;
+	width: 100%;
+	left: 0;
+	top: 0;
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.ball {
+	background-color: orange;
+	border-radius: 100%;
+	position: absolute;
 }

@@ -23,11 +23,19 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 
 	<hr class="devider" />
 
+	<span class="countdown" >3</span>
+
 	<div class="character character-enemy">
+		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
 		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
 	</div>
 
 	<div class="character character-player">
 		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
 	</div>
+
+	<div class="ball"></div>
 </div>
