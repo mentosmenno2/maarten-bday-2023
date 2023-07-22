@@ -205,16 +205,16 @@ function update(deltaTime) {
 			if ( player1Hit ) {
 				gameState.player1.tags++;
 				gameState.player1.didTagTimer = 500;
-				$( '.audio-effect-rubberduck2' )[0].pause();
-				$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
-				$( '.audio-effect-rubberduck2' )[0].play();
+				$( '.audio-effect-rubberduck-1' )[0].pause();
+				$( '.audio-effect-rubberduck-1' )[0].currentTime = 0;
+				$( '.audio-effect-rubberduck-1' )[0].play();
 			}
 			if ( player2Hit ) {
 				gameState.player2.tags++;
 				gameState.player2.didTagTimer = 500;
-				$( '.audio-effect-rubberduck' )[0].pause();
-				$( '.audio-effect-rubberduck' )[0].currentTime = 0;
-				$( '.audio-effect-rubberduck' )[0].play();
+				$( '.audio-effect-rubberduck-2' )[0].pause();
+				$( '.audio-effect-rubberduck-2' )[0].currentTime = 0;
+				$( '.audio-effect-rubberduck-2' )[0].play();
 			}
 		}
 	}
@@ -302,15 +302,15 @@ function loop(timestamp) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		if ( gameState.player1.tags >= winningTags ) {
-			$( '.audio-effect-rubberduck2' )[0].pause();
-			$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
-			$( '.audio-effect-rubberduck2' )[0].play();
+			$( '.audio-effect-rubberduck-1' )[0].pause();
+			$( '.audio-effect-rubberduck-1' )[0].currentTime = 0;
+			$( '.audio-effect-rubberduck-1' )[0].play();
 		}
 
 		if ( gameState.player2.tags >= winningTags ) {
-			$( '.audio-effect-rubberduck' )[0].pause();
-			$( '.audio-effect-rubberduck' )[0].currentTime = 0;
-			$( '.audio-effect-rubberduck' )[0].play();
+			$( '.audio-effect-rubberduck-2' )[0].pause();
+			$( '.audio-effect-rubberduck-2' )[0].currentTime = 0;
+			$( '.audio-effect-rubberduck-2' )[0].play();
 		}
 
 		if ( gameState.player1.tags === gameState.player2.tags ) {

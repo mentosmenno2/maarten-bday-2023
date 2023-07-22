@@ -327,18 +327,18 @@ function loop(timestamp) {
 	} else if ( gameState.enemy.health <= 0 ) {
 		$( '.audio-music-ingame' )[0].pause();
 
-		$( '.audio-effect-rubberduck2' )[0].pause();
-		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck2' )[0].play();
+		$( '.audio-effect-rubberduck-1' )[0].pause();
+		$( '.audio-effect-rubberduck-1' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck-1' )[0].play();
 
 		gameCompleted( 1 );
 		return;
 	} else if ( gameState.player.health <= 0 ) {
 		$( '.audio-music-ingame' )[0].pause();
 
-		$( '.audio-effect-rubberduck' )[0].pause();
-		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck' )[0].play();
+		$( '.audio-effect-rubberduck-2' )[0].pause();
+		$( '.audio-effect-rubberduck-2' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck-2' )[0].play();
 
 		if ( gameOptions.players > 1 ) {
 			gameCompleted( 2 );

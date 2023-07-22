@@ -138,13 +138,13 @@ function showChatMessage() {
 	$chatTalkerElement = $( '.talker-' + chatMessage.talker );
 
 	if ( chatMessage.talker == 'player' ) {
-		$( '.audio-effect-rubberduck2' )[0].pause();
-		$( '.audio-effect-rubberduck2' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck2' )[0].play();
+		$( '.audio-effect-rubberduck-1' )[0].pause();
+		$( '.audio-effect-rubberduck-1' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck-1' )[0].play();
 	} else {
-		$( '.audio-effect-rubberduck' )[0].pause();
-		$( '.audio-effect-rubberduck' )[0].currentTime = 0;
-		$( '.audio-effect-rubberduck' )[0].play();
+		$( '.audio-effect-rubberduck-2' )[0].pause();
+		$( '.audio-effect-rubberduck-2' )[0].currentTime = 0;
+		$( '.audio-effect-rubberduck-2' )[0].play();
 	}
 
 	for (var i = 0; i < chatMessage.message.length; i++) {
