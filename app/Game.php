@@ -11,14 +11,14 @@ use Mentosmenno2\MaartenBday2023\Levels\LevelTagADuck;
 class Game
 {
 
-	protected static $instance = null;
+	protected static ?Game $instance = null;
 
 	/**
 	 * @var array<int,AbstractLevel>
 	 */
 	protected array $levels;
 
-	protected function __construct()
+	final protected function __construct()
 	{
 		$this->levels = array(
 			new LevelStart(),
