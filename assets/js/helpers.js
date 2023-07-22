@@ -52,17 +52,21 @@ function unRegisterHoldingButton( keyCode ) {
 	}
 }
 
+function isHoldingButton() {
+	return holdingButtons.length > 0;
+}
+
 function getTargetXFromKeys( gameObject, level ) {
 	var keyDirections = 0;
 	var targetX = gameObject.x + ( gameObject.width / 2 );
 
 	if ( holdingButtons.includes(37) || holdingButtons.includes(65) ) { // Left
 		keyDirections++;
-		targetX = 0;
+		targetX = gameObject.x + ( gameObject.width / 2 ) - level.width;
 	}
 	if ( holdingButtons.includes(39) || holdingButtons.includes(68) ) { // Right
 		keyDirections++;
-		targetX = level.width;
+		targetX = gameObject.x + ( gameObject.width / 2 ) + level.width;
 	}
 
 	if ( keyDirections > 1 ) {
@@ -73,35 +77,26 @@ function getTargetXFromKeys( gameObject, level ) {
 
 function getTargetYFromKeys( gameObject, level ) {
 	var keyDirections = 0;
-	var targetY = gameObject.y + ( gameObject / 2 );
+	var targetY = gameObject.y + ( gameObject.height / 2 );
 	if ( holdingButtons.includes(38) || holdingButtons.includes(87) ) { // Up
 		keyDirections++;
-		targetY = level.height;
+		targetY = gameObject.y + ( gameObject.height / 2 ) + level.height;
 	}
 	if ( holdingButtons.includes(40) || holdingButtons.includes(83) ) { // Down
 		keyDirections++;
-		targetY = 0;
+		targetY = gameObject.y + ( gameObject.height / 2 ) - level.height;
 	}
 
 	if ( keyDirections > 1 ) {
-		targetY = gameObject.y + ( gameObject / 2 );
+		targetY = gameObject.y + ( gameObject.height / 2 );
 	}
 	return targetY;
 }
 
 function getTargetFromKeys( gameObject, level ) {
-	var targetX = getTargetXFromKeys( gameObject.x, level );
-	var targetY = getTargetYFromKeys( gameObject.y, level );
-
-	var positiveTargetX = targetX < 0 ? targetX * -1 : targetX;
-	var positiveTargetY = targetY < 0 ? targetY * -1 : targetY;
-	var maxChange = Math.min( positiveTargetX, positiveTargetY );
-	var newTargetX = targetX < 0 ? maxChange * -1 : maxChange;
-	var newTargetY = targetY < 0 ? maxChange * -1 : maxChange;
-
 	return {
-		x: newTargetX,
-		y: newTargetY,
+		x: getTargetXFromKeys( gameObject, level ),
+		y: getTargetYFromKeys( gameObject, level ),
 	};
 }
 
