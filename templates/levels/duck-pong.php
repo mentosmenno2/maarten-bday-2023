@@ -8,7 +8,7 @@ use Mentosmenno2\MaartenBday2023\Game;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 ?>
 
-<div class="level level-quack-vs-quack">
+<div class="level level-duck-pong">
 	<div class="score-wrapper score-wrapper-player">
 		<span class="score-progress score-progress-player">0</span>
 		/
