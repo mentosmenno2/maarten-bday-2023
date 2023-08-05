@@ -10,10 +10,14 @@ function addGameEventListeners() {
 }
 
 function startGame() {
+	$( '.audio-music-menu' )[0].play();
+
 	$( '.setting-container' ).hide();
 	$( '.setting-container-mode' ).show();
 
-	$( '.audio-music-menu' )[0].play();
+	$( '.audio-voice-gamemode' )[0].pause();
+	$( '.audio-voice-gamemode' )[0].currentTime = 0;
+	$( '.audio-voice-gamemode' )[0].play();
 }
 
 function onShowChatMessage( event, index ) {
@@ -35,19 +39,28 @@ function onModeButtonClick() {
 		stopMenu();
 	} else {
 		$( '.setting-container' ).hide();
-		$( '.setting-container-minigame' ).show();
+		$( '.setting-container-players' ).show();
+
+		$( '.audio-voice-players' )[0].pause();
+		$( '.audio-voice-players' )[0].currentTime = 0;
+		$( '.audio-voice-players' )[0].play();
 	}
 }
 
 function onMinigameButtonClick() {
 	gameOptions.nextLevel = $( this ).attr( 'data-level' );
-	$( '.setting-container' ).hide();
-	$( '.setting-container-players' ).show();
+	stopMenu();
 }
 
 function onPlayersButtonClick() {
 	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
-	stopMenu();
+
+	$( '.setting-container' ).hide();
+	$( '.setting-container-minigame' ).show();
+
+	$( '.audio-voice-minigame' )[0].pause();
+	$( '.audio-voice-minigame' )[0].currentTime = 0;
+	$( '.audio-voice-minigame' )[0].play();
 }
 
 function stopMenu() {
