@@ -30,9 +30,9 @@ function onShowChatMessage( event, index ) {
 }
 
 function onBackButtonClick() {
-	if ( $( '.setting-container-minigame' ).is(":visible") ) {
+	if ( $( '.setting-container-minigame' ).is( ':visible' ) ) {
 		onModeButtonClick();
-	} else if ( $( '.setting-container-players' ).is(":visible") ) {
+	} else if ( $( '.setting-container-players' ).is( ':visible' ) ) {
 		$( '.button-setting-back' ).hide();
 		showSettingMode();
 	}
