@@ -74,6 +74,7 @@ function initializeResults( playerNumberWon ) {
 function addResultsEventListeners() {
 	$( '.button-results-won' ).on( 'click', onResultsWonButtonClick );
 	$( '.button-results-lost' ).on( 'click', onResultsLostButtonClick );
+	$( '.button-results-draw' ).on( 'click', onResultsDrawButtonClick );
 }
 
 function onResultsWonButtonClick() {
@@ -83,6 +84,15 @@ function onResultsWonButtonClick() {
 
 function onResultsLostButtonClick() {
 	window.location.reload();
+}
+
+function onResultsDrawButtonClick() {
+	if ( gameOptions.players == 1 && gameOptions.mode === 'story' ) {
+		window.location.reload();
+	} else {
+		$( '.results' ).hide();
+		initializeChat();
+	}
 }
 
 // =====================
