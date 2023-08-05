@@ -1,3 +1,45 @@
 .level.level-end {
+	position: relative;
+}
 
+.credit-container {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+}
+
+.credit-item {
+	max-width: 500px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+
+	transform: scale( 0 );
+	opacity: 0;
+
+	-webkit-transition: transform 1s ease;
+	-moz-transition: transform 1s ease;
+	-ms-transition: transform 1s ease;
+	-o-transition: transform 1s ease;
+	transition: transform 1s ease;
+}
+
+.button-skip-credits {
+	font-size: 14px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.button-main-menu {
+	display: none;
 }

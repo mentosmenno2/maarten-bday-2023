@@ -116,18 +116,20 @@ function initializeChat() {
 		return;
 	}
 
-	$( '.audio-music-chat' )[0].play();
-	$( '.chat' ).show();
-
 	if ( gameOptions.level.chat ) {
+		$( '.audio-music-chat' )[0].play();
+		$( '.chat' ).show();
+
 		setTimeout(() => {
 			$( '.talker__container' ).addClass('initialized');
 		}, 500);
+		setTimeout(() => {
+			addChatEventListeners();
+			showChatMessage();
+		}, 3000);
+	} else {
+		goToNextLevel();
 	}
-	setTimeout(() => {
-		addChatEventListeners();
-		showChatMessage();
-	}, 3000);
 }
 
 function addChatEventListeners() {
