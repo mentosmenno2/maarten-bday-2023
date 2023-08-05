@@ -19,7 +19,17 @@ class LevelDuckyDash extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'Avoid the obstacles. Move your mouse to position your duck. Make sure to finish before the evil duck!';
+		return 'Reach the finish first. Avoid the obstacles, those will slow you down.';
+	}
+
+	public function getControlsMouseMove(): string
+	{
+		return 'Move duck left or right towards mouse cursor position.';
+	}
+
+	public function getControlsKeysArrows(): string
+	{
+		return 'Move duck left or right.';
 	}
 
 	public function getChat(): ?AbstractChat

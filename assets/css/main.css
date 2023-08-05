@@ -178,8 +178,14 @@ img.pixelated {
 	padding: 20px;
 }
 
-.instructions-text {
+.instructions-text-container {
+	max-width: 500px;
 	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
 }
 
 .results {

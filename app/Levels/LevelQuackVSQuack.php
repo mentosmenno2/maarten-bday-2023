@@ -19,7 +19,17 @@ class LevelQuackVSQuack extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'Dodge evil duck bullets. Hit the evil duck with your bullets. Move your mouse/finger to move your duck. Bullets shoot automatically.';
+		return 'Dodge evil duck bullets. Hit the evil duck with your bullets. Bullets shoot automatically.';
+	}
+
+	public function getControlsMouseMove(): string
+	{
+		return 'Move duck left or right towards mouse cursor position.';
+	}
+
+	public function getControlsKeysArrows(): string
+	{
+		return 'Move duck left or right.';
 	}
 
 	public function getChat(): ?AbstractChat
