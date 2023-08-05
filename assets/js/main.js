@@ -119,7 +119,13 @@ function initializeChat() {
 	addChatEventListeners();
 	$( '.audio-music-chat' )[0].play();
 	$( '.chat' ).show();
-	showChatMessage();
+
+	setTimeout(() => {
+		$( '.talker__container' ).addClass('initialized');
+	}, 500);
+	setTimeout(() => {
+		showChatMessage();
+	}, 3000);
 }
 
 function addChatEventListeners() {
