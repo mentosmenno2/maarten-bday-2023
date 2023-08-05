@@ -50,12 +50,27 @@ function initializeGame() {
 }
 
 function addGameEventListeners() {
+	$( document ).on( 'showChatMessage', onShowChatMessage );
+
 	$( '.level' ).on( 'mousemove', onMouseMove );
 	$( '.level' ).on( 'touchmove', onTouchMove );
 
 	if ( gameOptions.players > 1 ) {
 		$( document ).on( 'keydown', onKeyDown );
 		$( document ).on( 'keyup', onKeyUp );
+	}
+}
+
+function onShowChatMessage( event, index ) {
+	if ( index === 0 ) {
+		$presentElement = $( '<img class="present pixelated" als="" src="assets/images/present.png" />' );
+		$presentElement.css( 'bottom', 0 );
+		$presentElement.css( 'right', '30%' );
+		$('.talker__container').append($presentElement);
+	}
+
+	if ( index === 3 ) {
+		$('.present').css( 'right', 'calc(70% - ' + $('.present').width() + 'px)' );
 	}
 }
 

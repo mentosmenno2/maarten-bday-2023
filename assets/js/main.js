@@ -116,7 +116,6 @@ function initializeChat() {
 		return;
 	}
 
-	addChatEventListeners();
 	$( '.audio-music-chat' )[0].play();
 	$( '.chat' ).show();
 
@@ -126,6 +125,7 @@ function initializeChat() {
 		}, 500);
 	}
 	setTimeout(() => {
+		addChatEventListeners();
 		showChatMessage();
 	}, 3000);
 }

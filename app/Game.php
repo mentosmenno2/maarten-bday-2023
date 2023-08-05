@@ -26,10 +26,10 @@ class Game
 		$this->levels = array(
 			new LevelStart(),
 			new LevelDuckyDash(),
-			new LevelTagADuck(),
-			new LevelQuackVSQuack(),
 			new LevelDuckPong(),
+			new LevelTagADuck(),
 			new LevelQuickQueckQuack(),
+			new LevelQuackVSQuack(),
 			new LevelEnd(),
 		);
 	}
