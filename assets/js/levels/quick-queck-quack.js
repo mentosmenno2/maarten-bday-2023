@@ -86,10 +86,7 @@ function onKeyUp( event ) {
 	$button.focus();
 
 	if ( [32, 13].includes( event.keyCode ) ) { // Interact
-
-		if ( ! $button.is( ':disabled' ) ) {
-			onButtonChosen( $button );
-		}
+		onButtonChosen( $button );
 	}
 }
 
@@ -97,6 +94,9 @@ function onButtonChosen( $button ) {
 
 	var buttonId = parseInt( $button.attr( 'data-spot' ) );
 	if ( gameState.player.buttons.includes( buttonId ) || gameState.enemy.buttons.includes( buttonId ) ) {
+		$( '.audio-effect-fail' )[0].pause();
+		$( '.audio-effect-fail' )[0].currentTime = 0;
+		$( '.audio-effect-fail' )[0].play();
 		return; // Invalid move
 	}
 
