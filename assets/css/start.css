@@ -10,16 +10,6 @@
 	align-items: center;
 }
 
-.present {
-	position: absolute;
-	height: 20%;
-
-	-moz-transition: all .5s linear;
-	-ms-transition: all .5s linear;
-	-o-transition: all .5s linear;
-	transition: all .5s linear;
-}
-
 .setting-container {
 	padding: 20px;
 	width: 100%;

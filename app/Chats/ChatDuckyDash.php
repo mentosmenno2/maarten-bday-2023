@@ -10,17 +10,14 @@ class ChatDuckyDash extends AbstractChat
 	public function getMessages(): array
 	{
 		return array(
-			new PlayerMessage('Take that evil duck!'),
-			new PlayerMessage('This was easy, now give back my present.'),
-			new EnemyMessage('You fool.'),
-			new EnemyMessage('You think beating me in only one challenge is enough to get your present back?'),
-			new EnemyMessage('WHAHAHAHAHAAAH'),
-			new PlayerMessage('Well, yes.'),
-			new PlayerMessage('I\'ve already beaten you once.'),
-			new PlayerMessage('Do you think I can\'t beat you in the other challenges as well?'),
-			new EnemyMessage('Of course not!'),
-			new EnemyMessage('Come on then, show me what you\'ve got!'),
-			new PlayerMessage('Be prepared to lose again you criminal!'),
+			// After Minigame 1 - Ducky Dash
+			new PlayerMessage('Ha! One down, four to go.'),
+			new EnemyMessage('Grr... Lucky shot. But you won\'t be so fortunate in the next game, Duck Pong!'),
+			new PlayerMessage('Haha, we\'ll see. The next game, Duck Pong, is where I\'ll show you that I\'m not to be underestimated.'),
+
+			// Before Minigame 2 - Duck Pong
+			new EnemyMessage('Prepare for a fierce match!'),
+			new PlayerMessage('I\'m ready. Bring it on!'),
 		);
 	}
 }

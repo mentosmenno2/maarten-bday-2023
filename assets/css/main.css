@@ -165,6 +165,16 @@ img.pixelated {
 	width: 100%;
 }
 
+.present {
+	position: absolute;
+	height: 20%;
+
+	-moz-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	transition: all .5s linear;
+}
+
 .flipped-horizontal {
 	-webkit-transform: scaleX(-1);
 	-moz-transform: scaleX(-1);
