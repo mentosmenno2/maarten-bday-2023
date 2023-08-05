@@ -120,9 +120,11 @@ function initializeChat() {
 	$( '.audio-music-chat' )[0].play();
 	$( '.chat' ).show();
 
-	setTimeout(() => {
-		$( '.talker__container' ).addClass('initialized');
-	}, 500);
+	if ( gameOptions.level.chat ) {
+		setTimeout(() => {
+			$( '.talker__container' ).addClass('initialized');
+		}, 500);
+	}
 	setTimeout(() => {
 		showChatMessage();
 	}, 3000);
