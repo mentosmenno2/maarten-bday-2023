@@ -38,6 +38,10 @@ var gameState = {
 			text: 'Jan-Maarten Leegerstee',
 		},
 		{
+			title: 'Menu voice',
+			text: 'Menno van den Ende',
+		},
+		{
 			title: 'Menu Music',
 			text: 'Bulby - Menu 1 8 Bit Remix - Super Smash Bros. Melee',
 		},
