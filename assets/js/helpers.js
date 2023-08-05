@@ -204,3 +204,9 @@ function getBoundingBoxFromBoundingClientRect( boundingClientRect, $levelElement
 		left: boundingClientRect.left - bounds.left,
 	}
 }
+
+// Other
+
+function getRandomInteger( min, max ) { // Inclusive min and max
+	return Math.floor( Math.random() * (max - min + 1) + min );
+}
