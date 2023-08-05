@@ -3,7 +3,13 @@
 namespace Mentosmenno2\MaartenBday2023;
 
 use Mentosmenno2\MaartenBday2023\Characters\AbstractCharacter;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterBatman;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterHulk;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterMaarten;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterNinjaTurtle;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterSonic;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterSpiderman;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterWaldo;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckPong;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckyDash;
@@ -42,6 +48,12 @@ class Game
 
 		$this->characters = array(
 			new CharacterMaarten(),
+			new CharacterBatman(),
+			new CharacterHulk(),
+			new CharacterNinjaTurtle(),
+			new CharacterSonic(),
+			new CharacterSpiderman(),
+			new CharacterWaldo(),
 		);
 	}
 
@@ -120,6 +132,11 @@ class Game
 				}
 			}
 		}
+
+		if (empty($characters)) {
+			$characters[] = $this->characters[0];
+		}
+
 		return $characters;
 	}
 }
