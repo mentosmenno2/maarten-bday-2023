@@ -27,5 +27,5 @@ $instructions = $level->getInstructions();
 		)); ?>
 	</div>
 
-	<button class="button button-start">Start</button>
+	<button class="button button-sfx button-start">Start</button>
 </div>

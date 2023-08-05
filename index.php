@@ -82,6 +82,9 @@ $nextLevel = $game->getNextLevel();
 		<audio class="audio audio-effect-fail" preload="auto">
 			<source src="assets/audio/effects/fail.mp3" type="audio/mpeg">
 		</audio>
+		<audio class="audio audio-effect-button" preload="auto">
+			<source src="assets/audio/effects/button.mp3" type="audio/mpeg">
+		</audio>
 		<audio class="audio audio-music audio-music-chat" preload="auto" loop>
 			<source src="assets/audio/music/chat.mp3" type="audio/mpeg">
 		</audio>

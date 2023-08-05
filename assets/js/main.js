@@ -16,11 +16,18 @@ function initialize() {
 
 function addEventListeners() {
 	$( '.button-start' ).on( 'click', onButtonStartClick );
+	$( '.button-sfx' ).on( 'click', onButtonSoundEffect );
 }
 
 function onButtonStartClick() {
 	$( '.instructions' ).hide();
 	startGame();
+}
+
+function onButtonSoundEffect() {
+	$( '.audio-effect-button' )[0].pause();
+	$( '.audio-effect-button' )[0].currentTime = 0;
+	$( '.audio-effect-button' )[0].play();
 }
 
 /**
