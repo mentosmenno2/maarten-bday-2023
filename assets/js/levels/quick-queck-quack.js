@@ -3,303 +3,89 @@ var gameState = {
 		width: $( '.level' ).width(),
 		height: $( '.level' ).height(),
 	},
-	lastRenderTime: null,
 	player: {
-		targetX: 0,
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0,
-		speed: 0,
-		score: 0,
-		hittingBall: false,
+		isTurn: false,
+		buttons: [],
 	},
 	enemy: {
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0,
-		speed: 0,
-		score: 0,
-		targetX: 0,
-		hittingBall: false,
-		switchTargetPositionTimer: 0
-	},
-	ball: {
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0,
-		speedX: 0,
-		speedY: 0,
-		moveTimer: 0,
+		isTurn: false,
+		buttons: [],
 	}
 }
 
 function initializeGame() {
 	$( window ).on( 'resize', onResize );
 
-	setGameObjectsSizes();
-	setGameObjectsSpeeds();
+	disableButtons();
 
-	// Set defaut game object positions
-	gameState.player.x = ( gameState.level.width / 2 ) - ( gameState.player.width / 2 );
-	gameState.player.y = 10;
-	gameState.enemy.x = ( gameState.level.width / 2 ) - ( gameState.enemy.width / 2 );
-	gameState.enemy.y = gameState.level.height - gameState.enemy.height - 10;
-
-	resetBall();
-
-	// Set default mouse positions
-	gameState.player.targetX = gameState.player.x + ( gameState.player.width / 2 );
-	gameState.enemy.targetX = gameState.enemy.x + ( gameState.enemy.width / 2 );
-
-	draw();
+	if ( Math.round( Math.random() ) ) {
+		gameState.player.isTurn = true;
+		gameState.enemy.isTurn = false;
+	} else {
+		gameState.player.isTurn = false;
+		gameState.enemy.isTurn = true;
+	}
+	switchTurns();
 }
 
 function addGameEventListeners() {
-	$( '.level' ).on( 'mousemove', onMouseMove );
-	$( '.level' ).on( 'touchmove', onTouchMove );
-
-	if ( gameOptions.players > 1 ) {
-		$( document ).on( 'keydown', onKeyDown );
-		$( document ).on( 'keyup', onKeyUp );
-	}
+	$( '.button-spot' ).on( 'click', onButtonClick );
 }
 
 function startGame() {
 	addGameEventListeners();
 	$( '.audio-music-ingame' )[0].play();
-	window.requestAnimationFrame(loop);
+	enableAvailableButtons();
 }
 
-function onMouseMove( event ) {
-	gameState.player.targetX = getPositionXFromMouseEvent( event, $( '.level' ) );
-}
+function onButtonClick( event ) {
+	disableButtons();
 
-function onTouchMove( event ) {
-	event.preventDefault();
-	gameState.player.targetX = getPositionXFromTouchEvent( event, $( '.level' ) );
-}
-
-function onKeyDown( event ) {
-	registerHoldingButton( event.keyCode );
-	gameState.enemy.targetX = getTargetXFromKeys( gameState.enemy, gameState.level );
-}
-
-function onKeyUp( event ) {
-	unRegisterHoldingButton( event.keyCode );
-	gameState.enemy.targetX = getTargetXFromKeys( gameState.enemy, gameState.level );
-}
-
-function onResize() {
-	// Get old sizes before elements are resized
-	var oldWidth = gameState.level.width;
-	var oldHeight = gameState.level.height;
-
-	// In a timeout, as browser first fires the resize event before redrawing elements.
-	setTimeout(() => {
-		gameState.level.width = $( '.level' ).width();
-		gameState.level.height = $( '.level' ).height();
-
-		setGameObjectsSizes();
-		setGameObjectsSpeeds();
-
-		gameState.player.x *= gameState.level.width / oldWidth;
-		gameState.player.y *= gameState.level.height / oldHeight;
-		gameState.enemy.x *= gameState.level.width / oldWidth;
-		gameState.enemy.y *= gameState.level.height / oldHeight;
-
-		gameState.ball.x *= gameState.level.width / oldWidth;
-		gameState.ball.y *= gameState.level.height / oldHeight;
-		gameState.ball.speedX *= gameState.level.width / oldWidth;
-		gameState.ball.speedY *= gameState.level.width / oldWidth;
-
-		draw();
-	}, 1);
-}
-
-function setGameObjectsSizes() {
-	gameState.player.width = gameState.level.width * 0.05 * 3;
-	gameState.player.height = gameState.level.height * 0.05;
-	gameState.player.y = 10;
-
-	gameState.enemy.width = gameState.level.width * 0.05 * 3;
-	gameState.enemy.height = gameState.level.height * 0.05;
-	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
-
-	gameState.ball.width = gameState.level.width * 0.02;
-	gameState.ball.height = gameState.level.height * 0.02;
-}
-
-function setGameObjectsSpeeds() {
-	gameState.player.speed = 0.2 * ( gameState.level.height / 1000 );
-	gameState.enemy.speed = 0.2 * ( gameState.level.height / 1000 );
-}
-
-function update(deltaTime) {
-	// Move player
-	gameState.player.x = calculateNewGameObjectPositionX( gameState.player, deltaTime, gameState.player.targetX );
-
-	if ( gameState.player.invulnerable > 0 ) {
-		gameState.player.invulnerable -= deltaTime;
-	}
-	gameState.player.x = Math.max( 0, gameState.player.x );
-	gameState.player.x = Math.min( gameState.level.width - gameState.player.width, gameState.player.x );
-
-	// Move enemy
-	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players > 1 ? gameState.enemy.targetX : determineEnemyTargetX( deltaTime ) );
-	if ( gameState.enemy.invulnerable > 0 ) {
-		gameState.enemy.invulnerable -= deltaTime;
-	}
-	gameState.enemy.x = Math.max( 0, gameState.enemy.x );
-	gameState.enemy.x = Math.min( gameState.level.width - gameState.enemy.width, gameState.enemy.x );
-
-	// Move ball
-	gameState.ball.moveTimer = Math.max( 0, gameState.ball.moveTimer - deltaTime );
-	if ( gameState.ball.moveTimer <= 0 ) {
-		gameState.ball.x += gameState.ball.speedX * deltaTime;
-		gameState.ball.y += gameState.ball.speedY * deltaTime;
+	$element = $( this );
+	var buttonId = parseInt( $element.attr( 'data-spot' ) );
+	if ( gameState.player.isTurn ) {
+		gameState.player.buttons.push( buttonId );
+		$( '.character-player.clonable' ).clone().removeClass( 'clonable' ).appendTo( $element ).show();
+	} else if ( gameState.enemy.isTurn ) {
+		gameState.enemy.buttons.push( buttonId );
+		$( '.character-enemy.clonable' ).clone().removeClass( 'clonable' ).appendTo( $element ).show();
 	}
 
-	if ( gameState.ball.x > gameState.level.width - gameState.ball.width ) {
-		gameState.ball.speedX *= -1;
-	}
-	if ( gameState.ball.x < 0 ) {
-		gameState.ball.speedX *= -1;
-	}
+	checkGameFinished();
+	switchTurns();
+	enableAvailableButtons();
+}
 
-	// Ball hitting character
-	if ( gameObjectsHit( gameState.ball, gameState.player ) ) {
-		if ( ! gameState.player.hittingBall ) {
-			gameState.ball.speedX = determineBallSpeedX( gameState.player );
-			gameState.ball.speedY *= -1;
-			gameState.ball.speedY *= 1 + (0.05 * ( gameState.level.height / 1000 ));
+function switchTurns() {
+	gameState.player.isTurn = ! gameState.player.isTurn;
+	gameState.enemy.isTurn = ! gameState.enemy.isTurn;
+	$( '.turn-text' ).hide();
+	if ( gameState.player.isTurn ) {
+		$( '.turn-text-player' ).show();
+	} else if ( gameState.enemy.isTurn ) {
+		$( '.turn-text-enemy' ).show();
+	}
+}
+
+function disableButtons() {
+	$( '.button-spot' ).attr( 'disabled', true );
+}
+
+function enableAvailableButtons() {
+	$( '.button-spot' ).each(function (index) {
+		var $element = $( this );
+		var buttonId = parseInt( $element.attr( 'data-spot' ) );
+
+		if ( ! gameState.player.buttons.includes( buttonId ) && ! gameState.enemy.buttons.includes( buttonId ) ) {
+			$element.attr( 'disabled', false );
 		}
-		gameState.player.hittingBall = true;
-	} else {
-		gameState.player.hittingBall = false;
-	}
-
-	if ( gameObjectsHit( gameState.ball, gameState.enemy ) ) {
-		if ( ! gameState.enemy.hittingBall ) {
-			gameState.ball.speedX = determineBallSpeedX( gameState.enemy );
-			gameState.ball.speedY *= -1;
-			gameState.ball.speedY *= 1 + (0.05 * ( gameState.level.height / 1000 ));
-		}
-		gameState.enemy.hittingBall = true;
-	} else {
-		gameState.enemy.hittingBall = false;
-	}
-
-	// Check ball out of bounds
-	if ( gameState.ball.y > gameState.level.height ) {
-		gameState.player.score++;
-		$( '.audio-effect-fail' )[0].pause();
-		$( '.audio-effect-fail' )[0].currentTime = 0;
-		$( '.audio-effect-fail' )[0].play();
-		resetBall();
-	}
-	if ( gameState.ball.y + gameState.ball.height < 0 ) {
-		gameState.enemy.score++;
-		$( '.audio-effect-fail' )[0].pause();
-		$( '.audio-effect-fail' )[0].currentTime = 0;
-		$( '.audio-effect-fail' )[0].play();
-		resetBall();
-	}
+	});
 }
 
-function determineEnemyTargetX( deltaTime ) {
-	var centerBallX = gameState.ball.x + ( gameState.ball.width / 2 );
-
-	// If ball going to player, move to center
-	if ( gameState.ball.speedY < 0 ) {
-		return gameState.level.width / 2;
-	}
-
-	// If ball going to enemy, move 25% ahead of current ball X
-	if ( gameState.ball.speedX < 0 ) {
-		return centerBallX - ( gameState.enemy.width / 2 );
-	} else if ( gameState.ball.speedX > 0 ) {
-		return centerBallX + ( gameState.enemy.width / 2 );
-	}
-	return centerBallX;
-}
-
-function determineBallSpeedX( playableGameObject ) {
-	var centerBallX = gameState.ball.x + ( gameState.ball.width / 2 );
-	var percentage = ( centerBallX - playableGameObject.x - ( playableGameObject.width / 2 ) ) / ( playableGameObject.width - ( playableGameObject.width / 2 ) );
-	return percentage * 0.4 * ( gameState.level.height / 1000 );
-}
-
-function resetBall() {
-	gameState.ball.x = ( gameState.level.width / 2 ) - ( gameState.ball.width / 2 );
-	gameState.ball.y = ( gameState.level.height / 2 ) - ( gameState.ball.height / 2 );
-	gameState.ball.moveTimer = 3000;
-	gameState.ball.speedX = Math.random() * 0.4 * ( gameState.level.height / 1000 );
-	gameState.ball.speedX *= Math.round( Math.random() ) ? 1 : -1;
-	gameState.ball.speedY = 0.2 * ( gameState.level.height / 1000 );
-	gameState.ball.speedY *= Math.round( Math.random() ) ? 1 : -1;
-}
-
-function draw() {
-	// Player
-	$( '.character-player' ).width( gameState.player.width );
-	$( '.character-player' ).height( gameState.player.height );
-
-	var oldPlayerX = parseInt( $( '.character-player' ).css( 'left' ).replace( 'px', '' ) );
-	$( '.character-player' ).css( 'left', Math.round( gameState.player.x ) + 'px' );
-	if ( oldPlayerX < Math.round( gameState.player.x ) ) {
-		$( '.character-player img' ).addClass( 'flipped-horizontal' );
-	} else if ( oldPlayerX > Math.round( gameState.player.x ) ) {
-		$( '.character-player img' ).removeClass( 'flipped-horizontal' );
-	}
-
-	$( '.character-player' ).css( 'bottom', Math.round( gameState.player.y ) + 'px' );
-
-	// Enemy
-	$( '.character-enemy' ).width( gameState.enemy.width );
-	$( '.character-enemy' ).height( gameState.enemy.height );
-
-	var oldEnemyX = parseInt( $( '.character-enemy' ).css( 'left' ).replace( 'px', '' ) );
-	$( '.character-enemy' ).css( 'left', Math.round( gameState.enemy.x ) + 'px' );
-	if ( oldEnemyX < Math.round( gameState.enemy.x ) ) {
-		$( '.character-enemy img' ).addClass( 'flipped-horizontal' );
-	} else if ( oldEnemyX > Math.round( gameState.enemy.x ) ) {
-		$( '.character-enemy img' ).removeClass( 'flipped-horizontal' );
-	}
-
-	$( '.character-enemy' ).css( 'bottom', Math.round( gameState.enemy.y ) + 'px' );
-
-	// Ball
-	$( '.ball' ).width( gameState.ball.width );
-	$( '.ball' ).height( gameState.ball.height );
-	$( '.ball' ).css( 'left', Math.round( gameState.ball.x ) + 'px' );
-	$( '.ball' ).css( 'bottom', Math.round( gameState.ball.y ) + 'px' );
-
-	// Score
-	$( '.score-progress-player' ).text( gameState.player.score );
-	$( '.score-progress-enemy' ).text( gameState.enemy.score );
-
-	// Countdown
-	$( '.countdown' ).text( gameState.ball.moveTimer <= 0 ? '' : Math.ceil( gameState.ball.moveTimer / 1000 ) );
-}
-
-function loop(timestamp) {
-	if (gameState.lastRenderTime === null) {
-		gameState.lastRenderTime = timestamp;
-	}
-
-	var deltaTime = timestamp - gameState.lastRenderTime;
-
-	update(deltaTime);
-	draw();
-
-	if ( gameState.player.score >= 5 && gameState.enemy.score >= 5 ) {
-		$( '.audio-music-ingame' )[0].pause();
-		gameCompleted( -1 );
-		return;
-	} else if ( gameState.player.score >= 5 ) {
+function checkGameFinished() {
+	// Player won
+	var playerWinCon = getPlayerWinningCondition( gameState.player.buttons );
+	if ( playerWinCon ) {
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck-1' )[0].pause();
@@ -307,8 +93,19 @@ function loop(timestamp) {
 		$( '.audio-effect-rubberduck-1' )[0].play();
 
 		gameCompleted( 1 );
-		return;
-	} else if ( gameState.enemy.score >= 5 ) {
+
+		playerWinCon.forEach(( winningButton, index ) => {
+			$( '.button-spot[data-spot=\'' + winningButton + '\']' ).addClass( 'winning' );
+		});
+	}
+
+	// Enemy won
+	var enemyWinCon = getPlayerWinningCondition( gameState.enemy.buttons );
+	if ( enemyWinCon ) {
+		enemyWinCon.forEach(( winningButton, index ) => {
+			$( '.button-spot[data-spot=\'' + winningButton + '\']' ).addClass( 'winning' );
+		});
+
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck-2' )[0].pause();
@@ -320,9 +117,41 @@ function loop(timestamp) {
 		} else {
 			gameCompleted( 0 );
 		}
-		return;
 	}
 
-	gameState.lastRenderTime = timestamp;
-	window.requestAnimationFrame(loop);
+	// Draw
+	if ( gameState.player.buttons.length + gameState.enemy.buttons.length >= 9 ) {
+		$( '.audio-music-ingame' )[0].pause();
+		gameCompleted( -1 );
+	}
+}
+
+function getPlayerWinningCondition(playerButtons) {
+	var winningCombinations = [
+		[1, 2, 3], // Top row
+		[4, 5, 6], // Middle row
+		[7, 8, 9], // Bottom row
+		[1, 4, 7], // Left column
+		[2, 5, 8], // Middle column
+		[3, 6, 9], // Right column
+		[1, 5, 9], // Diagonal from top-left to bottom-right
+		[3, 5, 7], // Diagonal from top-right to bottom-left
+	];
+
+	for (var combination of winningCombinations) {
+		var isWinningCombination = combination.every((button) => playerButtons.includes(button));
+		if (isWinningCombination) {
+		  	return combination; // Player has won
+		}
+	}
+
+	return null; // Player has not won
+}
+
+function onResize() {
+	// In a timeout, as browser first fires the resize event before redrawing elements.
+	setTimeout(() => {
+		gameState.level.width = $( '.level' ).width();
+		gameState.level.height = $( '.level' ).height();
+	}, 1);
 }
