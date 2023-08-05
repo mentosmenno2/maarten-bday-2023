@@ -19,7 +19,17 @@ class LevelDuckPong extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'Bounce the ball back to the other player. Move your mouse/finger to move your duck.';
+		return 'Use your ducks to bounce the ball back to the other side of the field. Don\'t let the enemy score on your side.';
+	}
+
+	public function getControlsMouseMove(): string
+	{
+		return 'Move ducks left or right towards mouse cursor position.';
+	}
+
+	public function getControlsKeysArrows(): string
+	{
+		return 'Move ducks left or right.';
 	}
 
 	public function getChat(): ?AbstractChat

@@ -18,6 +18,26 @@ abstract class AbstractLevel implements JsonSerializable
 		return '';
 	}
 
+	public function getControlsMouseMove(): string
+	{
+		return '';
+	}
+
+	public function getControlsMouseClick(): string
+	{
+		return '';
+	}
+
+	public function getControlsKeysArrows(): string
+	{
+		return '';
+	}
+
+	public function getControlsKeysSpace(): string
+	{
+		return '';
+	}
+
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{

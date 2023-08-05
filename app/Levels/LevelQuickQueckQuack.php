@@ -19,7 +19,22 @@ class LevelQuickQueckQuack extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'Tic Tac Toe. That\'s it.';
+		return 'When it\'s your turn, place a duck. Get three in a row to in the game.';
+	}
+
+	public function getControlsMouseClick(): string
+	{
+		return 'Click on a square to place a duck.';
+	}
+
+	public function getControlsKeysArrows(): string
+	{
+		return 'Select square.';
+	}
+
+	public function getControlsKeysSpace(): string
+	{
+		return 'Place a duck in selected square.';
 	}
 
 	public function getChat(): ?AbstractChat
