@@ -5,6 +5,7 @@ var gameOptions = {
 	mode: urlObject.searchParams.get( 'mode' ) ? urlObject.searchParams.get( 'mode' ) : 'story',
 	players: parseInt( urlObject.searchParams.get( 'players' ) ? urlObject.searchParams.get( 'players' ) : '1' ),
 	loading: {
+		timeout: null,
 		current: 0,
 		total: 0,
 	}
@@ -22,6 +23,7 @@ function initialize() {
 	addLoadingEventListeners();
 
 	gameOptions.loading.total += $( 'audio' ).length;
+	gameOptions.loading.timeout = setTimeout(onCannotLoadAssets, 10000);
 }
 
 function addLoadingEventListeners() {
@@ -35,13 +37,27 @@ function onLoadingItemLoaded() {
 	$( '.loadingbar-text' ).text( Math.round( percent ) + '%' );
 
 	if ( gameOptions.loading.current === gameOptions.loading.total ) {
-		setTimeout(() => {
-			addEventListeners();
-			$( '.loading' ).hide();
-			$( '.instructions' ).css( 'display', 'flex' );
-			initializeGame();
-		}, 200);
+		allAssetsLoaded();
 	}
+}
+
+function onCannotLoadAssets() {
+	gameOptions.loading.current = gameOptions.loading.total;
+	$( '.loadingbar-progress' ).css( 'width', '100%' );
+	$( '.loadingbar-text' ).text( '100%' );
+	allAssetsLoaded();
+}
+
+function allAssetsLoaded() {
+	clearTimeout( gameOptions.loading.timeout );
+	gameOptions.loading.timeout = null;
+
+	setTimeout(() => {
+		addEventListeners();
+		$( '.loading' ).hide();
+		$( '.instructions' ).css( 'display', 'flex' );
+		initializeGame();
+	}, 200);
 }
 
 function addEventListeners() {
