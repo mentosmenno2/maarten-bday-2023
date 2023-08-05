@@ -8,6 +8,7 @@
 	flex-wrap: nowrap;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 }
 
 .setting-container {
@@ -30,4 +31,12 @@
 	align-items: center;
 	gap: 10px;
 	overflow-y: auto;
+}
+
+.button-setting-back {
+	font-size: 14px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	display: none;
 }

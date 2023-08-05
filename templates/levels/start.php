@@ -34,6 +34,8 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 			<button class="button button-sfx button-setting-players" data-players="2" >2 players (requires keyboard)</button>
 		</div>
 	</div>
+
+	<button class="button button-sfx button-setting-back">Back</button>
 </div>
 
 <audio class="audio audio-voice audio-voice-character" preload="auto">

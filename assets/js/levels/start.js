@@ -4,6 +4,8 @@ function initializeGame() {
 
 function addGameEventListeners() {
 	$( document ).on( 'showChatMessage', onShowChatMessage );
+
+	$( '.button-setting-back' ).on( 'click', onBackButtonClick );
 	$( '.button-setting-mode' ).on( 'click', onModeButtonClick );
 	$( '.button-setting-minigame' ).on( 'click', onMinigameButtonClick );
 	$( '.button-setting-players' ).on( 'click', onPlayersButtonClick );
@@ -11,13 +13,7 @@ function addGameEventListeners() {
 
 function startGame() {
 	$( '.audio-music-menu' )[0].play();
-
-	$( '.setting-container' ).hide();
-	$( '.setting-container-mode' ).show();
-
-	$( '.audio-voice-gamemode' )[0].pause();
-	$( '.audio-voice-gamemode' )[0].currentTime = 0;
-	$( '.audio-voice-gamemode' )[0].play();
+	showSettingMode();
 }
 
 function onShowChatMessage( event, index ) {
@@ -33,18 +29,29 @@ function onShowChatMessage( event, index ) {
 	}
 }
 
+function onBackButtonClick() {
+	if ( $( '.setting-container-minigame' ).is(":visible") ) {
+		onModeButtonClick();
+	} else if ( $( '.setting-container-players' ).is(":visible") ) {
+		$( '.button-setting-back' ).hide();
+		showSettingMode();
+	}
+}
+
 function onModeButtonClick() {
+	$( '.button-setting-back' ).show();
+
 	gameOptions.mode = $( this ).attr( 'data-mode' );
 	if ( gameOptions.mode == 'story' ) {
 		stopMenu();
 	} else {
-		$( '.setting-container' ).hide();
-		$( '.setting-container-players' ).show();
-
-		$( '.audio-voice-players' )[0].pause();
-		$( '.audio-voice-players' )[0].currentTime = 0;
-		$( '.audio-voice-players' )[0].play();
+		showSettingPlayers();
 	}
+}
+
+function onPlayersButtonClick() {
+	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
+	showSettingMinigame();
 }
 
 function onMinigameButtonClick() {
@@ -52,15 +59,31 @@ function onMinigameButtonClick() {
 	stopMenu();
 }
 
-function onPlayersButtonClick() {
-	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
+function showSettingMode() {
+	$( '.setting-container' ).hide();
+	$( '.setting-container-mode' ).show();
 
+	$( '.audio-voice-gamemode' )[0].pause();
+	$( '.audio-voice-gamemode' )[0].currentTime = 0;
+	$( '.audio-voice-gamemode' )[0].play();
+}
+
+function showSettingMinigame() {
 	$( '.setting-container' ).hide();
 	$( '.setting-container-minigame' ).show();
 
 	$( '.audio-voice-minigame' )[0].pause();
 	$( '.audio-voice-minigame' )[0].currentTime = 0;
 	$( '.audio-voice-minigame' )[0].play();
+}
+
+function showSettingPlayers() {
+	$( '.setting-container' ).hide();
+	$( '.setting-container-players' ).show();
+
+	$( '.audio-voice-players' )[0].pause();
+	$( '.audio-voice-players' )[0].currentTime = 0;
+	$( '.audio-voice-players' )[0].play();
 }
 
 function stopMenu() {
