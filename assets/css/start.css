@@ -40,3 +40,7 @@
 	top: 10px;
 	display: none;
 }
+
+.button-setting-characters.chosen {
+	background-color: #00cc00;
+}

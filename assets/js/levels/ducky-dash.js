@@ -71,7 +71,7 @@ function addGameEventListeners() {
 	$( '.level' ).on( 'mousemove', onMouseMove );
 	$( '.level' ).on( 'touchmove', onTouchMove );
 
-	if ( gameOptions.players.length > 1 ) {
+	if ( gameOptions.players > 1 ) {
 		$( document ).on( 'keydown', onKeyDown );
 		$( document ).on( 'keyup', onKeyUp );
 	}
@@ -165,7 +165,7 @@ function update(deltaTime) {
 	gameState.player.y = Math.min( gameState.level.height - gameState.player.height, gameState.player.y );
 
 	// Move enemy
-	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players.length > 1 ? gameState.enemy.targetX : determineEnemyTargetX( deltaTime ) );
+	gameState.enemy.x = calculateNewGameObjectPositionX( gameState.enemy, deltaTime, gameOptions.players > 1 ? gameState.enemy.targetX : determineEnemyTargetX( deltaTime ) );
 	if ( gameState.enemy.invulnerable > 0 ) {
 		gameState.enemy.invulnerable -= deltaTime;
 	} else {
@@ -318,7 +318,7 @@ function loop(timestamp) {
 		$( '.audio-effect-rubberduck-2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck-2' )[0].play();
 
-		if ( gameOptions.players.length > 1 ) {
+		if ( gameOptions.players > 1 ) {
 			gameCompleted( 2 );
 		} else {
 			gameCompleted( 0 );

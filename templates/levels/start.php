@@ -36,18 +36,24 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	</div>
 
 	<div class="setting-container setting-container-characters">
-		<h2>Select characters</h2>
-		<div class="setting-choices setting-minigame-choices" >
-			<button class="button button-sfx button-setting-characters" data-character="1" >1 player</button>
-			<button class="button button-sfx button-setting-characters" data-character="2" >2 players (requires keyboard)</button>
+		<h2>
+			<span class="setting-characters-title-player"></span>
+			Select your character
+		</h2>
+		<div class="setting-choices setting-character-choices" >
+			<?php foreach ($game->getCharacterSelectOptions() as $character) { ?>
+				<button class="button button-sfx button-setting-characters" data-character="<?php echo $character->getId(); ?>" >
+					<?php echo $character->getName(); ?>
+				</button>
+			<?php } ?>
 		</div>
 	</div>
 
 	<button class="button button-sfx button-setting-back">Back</button>
 </div>
 
-<audio class="audio audio-voice audio-voice-character" preload="auto">
-	<source src="assets/audio/voices/character.mp3" type="audio/mpeg">
+<audio class="audio audio-voice audio-voice-characters" preload="auto">
+	<source src="assets/audio/voices/characters.mp3" type="audio/mpeg">
 </audio>
 <audio class="audio audio-voice audio-voice-gamemode" preload="auto">
 	<source src="assets/audio/voices/gamemode.mp3" type="audio/mpeg">

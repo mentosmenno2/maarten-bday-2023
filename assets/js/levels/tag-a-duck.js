@@ -62,7 +62,7 @@ function addGameEventListeners() {
 	$( '.level' ).on( 'mousemove', onMouseMove );
 	$( '.level' ).on( 'touchmove', onTouchMove );
 
-	if ( gameOptions.players.length > 1 ) {
+	if ( gameOptions.players > 1 ) {
 		$( document ).on( 'keydown', onKeyDown );
 		$( document ).on( 'keyup', onKeyUp );
 	}
@@ -182,7 +182,7 @@ function update(deltaTime) {
 	gameState.player1.y = Math.min( gameState.level.height - gameState.player1.height, gameState.player1.y );
 
 	// Move player 2
-	if ( gameOptions.players.length > 1 ) {
+	if ( gameOptions.players > 1 ) {
 		var newPlayer2Position = calculateNewGameObjectPosition( gameState.player2, deltaTime, {
 			x: gameState.player2.targetX,
 			y: gameState.player2.targetY
@@ -242,7 +242,7 @@ function draw() {
 	$( '.progressbar-progress-1' ).css( 'width', ( gameState.player1.tags ) * 10 + '%' );
 
 	// Player 2
-	if ( gameOptions.players.length > 1 ) {
+	if ( gameOptions.players > 1 ) {
 		$( '.character-player-2' ).width( gameState.player2.width );
 		$( '.character-player-2' ).height( gameState.player2.height );
 

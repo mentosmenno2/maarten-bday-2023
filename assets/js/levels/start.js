@@ -9,6 +9,7 @@ function addGameEventListeners() {
 	$( '.button-setting-mode' ).on( 'click', onModeButtonClick );
 	$( '.button-setting-minigame' ).on( 'click', onMinigameButtonClick );
 	$( '.button-setting-players' ).on( 'click', onPlayersButtonClick );
+	$( '.button-setting-characters' ).on( 'click', onCharacterButtonClick );
 }
 
 function startGame() {
@@ -35,6 +36,12 @@ function onBackButtonClick() {
 	} else if ( $( '.setting-container-players' ).is( ':visible' ) ) {
 		$( '.button-setting-back' ).hide();
 		showSettingMode();
+	} else if ( $( '.setting-container-characters' ).is( ':visible' ) ) {
+		if ( gameOptions.mode == 'story' ) {
+			showSettingMode();
+		} else {
+			showSettingPlayers();
+		}
 	}
 }
 
@@ -43,15 +50,37 @@ function onModeButtonClick() {
 
 	gameOptions.mode = $( this ).attr( 'data-mode' );
 	if ( gameOptions.mode == 'story' ) {
-		stopMenu();
+		showSettingCharacters();
 	} else {
 		showSettingPlayers();
 	}
 }
 
 function onPlayersButtonClick() {
-	gameOptions.players.length = parseInt( $( this ).attr( 'data-players' ) );
-	showSettingMinigame();
+	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
+	showSettingCharacters();
+}
+
+function onCharacterButtonClick() {
+	if ( gameOptions.characters.includes( $( this ).attr( 'data-character' ) ) ) {
+		$( '.audio-effect-fail' )[0].pause();
+		$( '.audio-effect-fail' )[0].currentTime = 0;
+		$( '.audio-effect-fail' )[0].play();
+		return; // Already chosen character
+	}
+
+	gameOptions.characters.push( $( this ).attr( 'data-character' ) );
+	$( this ).addClass( 'chosen' );
+
+	if ( gameOptions.players !== gameOptions.characters.length ) {
+		return;
+	}
+
+	if ( gameOptions.mode == 'story' ) {
+		stopMenu();
+	} else {
+		showSettingMinigame();
+	}
 }
 
 function onMinigameButtonClick() {
@@ -84,6 +113,19 @@ function showSettingPlayers() {
 	$( '.audio-voice-players' )[0].pause();
 	$( '.audio-voice-players' )[0].currentTime = 0;
 	$( '.audio-voice-players' )[0].play();
+}
+
+function showSettingCharacters() {
+	$( '.setting-container' ).hide();
+	$( '.button-setting-characters' ).attr( 'disabled', false );
+	$( '.button-setting-characters' ).removeClass( 'chosen' );
+	$( '.setting-container-characters' ).show();
+
+	$( '.audio-voice-characters' )[0].pause();
+	$( '.audio-voice-characters' )[0].currentTime = 0;
+	$( '.audio-voice-characters' )[0].play();
+
+	gameOptions.characters = [];
 }
 
 function stopMenu() {

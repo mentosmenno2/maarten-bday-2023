@@ -32,7 +32,7 @@ function initializeGame() {
 function addGameEventListeners() {
 	$( '.button-spot' ).on( 'click', onButtonClick );
 
-	if ( gameOptions.players.length > 1 ) {
+	if ( gameOptions.players > 1 ) {
 		$( document ).on( 'keyup', onKeyUp );
 	}
 }
@@ -54,7 +54,7 @@ function onButtonClick( event ) {
 }
 
 function onKeyUp( event ) {
-	if ( ! gameState.enemy.isTurn || gameOptions.players.length == 1 ) {
+	if ( ! gameState.enemy.isTurn || gameOptions.players == 1 ) {
 		return;
 	}
 
@@ -125,7 +125,7 @@ function switchTurns() {
 		$( '.turn-text-enemy' ).show();
 	}
 
-	if ( gameOptions.players.length == 1 ) {
+	if ( gameOptions.players == 1 ) {
 		setTimeout(moveCPUEnemy, 1000 + ( Math.random() * 2000 ));
 	}
 }
@@ -174,7 +174,7 @@ function checkGameFinished() {
 		$( '.audio-effect-rubberduck-2' )[0].currentTime = 0;
 		$( '.audio-effect-rubberduck-2' )[0].play();
 
-		if ( gameOptions.players.length > 1 ) {
+		if ( gameOptions.players > 1 ) {
 			gameCompleted( 2 );
 		} else {
 			gameCompleted( 0 );
