@@ -19,7 +19,7 @@ class LevelQuickQueckQuack extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'Tic Tac Toe, but with a twist.';
+		return 'Tic Tac Toe. That\'s it.';
 	}
 
 	public function getChat(): ?AbstractChat
