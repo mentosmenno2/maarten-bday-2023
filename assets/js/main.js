@@ -4,6 +4,10 @@ var gameOptions = {
 	nextLevel: $('.game').attr( 'data-next-level' ),
 	mode: urlObject.searchParams.get( 'mode' ) ? urlObject.searchParams.get( 'mode' ) : 'story',
 	players: parseInt( urlObject.searchParams.get( 'players' ) ? urlObject.searchParams.get( 'players' ) : '1' ),
+	loading: {
+		current: 0,
+		total: 0,
+	}
 };
 
 function initialize() {
@@ -15,8 +19,29 @@ function initialize() {
 		$( this )[0].volume = 0.4;
 	} );
 
-	addEventListeners();
-	initializeGame();
+	addLoadingEventListeners();
+
+	gameOptions.loading.total += $( 'audio' ).length;
+}
+
+function addLoadingEventListeners() {
+	$( 'audio' ).on( 'canplaythrough', onLoadingItemLoaded );
+}
+
+function onLoadingItemLoaded() {
+	gameOptions.loading.current++;
+	var percent = gameOptions.loading.current / gameOptions.loading.total * 100;
+	$( '.loadingbar-progress' ).css( 'width', percent + '%' );
+	$( '.loadingbar-text' ).text( Math.round( percent ) + '%' );
+
+	if ( gameOptions.loading.current === gameOptions.loading.total ) {
+		setTimeout(() => {
+			addEventListeners();
+			$( '.loading' ).hide();
+			$( '.instructions' ).css( 'display', 'flex' );
+			initializeGame();
+		}, 200);
+	}
 }
 
 function addEventListeners() {

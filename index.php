@@ -56,6 +56,8 @@ $nextLevel = $game->getNextLevel();
 					'level' => $currentLevel,
 					'game'  => $game,
 				)); ?>
+
+				<?php ( new Templates() )->echoTemplate('results'); ?>
 			<?php } else { ?>
 				<div class="level">
 					<p>Cheater!</p>
@@ -63,11 +65,11 @@ $nextLevel = $game->getNextLevel();
 				</div>
 			<?php } ?>
 
-			<?php ( new Templates() )->echoTemplate('results'); ?>
-
 			<?php if ($chat) { ?>
 				<?php ( new Templates() )->echoTemplate('chat'); ?>
 			<?php } ?>
+
+			<?php ( new Templates() )->echoTemplate('loading'); ?>
 		</main>
 		<footer>
 			<p>&#169; Menno van den Ende - 2023</p>
