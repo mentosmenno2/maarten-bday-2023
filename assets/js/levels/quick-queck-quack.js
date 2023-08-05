@@ -10,13 +10,12 @@ var gameState = {
 	enemy: {
 		isTurn: false,
 		buttons: [],
+		selectedButton: 1,
 	}
 }
 
 function initializeGame() {
 	$( window ).on( 'resize', onResize );
-
-	disableButtons();
 
 	if ( Math.round( Math.random() ) ) {
 		gameState.player.isTurn = true;
@@ -30,30 +29,83 @@ function initializeGame() {
 
 function addGameEventListeners() {
 	$( '.button-spot' ).on( 'click', onButtonClick );
+
+	if ( gameOptions.players > 1 ) {
+		$( document ).on( 'keyup', onKeyUp );
+	}
 }
 
 function startGame() {
 	addGameEventListeners();
 	$( '.audio-music-ingame' )[0].play();
-	enableAvailableButtons();
 }
 
 function onButtonClick( event ) {
-	disableButtons();
-
-	$element = $( this );
-	var buttonId = parseInt( $element.attr( 'data-spot' ) );
-	if ( gameState.player.isTurn ) {
-		gameState.player.buttons.push( buttonId );
-		$( '.character-player.clonable' ).clone().removeClass( 'clonable' ).appendTo( $element ).show();
-	} else if ( gameState.enemy.isTurn ) {
-		gameState.enemy.buttons.push( buttonId );
-		$( '.character-enemy.clonable' ).clone().removeClass( 'clonable' ).appendTo( $element ).show();
+	if ( ! gameState.player.isTurn ) {
+		return;
 	}
 
+	onButtonChosen( $( this ) );
+}
+
+function onKeyUp( event ) {
+	if ( ! gameState.enemy.isTurn ) {
+		return;
+	}
+
+	if ( [37, 65].includes( event.keyCode ) ) { // Left
+		if ( gameState.enemy.selectedButton % 3 !== 1 ) {
+			gameState.enemy.selectedButton = gameState.enemy.selectedButton - 1;
+		}
+	}
+
+	if ( [39, 68].includes( event.keyCode ) ) { // Right
+		if ( gameState.enemy.selectedButton % 3 !== 0 ) {
+			gameState.enemy.selectedButton = gameState.enemy.selectedButton + 1;
+		}
+	}
+
+	if ( [38, 87].includes( event.keyCode ) ) { // Up
+		if ( gameState.enemy.selectedButton > 3 ) {
+			gameState.enemy.selectedButton = gameState.enemy.selectedButton - 3;
+		}
+	}
+
+	if ( [40, 83].includes( event.keyCode ) ) { // Down
+		if ( gameState.enemy.selectedButton < 7 ) {
+			gameState.enemy.selectedButton = gameState.enemy.selectedButton + 3;
+		}
+	}
+
+	var $button = $( '.button-spot[data-spot=\'' + gameState.enemy.selectedButton + '\']' );
+	if ( [32, 13].includes( event.keyCode ) ) { // Interact
+
+		if ( ! $button.is( ':disabled' ) ) {
+			onButtonChosen( $button );
+		}
+	}
+
+	$button.focus();
+}
+
+function onButtonChosen( $button ) {
+
+	var buttonId = parseInt( $button.attr( 'data-spot' ) );
+	if ( gameState.player.buttons.includes( buttonId ) || gameState.enemy.buttons.includes( buttonId ) ) {
+		return; // Invalid move
+	}
+
+	if ( gameState.player.isTurn ) {
+		gameState.player.buttons.push( buttonId );
+		$( '.character-player.clonable' ).clone().removeClass( 'clonable' ).appendTo( $button ).show();
+	} else if ( gameState.enemy.isTurn ) {
+		gameState.enemy.buttons.push( buttonId );
+		$( '.character-enemy.clonable' ).clone().removeClass( 'clonable' ).appendTo( $button ).show();
+	}
+
+	$button.blur();
 	checkGameFinished();
 	switchTurns();
-	enableAvailableButtons();
 }
 
 function switchTurns() {
@@ -65,21 +117,6 @@ function switchTurns() {
 	} else if ( gameState.enemy.isTurn ) {
 		$( '.turn-text-enemy' ).show();
 	}
-}
-
-function disableButtons() {
-	$( '.button-spot' ).attr( 'disabled', true );
-}
-
-function enableAvailableButtons() {
-	$( '.button-spot' ).each(function (index) {
-		var $element = $( this );
-		var buttonId = parseInt( $element.attr( 'data-spot' ) );
-
-		if ( ! gameState.player.buttons.includes( buttonId ) && ! gameState.enemy.buttons.includes( buttonId ) ) {
-			$element.attr( 'disabled', false );
-		}
-	});
 }
 
 function checkGameFinished() {
