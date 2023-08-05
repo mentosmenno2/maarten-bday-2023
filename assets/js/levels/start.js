@@ -50,7 +50,7 @@ function onModeButtonClick() {
 }
 
 function onPlayersButtonClick() {
-	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
+	gameOptions.players.length = parseInt( $( this ).attr( 'data-players' ) );
 	showSettingMinigame();
 }
 

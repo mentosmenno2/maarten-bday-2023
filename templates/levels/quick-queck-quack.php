@@ -13,7 +13,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		Turn indicator
 	</div>
 	<div class="turn-text turn-text-player">
-		<?php if ($game->getPlayers() > 1) { ?>
+		<?php if (count($game->getPlayers()) > 1) { ?>
 			Player 1's turn
 		<?php } else { ?>
 			Your turn
@@ -21,7 +21,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	</div>
 
 	<div class="turn-text turn-text-enemy">
-		<?php if ($game->getPlayers() > 1) { ?>
+		<?php if (count($game->getPlayers()) > 1) { ?>
 			Player 2's turn
 		<?php } else { ?>
 			Evil duck's turn

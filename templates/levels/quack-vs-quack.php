@@ -12,7 +12,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	<div class="healthbar-wrapper healthbar-wrapper-player">
 		<div class="healthbar-progress healthbar-progress-player"></div>
 		<span class="healthbar-text">
-			<?php if ($game->getPlayers() > 1) { ?>
+			<?php if (count($game->getPlayers()) > 1) { ?>
 				Player 1 health
 			<?php } else { ?>
 				Your health
@@ -23,7 +23,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	<div class="healthbar-wrapper healthbar-wrapper-enemy">
 		<div class="healthbar-progress healthbar-progress-enemy"></div>
 		<span class="healthbar-text">
-			<?php if ($game->getPlayers() > 1) { ?>
+			<?php if (count($game->getPlayers()) > 1) { ?>
 				Player 2 health
 			<?php } else { ?>
 				Evil duck health

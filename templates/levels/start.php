@@ -35,6 +35,14 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		</div>
 	</div>
 
+	<div class="setting-container setting-container-characters">
+		<h2>Select characters</h2>
+		<div class="setting-choices setting-minigame-choices" >
+			<button class="button button-sfx button-setting-characters" data-character="1" >1 player</button>
+			<button class="button button-sfx button-setting-characters" data-character="2" >2 players (requires keyboard)</button>
+		</div>
+	</div>
+
 	<button class="button button-sfx button-setting-back">Back</button>
 </div>
 

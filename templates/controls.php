@@ -15,7 +15,7 @@ $control_keys_space = $level->getControlsKeysSpace();
 
 <div class="controls" >
 	<?php if ($control_mouse_move || $control_mouse_click) { ?>
-		<?php if ($game->getPlayers() > 1) { ?>
+		<?php if (count($game->getPlayers()) > 1) { ?>
 			<h3>Controls player 1</h3>
 		<?php } else { ?>
 			<h3>Controls</h3>
@@ -38,7 +38,7 @@ $control_keys_space = $level->getControlsKeysSpace();
 	<?php } ?>
 
 	<?php if ($control_keys_arrows || $control_keys_space) { ?>
-		<?php if ($game->getPlayers() > 1) { ?>
+		<?php if (count($game->getPlayers()) > 1) { ?>
 			<h3>Controls player 2</h3>
 
 			<ul>

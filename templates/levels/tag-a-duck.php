@@ -13,7 +13,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		<div class="progressbar-wrapper progressbar-wrapper-1">
 			<div class="progressbar-progress progressbar-progress-1"></div>
 			<span class="progressbar-text progressbar-text-1">
-				<?php if ($game->getPlayers() > 1) { ?>
+				<?php if (count($game->getPlayers()) > 1) { ?>
 					Player 1
 				<?php } ?>
 				Tags

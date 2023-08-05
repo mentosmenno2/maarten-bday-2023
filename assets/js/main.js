@@ -3,7 +3,7 @@ var gameOptions = {
 	level: JSON.parse( $('.game').attr( 'data-level' ) ),
 	nextLevel: $('.game').attr( 'data-next-level' ),
 	mode: urlObject.searchParams.get( 'mode' ) ? urlObject.searchParams.get( 'mode' ) : 'story',
-	players: parseInt( urlObject.searchParams.get( 'players' ) ? urlObject.searchParams.get( 'players' ) : '1' ),
+	players: urlObject.searchParams.getAll( 'players[]' ),
 	loading: {
 		timeout: null,
 		current: 0,
@@ -96,7 +96,7 @@ function goToNextLevel( level = null ) {
 	var url = new URL(window.location.href);
 	url.searchParams.set('level', level ? level : gameOptions.nextLevel);
 	url.searchParams.set('mode', gameOptions.mode);
-	url.searchParams.set('players', gameOptions.players);
+	url.searchParams.set('players', gameOptions.players.length);
 	window.location.href = url.toString();
 }
 
@@ -109,7 +109,7 @@ function initializeResults( playerNumberWon ) {
 
 	$( '.results-option' ).hide();
 	if ( playerNumberWon > 0 ) {
-		if ( gameOptions.players == 1 ) {
+		if ( gameOptions.players.length == 1 ) {
 			$( '.results-option-won' ).show();
 		} else {
 			$( '.results-mp-player-number' ).text( playerNumberWon );
@@ -140,7 +140,7 @@ function onResultsLostButtonClick() {
 }
 
 function onResultsDrawButtonClick() {
-	if ( gameOptions.players == 1 && gameOptions.mode === 'story' ) {
+	if ( gameOptions.players.length == 1 && gameOptions.mode === 'story' ) {
 		window.location.reload();
 	} else {
 		$( '.results' ).hide();
