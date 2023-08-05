@@ -5,6 +5,7 @@ namespace Mentosmenno2\MaartenBday2023;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckPong;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckyDash;
+use Mentosmenno2\MaartenBday2023\Levels\LevelEnd;
 use Mentosmenno2\MaartenBday2023\Levels\LevelQuackVSQuack;
 use Mentosmenno2\MaartenBday2023\Levels\LevelQuickQueckQuack;
 use Mentosmenno2\MaartenBday2023\Levels\LevelStart;
@@ -29,6 +30,7 @@ class Game
 			new LevelTagADuck(),
 			new LevelQuickQueckQuack(),
 			new LevelQuackVSQuack(),
+			new LevelEnd(),
 		);
 	}
 
@@ -74,7 +76,7 @@ class Game
 	{
 		$options = array();
 		foreach ($this->levels as $level) {
-			if ($level->getId() !== 'start') {
+			if ($level->getId() !== 'start' && $level->getId() !== 'end') {
 				$options[$level->getId()] = $level->getName();
 			}
 		}
