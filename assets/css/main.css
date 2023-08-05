@@ -63,7 +63,6 @@ h1, h2, h3, h4, h5 {
 }
 
 .button:hover {
-	/* text-shadow: 0 0 2px #0f0f23, 0 0 2px #0f0f23; */
 	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,204,0,1);
 	-moz-box-shadow: 0px 0px 10px 0px rgba(0,204,0,1);
 	box-shadow: 0px 0px 10px 0px rgba(0,204,0,1);

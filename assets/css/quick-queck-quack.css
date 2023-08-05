@@ -1,0 +1,33 @@
+.level.level-quick-queck-quack {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.turn-text {
+	width: 100%;
+	font-size: 40px;
+	text-align: center;
+}
+
+.buttons-container {
+	flex-grow: 1;
+	padding: 10px;
+	aspect-ratio: 1 / 1;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	grid-column-gap: 10px;
+	grid-row-gap: 10px;
+}
+
+.button-spot {
+	background-color: transparent;
+}
+
+.button-spot:hover, .button-spot:focus {
+	background: rgba(255,255,255,0.1);
+}
