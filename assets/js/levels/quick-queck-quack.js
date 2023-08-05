@@ -3,6 +3,7 @@ var gameState = {
 		width: $( '.level' ).width(),
 		height: $( '.level' ).height(),
 	},
+	finished: false,
 	player: {
 		isTurn: false,
 		buttons: [],
@@ -24,7 +25,8 @@ function initializeGame() {
 		gameState.player.isTurn = false;
 		gameState.enemy.isTurn = true;
 	}
-	switchTurns();
+
+	$( '.turn-text-none' ).show();
 }
 
 function addGameEventListeners() {
@@ -38,10 +40,13 @@ function addGameEventListeners() {
 function startGame() {
 	addGameEventListeners();
 	$( '.audio-music-ingame' )[0].play();
+
+	switchTurns();
 }
 
 function onButtonClick( event ) {
 	if ( ! gameState.player.isTurn ) {
+		$( this ).blur();
 		return;
 	}
 
@@ -49,7 +54,7 @@ function onButtonClick( event ) {
 }
 
 function onKeyUp( event ) {
-	if ( ! gameState.enemy.isTurn ) {
+	if ( ! gameState.enemy.isTurn || gameOptions.players == 1 ) {
 		return;
 	}
 
@@ -78,14 +83,14 @@ function onKeyUp( event ) {
 	}
 
 	var $button = $( '.button-spot[data-spot=\'' + gameState.enemy.selectedButton + '\']' );
+	$button.focus();
+
 	if ( [32, 13].includes( event.keyCode ) ) { // Interact
 
 		if ( ! $button.is( ':disabled' ) ) {
 			onButtonChosen( $button );
 		}
 	}
-
-	$button.focus();
 }
 
 function onButtonChosen( $button ) {
@@ -105,7 +110,9 @@ function onButtonChosen( $button ) {
 
 	$button.blur();
 	checkGameFinished();
-	switchTurns();
+	if ( ! gameState.finished ) {
+		switchTurns();
+	}
 }
 
 function switchTurns() {
@@ -117,12 +124,33 @@ function switchTurns() {
 	} else if ( gameState.enemy.isTurn ) {
 		$( '.turn-text-enemy' ).show();
 	}
+
+	if ( gameOptions.players == 1 ) {
+		setTimeout(moveCPUEnemy, 1000 + ( Math.random() * 2000 ));
+	}
+}
+
+function moveCPUEnemy() {
+	if ( ! gameState.enemy.isTurn ) {
+		return;
+	}
+
+	var buttonId = getRandomInteger( 1, 9 );
+	if ( gameState.player.buttons.includes( buttonId ) || gameState.enemy.buttons.includes( buttonId ) ) {
+		moveCPUEnemy();
+		return;
+	}
+
+	var $button = $( '.button-spot[data-spot=\'' + buttonId + '\']' );
+	onButtonChosen( $button );
 }
 
 function checkGameFinished() {
-	// Player won
 	var playerWinCon = getPlayerWinningCondition( gameState.player.buttons );
+	var enemyWinCon = getPlayerWinningCondition( gameState.enemy.buttons );
+
 	if ( playerWinCon ) {
+		gameState.finished = true;
 		$( '.audio-music-ingame' )[0].pause();
 
 		$( '.audio-effect-rubberduck-1' )[0].pause();
@@ -134,11 +162,8 @@ function checkGameFinished() {
 		playerWinCon.forEach(( winningButton, index ) => {
 			$( '.button-spot[data-spot=\'' + winningButton + '\']' ).addClass( 'winning' );
 		});
-	}
-
-	// Enemy won
-	var enemyWinCon = getPlayerWinningCondition( gameState.enemy.buttons );
-	if ( enemyWinCon ) {
+	} else if ( enemyWinCon ) {
+		gameState.finished = true;
 		enemyWinCon.forEach(( winningButton, index ) => {
 			$( '.button-spot[data-spot=\'' + winningButton + '\']' ).addClass( 'winning' );
 		});
@@ -154,10 +179,8 @@ function checkGameFinished() {
 		} else {
 			gameCompleted( 0 );
 		}
-	}
-
-	// Draw
-	if ( gameState.player.buttons.length + gameState.enemy.buttons.length >= 9 ) {
+	} else if ( gameState.player.buttons.length + gameState.enemy.buttons.length >= 9 ) {
+		gameState.finished = true;
 		$( '.audio-music-ingame' )[0].pause();
 		gameCompleted( -1 );
 	}

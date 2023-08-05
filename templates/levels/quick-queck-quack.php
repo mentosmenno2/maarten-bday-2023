@@ -9,6 +9,9 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 ?>
 
 <div class="level level-quick-queck-quack">
+	<div class="turn-text turn-text-none">
+		Turn indicator
+	</div>
 	<div class="turn-text turn-text-player">
 		<?php if ($game->getPlayers() > 1) { ?>
 			Player 1's turn
@@ -21,7 +24,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		<?php if ($game->getPlayers() > 1) { ?>
 			Player 2's turn
 		<?php } else { ?>
-			Evul duck's turn
+			Evil duck's turn
 		<?php } ?>
 	</div>
 
