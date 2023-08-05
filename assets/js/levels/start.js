@@ -24,9 +24,8 @@ function onShowChatMessage( event, index ) {
 		$('.talker__container').append($presentElement);
 	}
 
-	if ( index === 10 ) {
-		var width = $('.present').width();
-		$('.present').css( 'left', 'calc(70% - ' + width + 'px)' );
+	if ( index === 3 ) {
+		$('.present').css( 'left', 'calc(70% - ' + $('.present').width() + 'px)' );
 	}
 }
 
