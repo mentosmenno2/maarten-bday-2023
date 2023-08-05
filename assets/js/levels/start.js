@@ -12,6 +12,8 @@ function addGameEventListeners() {
 function startGame() {
 	$( '.setting-container' ).hide();
 	$( '.setting-container-mode' ).show();
+
+	$( '.audio-music-menu' )[0].play();
 }
 
 function onShowChatMessage( event, index ) {
@@ -31,7 +33,7 @@ function onShowChatMessage( event, index ) {
 function onModeButtonClick() {
 	gameOptions.mode = $( this ).attr( 'data-mode' );
 	if ( gameOptions.mode == 'story' ) {
-		gameCompleted( null );
+		stopMenu();
 	} else {
 		$( '.setting-container' ).hide();
 		$( '.setting-container-minigame' ).show();
@@ -46,5 +48,10 @@ function onMinigameButtonClick() {
 
 function onPlayersButtonClick() {
 	gameOptions.players = parseInt( $( this ).attr( 'data-players' ) );
+	stopMenu();
+}
+
+function stopMenu() {
+	$( '.audio-music-menu' )[0].pause();
 	gameCompleted( null );
 }

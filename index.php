@@ -88,6 +88,9 @@ $nextLevel = $game->getNextLevel();
 		<audio class="audio audio-music audio-music-ingame" preload="auto" loop>
 			<source src="assets/audio/music/ingame.mp3" type="audio/mpeg">
 		</audio>
+		<audio class="audio audio-music audio-music-menu" preload="auto" loop>
+			<source src="assets/audio/music/menu.mp3" type="audio/mpeg">
+		</audio>
 
 
 		<script src="assets/js/jquery-3.7.0.min.js"></script>
