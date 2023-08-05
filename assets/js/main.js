@@ -10,6 +10,11 @@ function initialize() {
 	$( '.audio-music' ).each( function( index ) {
 		$( this )[0].volume = 0.02;
 	} );
+
+	$( '.audio-voice' ).each( function( index ) {
+		$( this )[0].volume = 0.4;
+	} );
+
 	addEventListeners();
 	initializeGame();
 }

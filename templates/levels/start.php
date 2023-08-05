@@ -11,10 +11,10 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 
 <div class="level level-start">
 	<div class="setting-container setting-container-mode">
-		<h2>What do you want to play?</h2>
+		<h2>Select a gamemode</h2>
 		<div class="setting-choices setting-minigame-choices" >
 			<button class="button button-sfx button-setting-mode" data-mode="story" >Story mode</button>
-			<button class="button button-sfx button-setting-mode" data-mode="minigame" >Minigame</button>
+			<button class="button button-sfx button-setting-mode" data-mode="minigame" >Minigames</button>
 		</div>
 	</div>
 
@@ -28,10 +28,23 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	</div>
 
 	<div class="setting-container setting-container-players">
-		<h2>With how many players do you want to play?</h2>
+		<h2>How many players?</h2>
 		<div class="setting-choices setting-minigame-choices" >
 			<button class="button button-sfx button-setting-players" data-players="1" >1 player</button>
 			<button class="button button-sfx button-setting-players" data-players="2" >2 players (requires keyboard)</button>
 		</div>
 	</div>
 </div>
+
+<audio class="audio audio-voice audio-voice-character" preload="auto">
+	<source src="assets/audio/voices/character.mp3" type="audio/mpeg">
+</audio>
+<audio class="audio audio-voice audio-voice-gamemode" preload="auto">
+	<source src="assets/audio/voices/gamemode.mp3" type="audio/mpeg">
+</audio>
+<audio class="audio audio-voice audio-voice-minigame" preload="auto">
+	<source src="assets/audio/voices/minigame.mp3" type="audio/mpeg">
+</audio>
+<audio class="audio audio-voice audio-voice-players" preload="auto">
+	<source src="assets/audio/voices/players.mp3" type="audio/mpeg">
+</audio>
