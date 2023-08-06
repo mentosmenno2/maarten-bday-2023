@@ -32,7 +32,7 @@ function onShowChatMessage( event, index ) {
 
 function onBackButtonClick() {
 	if ( $( '.setting-container-minigame' ).is( ':visible' ) ) {
-		onModeButtonClick();
+		showSettingCharacters();
 	} else if ( $( '.setting-container-players' ).is( ':visible' ) ) {
 		$( '.button-setting-back' ).hide();
 		showSettingMode();
