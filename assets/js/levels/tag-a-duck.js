@@ -131,11 +131,11 @@ function randomizeEnemyPosition() {
 }
 
 function setGameObjectsSizes() {
-	gameState.player1.width = gameState.level.width * 0.05;
+	gameState.player1.width = gameState.level.height * 0.05;
 	gameState.player1.height = gameState.level.height * 0.05;
-	gameState.player2.width = gameState.level.width * 0.05;
+	gameState.player2.width = gameState.level.height * 0.05;
 	gameState.player2.height = gameState.level.height * 0.05;
-	gameState.enemy.width = gameState.level.width * 0.05;
+	gameState.enemy.width = gameState.level.height * 0.05;
 	gameState.enemy.height = gameState.level.height * 0.05;
 }
 
