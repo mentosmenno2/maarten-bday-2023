@@ -15,6 +15,7 @@ class ChatQuackVsQuack extends AbstractChat
 			new PlayerMessage('That means I get my present back, right?'),
 			new EnemyMessage('Fine, fine. Here\'s your present. But this isn\'t over! I\'ll be back next year with a new challenge.'),
 			new PlayerMessage('I\'ll be ready for whatever you throw at me. Until then, enjoy the competition.'),
+			new EnemyMessage('Thanks, I wish you a good birthday today!'),
 		);
 	}
 }
