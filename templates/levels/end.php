@@ -15,8 +15,6 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 			<h2 class="credit-title"></h2>
 			<p class="credit-text"></p>
 		</div>
-
-		<button class="button button-main-menu">Main menu</button>
 	</div>
 
 	<button class="button button-skip-credits">Skip</button>

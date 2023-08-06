@@ -57,6 +57,10 @@ var gameState = {
 			title: 'Credits music',
 			text: 'HeatleyBros - 8 Bit Ending!',
 		},
+		{
+			title: 'Happy birhtday Maarten!',
+			text: '<button class="button button-main-menu">Main menu</button>',
+		},
 	],
 }
 
@@ -66,7 +70,6 @@ function initializeGame() {
 
 function addGameEventListeners() {
 	$( '.button-skip-credits' ).on( 'click', onClickSkipCredits );
-	$( '.button-main-menu' ).on( 'click', onClickSkipCredits );
 }
 
 function startGame() {
@@ -89,16 +92,22 @@ function showFirstCredit() {
 
 function showNextCredit() {
 	var credit = gameState.credits[gameState.currentCredit] ?? null;
+	var nextCredit = gameState.credits[gameState.currentCredit + 1] ?? null;
 	if ( ! credit ) {
 		$( '.button-main-menu' ).show();
 		return;
 	}
 
 	$( '.credit-title' ).text( credit.title );
-	$( '.credit-text' ).text( credit.text );
+	$( '.credit-text' ).html( credit.text );
 	$( '.credit-item' ).css( 'transform', 'scale(1)' );
 
 	gameState.currentCredit++;
+	if ( ! nextCredit ) {
+		$( '.button-main-menu' ).on( 'click', onClickSkipCredits );
+		return;
+	}
+
 	setTimeout(hideCredit, 4000);
 }
 
