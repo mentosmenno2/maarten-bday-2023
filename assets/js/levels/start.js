@@ -1,3 +1,11 @@
+var gameState = {
+	level: {
+		width: $( '.level' ).width(),
+		height: $( '.level' ).height(),
+	},
+	player2CharacterIndex: 0,
+}
+
 function initializeGame() {
 	addGameEventListeners();
 }
@@ -62,24 +70,51 @@ function onPlayersButtonClick() {
 }
 
 function onCharacterButtonClick() {
-	if ( gameOptions.characters.includes( $( this ).attr( 'data-character' ) ) ) {
+	chooseCharacter( $( this ) );
+}
+
+function onCharacterSelectKeyUp( event ) {
+	if ( [38, 87].includes( event.keyCode ) ) { // Up
+		if ( gameState.player2CharacterIndex > 0 ) {
+			gameState.player2CharacterIndex--;
+		}
+	}
+
+	if ( [40, 83].includes( event.keyCode ) ) { // Down
+		if ( gameState.player2CharacterIndex < $( '.button-setting-characters' ).length - 1 ) {
+			gameState.player2CharacterIndex++;
+		}
+	}
+
+	var $button = $( '.button-setting-characters' ).eq( gameState.player2CharacterIndex );
+	$button.focus();
+
+	if ( [32, 13].includes( event.keyCode ) ) { // Interact
+		chooseCharacter( $button );
+	}
+}
+
+function chooseCharacter( $button ) {
+	if ( gameOptions.characters.includes( $button.attr( 'data-character' ) ) ) {
 		$( '.audio-effect-fail' )[0].pause();
 		$( '.audio-effect-fail' )[0].currentTime = 0;
 		$( '.audio-effect-fail' )[0].play();
 		return; // Already chosen character
 	}
 
-	gameOptions.characters.push( $( this ).attr( 'data-character' ) );
-	$( this ).addClass( 'chosen' );
+	gameOptions.characters.push( $button.attr( 'data-character' ) );
+	$button.addClass( 'chosen' );
 
 	if ( gameOptions.players > 1 ) {
 		$( '.setting-characters-title-player' ).text( 'Player ' + ( gameOptions.characters.length + 1 ) + ': ' );
 	}
 
-	if ( gameOptions.players !== gameOptions.characters.length ) {
+	if ( gameOptions.players !== gameOptions.characters.length ) { // More players need to select
+		$( document ).on( 'keyup', onCharacterSelectKeyUp );
 		return;
 	}
 
+	$( document ).off( 'keyup', onCharacterSelectKeyUp );
 	if ( gameOptions.mode == 'story' ) {
 		stopMenu();
 	} else {
@@ -121,11 +156,13 @@ function showSettingPlayers() {
 
 function showSettingCharacters() {
 	$( '.setting-container' ).hide();
-	$( '.button-setting-characters' ).attr( 'disabled', false );
 	$( '.button-setting-characters' ).removeClass( 'chosen' );
+	gameState.player2CharacterIndex = 0;
+	$( '.button-setting-characters' ).eq( gameState.player2CharacterIndex ).focus();
 	if ( gameOptions.players > 1 ) {
 		$( '.setting-characters-title-player' ).text( 'Player 1: ' );
 	}
+
 	$( '.setting-container-characters' ).show();
 
 	$( '.audio-voice-characters' )[0].pause();
