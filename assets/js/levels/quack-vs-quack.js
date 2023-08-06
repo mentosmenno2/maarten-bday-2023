@@ -133,11 +133,11 @@ function onResize() {
 
 function setGameObjectsSizes() {
 	gameState.player.width = gameState.level.height * 0.05;
-	gameState.player.height = gameState.level.height * 0.05;
+	gameState.player.height = gameState.level.height * 0.05 * ( 28 / 24 );
 	gameState.player.y = 10;
 
 	gameState.enemy.width = gameState.level.height * 0.05;
-	gameState.enemy.height = gameState.level.height * 0.05;
+	gameState.enemy.height = gameState.level.height * 0.05 * ( 28 / 24 );
 	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
 
 	for (var index = 0; index < gameState.player.bullets.length; index++) {
