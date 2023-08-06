@@ -168,7 +168,9 @@ function initializeChat() {
 
 	if ( gameOptions.level.chat ) {
 		// Replace images, on start level no url param is present
-		$( '.talker-player img' ).attr( 'src', $( '.talker-player img' ).attr( 'src').replace( 'maarten', gameOptions.characters[0] ?? 'maarten' ) );
+		var currentImgId = $( '.talker-player img' ).attr( 'src').split( '/' );
+		currentImgId = currentImgId[currentImgId.length - 1].split( '.' )[0].split('-')[0];
+		$( '.talker-player img' ).attr( 'src', $( '.talker-player img' ).attr( 'src').replace( currentImgId, gameOptions.characters[0] ?? 'maarten' ) );
 
 		$( '.audio-music-chat' )[0].play();
 		$( '.chat' ).show();
@@ -227,9 +229,15 @@ function showChatMessage() {
 		$( '.audio-effect-rubberduck-2' )[0].play();
 	}
 
-	// Replace name, on start level no url param is present
-	var messageToShow = chatMessage.message.replace( 'Maarten', gameOptions.characters[0] ?? 'Maarten' );
-	messageToShow = messageToShow.charAt(0).toUpperCase() + messageToShow.slice(1);
+	var messageToShow = chatMessage.message;
+	if ( chatMessage.talker == 'player' ) {
+		// Replace name, on start level no url param is present
+		var oldCharacterNameParts = chatMessage.message.split(':');
+		var oldCharacterName = oldCharacterNameParts[0];
+
+		messageToShow = chatMessage.message.replace( oldCharacterName, gameOptions.characters[0] ?? 'Maarten' );
+		messageToShow = messageToShow.charAt(0).toUpperCase() + messageToShow.slice(1);
+	}
 
 	for (var i = 0; i < messageToShow.length; i++) {
 		messageGeneratorTimeouts.push( setTimeout(function () {
