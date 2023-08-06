@@ -35,7 +35,7 @@ var gameState = {
 		},
 		{
 			title: 'Game code assistant',
-			text: 'Jan-Maarten Leegerstee',
+			text: 'Jan-Maarten Legerstee',
 		},
 		{
 			title: 'Menu voice',
