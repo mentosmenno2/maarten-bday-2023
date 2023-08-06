@@ -60,6 +60,7 @@ function onModeButtonClick() {
 
 	gameOptions.mode = $( this ).attr( 'data-mode' );
 	if ( gameOptions.mode == 'story' ) {
+		gameOptions.players = 1;
 		showSettingCharacters();
 	} else {
 		showSettingPlayers();
