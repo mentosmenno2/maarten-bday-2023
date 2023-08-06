@@ -46,7 +46,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 					<div class="button-character-icon">
 						<img class="pixelated" alt="" src="assets/images/<?php echo $character->getId(); ?>-duck.png" >
 					</div>
-					<span class="button-character-icon"><?php echo $character->getName(); ?></span>
+					<span class="button-character-text"><?php echo $character->getName(); ?></span>
 				</button>
 			<?php } ?>
 		</div>
