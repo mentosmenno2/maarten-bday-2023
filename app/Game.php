@@ -124,7 +124,7 @@ class Game
 	public function getPlayers(): array
 	{
 		$characters = array();
-		$url_characters = filter_input(INPUT_GET, 'players[]', FILTER_DEFAULT, FILTER_FORCE_ARRAY) ?: array();
+		$url_characters = filter_input(INPUT_GET, 'players', FILTER_DEFAULT, FILTER_FORCE_ARRAY) ?: array();
 		foreach ($this->characters as $character) {
 			foreach ($url_characters as $url_character) {
 				if ($character->getId() === $url_character) {
