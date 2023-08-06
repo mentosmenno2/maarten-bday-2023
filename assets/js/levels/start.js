@@ -39,6 +39,7 @@ function onShowChatMessage( event, index ) {
 }
 
 function onBackButtonClick() {
+	$( this ).blur();
 	if ( $( '.setting-container-minigame' ).is( ':visible' ) ) {
 		showSettingCharacters();
 	} else if ( $( '.setting-container-players' ).is( ':visible' ) ) {
@@ -95,6 +96,7 @@ function onCharacterSelectKeyUp( event ) {
 }
 
 function chooseCharacter( $button ) {
+	$button.blur();
 	if ( gameOptions.characters.includes( $button.attr( 'data-character' ) ) ) {
 		$( '.audio-effect-fail' )[0].pause();
 		$( '.audio-effect-fail' )[0].currentTime = 0;
