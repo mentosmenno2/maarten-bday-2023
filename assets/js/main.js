@@ -227,10 +227,14 @@ function showChatMessage() {
 		$( '.audio-effect-rubberduck-2' )[0].play();
 	}
 
-	for (var i = 0; i < chatMessage.message.length; i++) {
+	// Replace name, on start level no url param is present
+	var messageToShow = chatMessage.message.replace( 'Maarten', gameOptions.characters[0] ?? 'Maarten' );
+	messageToShow = messageToShow.charAt(0).toUpperCase() + messageToShow.slice(1);
+
+	for (var i = 0; i < messageToShow.length; i++) {
 		messageGeneratorTimeouts.push( setTimeout(function () {
 			var currentText = $chatMessageElement.text();
-			var charToAdd = chatMessage.message.charAt(currentText.length);
+			var charToAdd = messageToShow.charAt(currentText.length);
 			var newText = currentText + charToAdd;
 			$chatMessageElement.text( newText );
 
@@ -243,7 +247,7 @@ function showChatMessage() {
 				$chatTalkerElement.css("-o-transform", 'translateY(' + pixels + 'px)');
 				$chatTalkerElement.css("transform", 'translateY(' + pixels + 'px)');
 			}
-			if ( newText.length === chatMessage.message.length ) {
+			if ( newText.length === messageToShow.length ) {
 				$chatTalkerElement.css("-webkit-transform", 'translateY(0px)');
 				$chatTalkerElement.css("-moz-transform", 'translateY(0px)');
 				$chatTalkerElement.css("-ms-transform", 'translateY(0px)');
