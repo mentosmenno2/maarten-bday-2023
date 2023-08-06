@@ -47,6 +47,7 @@ function onBackButtonClick() {
 		showSettingMode();
 	} else if ( $( '.setting-container-characters' ).is( ':visible' ) ) {
 		if ( gameOptions.mode == 'story' ) {
+			$( '.button-setting-back' ).hide();
 			showSettingMode();
 		} else {
 			showSettingPlayers();
