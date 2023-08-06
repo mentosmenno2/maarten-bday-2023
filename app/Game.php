@@ -2,6 +2,14 @@
 
 namespace Mentosmenno2\MaartenBday2023;
 
+use Mentosmenno2\MaartenBday2023\Characters\AbstractCharacter;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterBatman;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterHulk;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterMaarten;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterNinjaTurtle;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterSonic;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterSpiderman;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterWaldo;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckPong;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckyDash;
@@ -21,6 +29,11 @@ class Game
 	 */
 	protected array $levels;
 
+	/**
+	 * @var array<int,AbstractCharacter>
+	 */
+	protected array $characters;
+
 	final protected function __construct()
 	{
 		$this->levels = array(
@@ -31,6 +44,16 @@ class Game
 			new LevelQuickQueckQuack(),
 			new LevelQuackVSQuack(),
 			new LevelEnd(),
+		);
+
+		$this->characters = array(
+			new CharacterMaarten(),
+			new CharacterBatman(),
+			new CharacterHulk(),
+			new CharacterNinjaTurtle(),
+			new CharacterSonic(),
+			new CharacterSpiderman(),
+			new CharacterWaldo(),
 		);
 	}
 
@@ -83,8 +106,37 @@ class Game
 		return $options;
 	}
 
-	public function getPlayers(): int
+	/**
+	 * @return array<string,AbstractCharacter>
+	 */
+	public function getCharacterSelectOptions(): array
 	{
-		return (int) filter_input(INPUT_GET, 'players', FILTER_VALIDATE_INT);
+		$options = array();
+		foreach ($this->characters as $character) {
+			$options[$character->getId()] = $character;
+		}
+		return $options;
+	}
+
+	/**
+	 * @return array<AbstractCharacter>
+	 */
+	public function getPlayers(): array
+	{
+		$characters = array();
+		$url_characters = filter_input(INPUT_GET, 'players', FILTER_DEFAULT, FILTER_FORCE_ARRAY) ?: array();
+		foreach ($this->characters as $character) {
+			foreach ($url_characters as $url_character) {
+				if ($character->getId() === $url_character) {
+					$characters[] = $character;
+				}
+			}
+		}
+
+		if (empty($characters)) {
+			$characters[] = $this->characters[0];
+		}
+
+		return $characters;
 	}
 }

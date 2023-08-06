@@ -35,11 +35,28 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		</div>
 	</div>
 
+	<div class="setting-container setting-container-characters">
+		<h2>
+			<span class="setting-characters-title-player"></span>
+			Choose your character
+		</h2>
+		<div class="setting-choices setting-character-choices" >
+			<?php foreach ($game->getCharacterSelectOptions() as $character) { ?>
+				<button class="button button-sfx button-setting-characters" data-character="<?php echo $character->getId(); ?>" >
+					<div class="button-character-icon">
+						<img class="pixelated" alt="" src="assets/images/<?php echo $character->getId(); ?>-duck.png" >
+					</div>
+					<span class="button-character-icon"><?php echo $character->getName(); ?></span>
+				</button>
+			<?php } ?>
+		</div>
+	</div>
+
 	<button class="button button-sfx button-setting-back">Back</button>
 </div>
 
-<audio class="audio audio-voice audio-voice-character" preload="auto">
-	<source src="assets/audio/voices/character.mp3" type="audio/mpeg">
+<audio class="audio audio-voice audio-voice-characters" preload="auto">
+	<source src="assets/audio/voices/characters.mp3" type="audio/mpeg">
 </audio>
 <audio class="audio audio-voice audio-voice-gamemode" preload="auto">
 	<source src="assets/audio/voices/gamemode.mp3" type="audio/mpeg">

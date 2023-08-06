@@ -130,13 +130,13 @@ function onResize() {
 }
 
 function setGameObjectsSizes() {
-	gameState.player.width = gameState.level.width * 0.05;
-	gameState.player.height = gameState.level.height * 0.05;
-	gameState.enemy.width = gameState.level.width * 0.05;
-	gameState.enemy.height = gameState.level.height * 0.05;
+	gameState.player.width = gameState.level.height * 0.05;
+	gameState.player.height = gameState.level.height * 0.05 * ( 28 / 24 );
+	gameState.enemy.width = gameState.level.height * 0.05;
+	gameState.enemy.height = gameState.level.height * 0.05 * ( 28 / 24 );
 
 	for (var index = 0; index < gameState.obstacles.length; index++) {
-		gameState.obstacles[index].width = gameState.level.width * 0.1;
+		gameState.obstacles[index].width = gameState.level.height * 0.1;
 		gameState.obstacles[index].height = gameState.level.height * 0.1;
 	}
 }

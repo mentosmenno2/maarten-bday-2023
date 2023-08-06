@@ -120,15 +120,15 @@ function onResize() {
 }
 
 function setGameObjectsSizes() {
-	gameState.player.width = gameState.level.width * 0.05 * 3;
-	gameState.player.height = gameState.level.height * 0.05;
+	gameState.player.width = gameState.level.height * 0.05 * 3;
+	gameState.player.height = gameState.level.height * 0.05 * ( 28 / 24 );
 	gameState.player.y = 10;
 
-	gameState.enemy.width = gameState.level.width * 0.05 * 3;
-	gameState.enemy.height = gameState.level.height * 0.05;
+	gameState.enemy.width = gameState.level.height * 0.05 * 3;
+	gameState.enemy.height = gameState.level.height * 0.05 * ( 28 / 24 );
 	gameState.enemy.y = gameState.level.height - gameState.player.height - 10;
 
-	gameState.ball.width = gameState.level.width * 0.02;
+	gameState.ball.width = gameState.level.height * 0.02;
 	gameState.ball.height = gameState.level.height * 0.02;
 }
 
