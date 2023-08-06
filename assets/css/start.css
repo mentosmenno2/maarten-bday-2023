@@ -55,6 +55,10 @@
 	background-color: #00cc00;
 }
 
+.button-setting-characters:hover, .button-setting-characters:focus {
+	background-color: rgba(0,204,0,0.5);
+}
+
 .button-character-icon {
 	display: flex;
     flex-direction: row;
