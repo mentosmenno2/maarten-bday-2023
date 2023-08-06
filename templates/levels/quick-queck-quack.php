@@ -6,6 +6,8 @@
 
 use Mentosmenno2\MaartenBday2023\Game;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
+
+$players = $game->getPlayers();
 ?>
 
 <div class="level level-quick-queck-quack">
@@ -13,19 +15,11 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		Turn indicator
 	</div>
 	<div class="turn-text turn-text-player">
-		<?php if (count($game->getPlayers()) > 1) { ?>
-			Player 1's turn
-		<?php } else { ?>
-			Your turn
-		<?php } ?>
+		<?php echo $players[0]->getName(); ?>'s turn
 	</div>
 
 	<div class="turn-text turn-text-enemy">
-		<?php if (count($game->getPlayers()) > 1) { ?>
-			Player 2's turn
-		<?php } else { ?>
-			Evil duck's turn
-		<?php } ?>
+		<?php echo isset($players[1]) ? $players[1]->getName() : 'Evil duck'; ?>'s turn
 	</div>
 
 	<div class="buttons-container">
@@ -35,9 +29,9 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	</div>
 
 	<div class="character character-player clonable">
-		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/<?php echo $players[0]->getId(); ?>-duck.png" >
 	</div>
 	<div class="character character-enemy clonable">
-		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/<?php echo isset($players[1]) ? $players[1]->getId() : 'evil'; ?>-duck.png" >
 	</div>
 </div>

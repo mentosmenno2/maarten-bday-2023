@@ -167,6 +167,10 @@ function initializeChat() {
 	}
 
 	if ( gameOptions.level.chat ) {
+		// Replace images, on start level no url param is present
+		$( '.talker-player img' ).attr( 'src', $( '.talker-player img' ).attr( 'src').replace( 'maarten', gameOptions.characters[0] ?? 'maarten' ) );
+		$( '.talker-player img' ).attr( 'src', $( '.talker-player img' ).attr( 'src').replace( 'evil', gameOptions.characters[1] ?? 'evil' ) );
+
 		$( '.audio-music-chat' )[0].play();
 		$( '.chat' ).show();
 

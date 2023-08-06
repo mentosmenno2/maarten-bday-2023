@@ -6,6 +6,8 @@
 
 use Mentosmenno2\MaartenBday2023\Game;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
+
+$players = $game->getPlayers();
 ?>
 
 <div class="level level-duck-pong">
@@ -26,15 +28,15 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	<span class="countdown" >3</span>
 
 	<div class="character character-enemy">
-		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
-		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
-		<img class="pixelated" alt="" src="assets/images/evil-duck.png" >
+		<?php for ($i=0; $i < 3; $i++) { ?>
+			<img class="pixelated" alt="" src="assets/images/<?php echo isset($players[1]) ? $players[1]->getId() : 'evil'; ?>-duck.png" >
+		<?php } ?>
 	</div>
 
 	<div class="character character-player">
-		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
-		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
-		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
+		<?php for ($i=0; $i < 3; $i++) { ?>
+			<img class="pixelated" alt="" src="assets/images/<?php echo $players[0]->getId(); ?>-duck.png" >
+		<?php } ?>
 	</div>
 
 	<div class="ball"></div>

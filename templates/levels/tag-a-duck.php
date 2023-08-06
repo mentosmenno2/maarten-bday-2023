@@ -6,6 +6,8 @@
 
 use Mentosmenno2\MaartenBday2023\Game;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
+
+$players = $game->getPlayers();
 ?>
 
 <div class="level level-tag-a-duck">
@@ -13,27 +15,24 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		<div class="progressbar-wrapper progressbar-wrapper-1">
 			<div class="progressbar-progress progressbar-progress-1"></div>
 			<span class="progressbar-text progressbar-text-1">
-				<?php if (count($game->getPlayers()) > 1) { ?>
-					Player 1
-				<?php } ?>
-				Tags
+				<?php echo $players[0]->getName(); ?> tags
 			</span>
 		</div>
 
 		<div class="progressbar-wrapper progressbar-wrapper-2">
 			<div class="progressbar-progress progressbar-progress-2"></div>
 			<span class="progressbar-text progressbar-text-2">
-				Player 2 Tags
+				<?php echo isset($players[1]) ? $players[1]->getName() : 'Evil duck'; ?> tags
 			</span>
 		</div>
 	</div>
 
 	<div class="character character-player character-player-1">
-		<img class="pixelated" alt="" src="assets/images/maarten-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/<?php echo $players[0]->getId(); ?>-duck.png" >
 	</div>
 
 	<div class="character character-player character-player-2">
-		<img class="pixelated" alt="" src="assets/images/duck.png" >
+		<img class="pixelated" alt="" src="assets/images/<?php echo isset($players[1]) ? $players[1]->getId() : 'empty'; ?>-duck.png" >
 	</div>
 
 	<div class="character character-enemy">
