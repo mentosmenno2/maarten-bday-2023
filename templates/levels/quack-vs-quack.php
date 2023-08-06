@@ -14,14 +14,14 @@ $players = $game->getPlayers();
 	<div class="healthbar-wrapper healthbar-wrapper-player">
 		<div class="healthbar-progress healthbar-progress-player"></div>
 		<span class="healthbar-text">
-			<?php echo $players[0]->getName(); ?> health
+			<?php echo isset($players[0]) ? $players[0]->getName() : 'Maarten'; ?>'s health
 		</span>
 	</div>
 
 	<div class="healthbar-wrapper healthbar-wrapper-enemy">
 		<div class="healthbar-progress healthbar-progress-enemy"></div>
 		<span class="healthbar-text">
-			<?php echo isset($players[1]) ? $players[1]->getName() : 'Evil duck'; ?> health
+			<?php echo isset($players[1]) ? $players[1]->getName() : 'Evil duck'; ?>'s health
 		</span>
 	</div>
 
@@ -30,6 +30,6 @@ $players = $game->getPlayers();
 	</div>
 
 	<div class="character character-player">
-		<img class="pixelated" alt="" src="assets/images/<?php echo $players[0]->getId(); ?>-duck.png" >
+		<img class="pixelated" alt="" src="assets/images/<?php echo isset($players[0]) ? $players[0]->getId() : 'maarten'; ?>-duck.png" >
 	</div>
 </div>

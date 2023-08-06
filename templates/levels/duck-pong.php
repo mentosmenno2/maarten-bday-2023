@@ -35,7 +35,7 @@ $players = $game->getPlayers();
 
 	<div class="character character-player">
 		<?php for ($i=0; $i < 3; $i++) { ?>
-			<img class="pixelated" alt="" src="assets/images/<?php echo $players[0]->getId(); ?>-duck.png" >
+			<img class="pixelated" alt="" src="assets/images/<?php echo isset($players[0]) ? $players[0]->getId() : 'maarten'; ?>-duck.png" >
 		<?php } ?>
 	</div>
 
