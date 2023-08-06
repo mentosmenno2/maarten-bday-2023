@@ -8,9 +8,7 @@ class EnemyMessage extends AbstractMessage
 {
 	public function __construct(string $message)
 	{
-		$players = Game::getInstance()->getPlayers();
-		$playerName = isset($players[1]) ? $players[1]->getName() : 'Evil duck';
-		parent::__construct($playerName . ': ' . $message);
+		parent::__construct('Evil duck: ' . $message);
 		$this->talker = 'enemy';
 	}
 }
