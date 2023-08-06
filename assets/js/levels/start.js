@@ -72,6 +72,10 @@ function onCharacterButtonClick() {
 	gameOptions.characters.push( $( this ).attr( 'data-character' ) );
 	$( this ).addClass( 'chosen' );
 
+	if ( gameOptions.players > 1 ) {
+		$( '.setting-characters-title-player' ).text( 'Player ' + ( gameOptions.characters.length + 1 ) + ': ' );
+	}
+
 	if ( gameOptions.players !== gameOptions.characters.length ) {
 		return;
 	}
@@ -119,6 +123,9 @@ function showSettingCharacters() {
 	$( '.setting-container' ).hide();
 	$( '.button-setting-characters' ).attr( 'disabled', false );
 	$( '.button-setting-characters' ).removeClass( 'chosen' );
+	if ( gameOptions.players > 1 ) {
+		$( '.setting-characters-title-player' ).text( 'Player 1: ' );
+	}
 	$( '.setting-container-characters' ).show();
 
 	$( '.audio-voice-characters' )[0].pause();

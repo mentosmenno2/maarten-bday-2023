@@ -38,7 +38,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	<div class="setting-container setting-container-characters">
 		<h2>
 			<span class="setting-characters-title-player"></span>
-			Select your character
+			Choose your character
 		</h2>
 		<div class="setting-choices setting-character-choices" >
 			<?php foreach ($game->getCharacterSelectOptions() as $character) { ?>
