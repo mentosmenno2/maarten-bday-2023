@@ -41,6 +41,29 @@
 	display: none;
 }
 
+.button-setting-characters {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
 .button-setting-characters.chosen {
 	background-color: #00cc00;
+}
+
+.button-character-icon {
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-character-icon > img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
 }

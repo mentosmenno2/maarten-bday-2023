@@ -43,7 +43,10 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		<div class="setting-choices setting-character-choices" >
 			<?php foreach ($game->getCharacterSelectOptions() as $character) { ?>
 				<button class="button button-sfx button-setting-characters" data-character="<?php echo $character->getId(); ?>" >
-					<?php echo $character->getName(); ?>
+					<div class="button-character-icon">
+						<img class="pixelated" alt="" src="assets/images/<?php echo $character->getId(); ?>-duck.png" >
+					</div>
+					<span class="button-character-icon"><?php echo $character->getName(); ?></span>
 				</button>
 			<?php } ?>
 		</div>
