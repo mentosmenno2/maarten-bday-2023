@@ -77,15 +77,31 @@ function onCharacterButtonClick() {
 }
 
 function onCharacterSelectKeyUp( event ) {
+	if ( [37, 65].includes( event.keyCode ) ) { // Left
+		console.log('left');
+		console.log(gameState.player2CharacterIndex % 2);
+		if ( gameState.player2CharacterIndex % 2 != 0 ) {
+			gameState.player2CharacterIndex = gameState.player2CharacterIndex - 1;
+		}
+	}
+
+	if ( [39, 68].includes( event.keyCode ) ) { // Right
+		console.log('right');
+		console.log(gameState.player2CharacterIndex % 2);
+		if ( gameState.player2CharacterIndex % 2 != 1 ) {
+			gameState.player2CharacterIndex = gameState.player2CharacterIndex + 1;
+		}
+	}
+
 	if ( [38, 87].includes( event.keyCode ) ) { // Up
-		if ( gameState.player2CharacterIndex > 0 ) {
-			gameState.player2CharacterIndex--;
+		if ( gameState.player2CharacterIndex > 1 ) {
+			gameState.player2CharacterIndex = gameState.player2CharacterIndex - 2;
 		}
 	}
 
 	if ( [40, 83].includes( event.keyCode ) ) { // Down
 		if ( gameState.player2CharacterIndex < $( '.button-setting-characters' ).length - 1 ) {
-			gameState.player2CharacterIndex++;
+			gameState.player2CharacterIndex = gameState.player2CharacterIndex + 2;
 		}
 	}
 
@@ -115,6 +131,8 @@ function chooseCharacter( $button ) {
 
 	if ( gameOptions.players !== gameOptions.characters.length ) { // More players need to select
 		$( document ).on( 'keyup', onCharacterSelectKeyUp );
+		var $button = $( '.button-setting-characters' ).eq( gameState.player2CharacterIndex );
+		$button.focus();
 		return;
 	}
 
