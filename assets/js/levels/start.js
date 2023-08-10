@@ -228,7 +228,7 @@ function showSettingConfirmReady() {
 	}
 
 	if ( gameOptions.mode != 'story' ) {
-		$( '.setting-confirm-ready-selection' ).append( '<li>Level: ' + $( '.button-setting-minigame[data-level="' + gameOptions.nextLevel + '"]' ).text() + '</li>' );
+		$( '.setting-confirm-ready-selection' ).append( '<li>Minigame: ' + $( '.button-setting-minigame[data-level="' + gameOptions.nextLevel + '"]' ).text() + '</li>' );
 	}
 
 	$( '.setting-container-confirm-ready' ).show();
