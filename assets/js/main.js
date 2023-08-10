@@ -14,18 +14,53 @@ var gameOptions = {
 };
 
 function initialize() {
-	$( '.audio-music' ).each( function( index ) {
-		$( this )[0].volume = 0.02;
-	} );
-
-	$( '.audio-voice' ).each( function( index ) {
-		$( this )[0].volume = 0.4;
-	} );
+	setAudioVolumes();
 
 	addLoadingEventListeners();
+	addVolumeSlidersEventListeners();
 
 	gameOptions.loading.total += $( 'audio' ).length;
 	gameOptions.loading.timeout = setTimeout(onCannotLoadAssets, 10000);
+}
+
+function addVolumeSlidersEventListeners() {
+	$( '#volume-audio-effect' ).on( 'change input', onChangeVolume );
+	$( '#volume-audio-voice' ).on( 'change input', onChangeVolume );
+	$( '#volume-audio-music' ).on( 'change input', onChangeVolume );
+}
+
+function onChangeVolume() {
+	// Store volumes
+	localStorage.setItem( 'volume-audio-music', parseInt( $( '#volume-audio-music' ).val() ) );
+	localStorage.setItem( 'volume-audio-effect', parseInt( $( '#volume-audio-effect' ).val() ) );
+
+	// Set audio volumes from stored data
+	setAudioVolumes();
+}
+
+function setAudioVolumes() {
+	var musicVolume = localStorage.getItem( 'volume-audio-music' );
+	musicVolume = musicVolume !== null ? parseInt( musicVolume ) : 20;
+	var effectVolume = localStorage.getItem( 'volume-audio-effect' );
+	effectVolume = effectVolume !== null ? parseInt( effectVolume ) : 100;
+	var voiceVolume = effectVolume / 2;
+
+	$( '#volume-audio-music' ).val( musicVolume );
+	$( '#volume-audio-effect' ).val( effectVolume );
+	$( '.volume-audio-music-value' ).text(musicVolume);
+	$( '.volume-audio-effect-value' ).text(effectVolume);
+
+	$( '.audio-music' ).each( function( index ) {
+		$( this )[0].volume = parseFloat(musicVolume / 100);
+	} );
+
+	$( '.audio-effect' ).each( function( index ) {
+		$( this )[0].volume = parseFloat(effectVolume / 100);
+	} );
+
+	$( '.audio-voice' ).each( function( index ) {
+		$( this )[0].volume = parseFloat(voiceVolume / 100);
+	} );
 }
 
 function addLoadingEventListeners() {

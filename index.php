@@ -76,7 +76,17 @@ $characters = $game->getCharacters();
 			<?php ( new Templates() )->echoTemplate('loading'); ?>
 		</main>
 		<footer>
-			<p>&#169; Menno van den Ende - 2023</p>
+			<div class="volume-settings">
+				<div>
+					<label for="volume-music">Music volume: <span class="volume-value volume-audio-music-value"></span>%</label>
+					<input type="range" min="0" max="100" value="0" class="slider slider-volume" id="volume-audio-music">
+				</div>
+				<div>
+					<label for="volume-audio-effect">Audio effect volume: <span class="volume-value volume-audio-effect-value"></span>%</label>
+					<input type="range" min="0" max="100" value="0" class="slider slider-volume" id="volume-audio-effect">
+				</div>
+			</div>
+			<p class="copyright">&#169; Menno van den Ende - 2023</p>
 		</footer>
 
 		<audio class="audio audio-effect audio-effect-rubberduck-2" preload="auto">
@@ -85,10 +95,10 @@ $characters = $game->getCharacters();
 		<audio class="audio audio-effect audio-effect-rubberduck-1" preload="auto">
 			<source src="assets/audio/effects/rubberduck-1.mp3" type="audio/mpeg">
 		</audio>
-		<audio class="audio audio-effect-fail" preload="auto">
+		<audio class="audio audio-effect audio-effect-fail" preload="auto">
 			<source src="assets/audio/effects/fail.mp3" type="audio/mpeg">
 		</audio>
-		<audio class="audio audio-effect-button" preload="auto">
+		<audio class="audio audio-effect audio-effect-button" preload="auto">
 			<source src="assets/audio/effects/button.mp3" type="audio/mpeg">
 		</audio>
 		<audio class="audio audio-music audio-music-chat" preload="auto" loop>

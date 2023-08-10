@@ -283,3 +283,53 @@ img.pixelated {
 	justify-content: center;
 	align-items: center;
 }
+
+footer {
+	margin-top: 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+.volume-settings {
+	max-width: 100%;
+	width: 200px;
+}
+
+.copyright {
+	margin: 0;
+	padding: 0;
+}
+
+.slider {
+	-webkit-appearance: none;  /* Override default CSS styles */
+	appearance: none;
+	width: 100%; /* Full-width */
+	height: 10px; /* Specified height */
+	background: #cccccc; /* Grey background */
+	outline: none; /* Remove outline */
+	opacity: 1; /* Set transparency (for mouse-over effects on hover) */
+	border-radius: 10px;
+}
+
+.slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #00cc00;
+	cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #00cc00;
+	cursor: pointer;
+}
