@@ -18,6 +18,7 @@ function addGameEventListeners() {
 	$( '.button-setting-minigame' ).on( 'click', onMinigameButtonClick );
 	$( '.button-setting-players' ).on( 'click', onPlayersButtonClick );
 	$( '.button-setting-characters' ).on( 'click', onCharacterButtonClick );
+	$( '.button-setting-confirm-ready' ).on( 'click', onConfirmReadyButtonClick );
 }
 
 function startGame() {
@@ -51,6 +52,12 @@ function onBackButtonClick() {
 			showSettingMode();
 		} else {
 			showSettingPlayers();
+		}
+	} else if ( $( '.setting-container-confirm-ready' ).is( ':visible' ) ) {
+		if ( gameOptions.mode == 'story' ) {
+			showSettingCharacters();
+		} else {
+			showSettingMinigame();
 		}
 	}
 }
@@ -113,6 +120,10 @@ function onCharacterSelectKeyUp( event ) {
 	}
 }
 
+function onConfirmReadyButtonClick() {
+	stopMenu();
+}
+
 function chooseCharacter( $button ) {
 	$button.blur();
 	if ( gameOptions.characters.includes( $button.attr( 'data-character' ) ) ) {
@@ -138,7 +149,7 @@ function chooseCharacter( $button ) {
 
 	$( document ).off( 'keyup', onCharacterSelectKeyUp );
 	if ( gameOptions.mode == 'story' ) {
-		stopMenu();
+		showSettingConfirmReady();
 	} else {
 		showSettingMinigame();
 	}
@@ -146,7 +157,7 @@ function chooseCharacter( $button ) {
 
 function onMinigameButtonClick() {
 	gameOptions.nextLevel = $( this ).attr( 'data-level' );
-	stopMenu();
+	showSettingConfirmReady();
 }
 
 function showSettingMode() {
@@ -192,6 +203,31 @@ function showSettingCharacters() {
 	$( '.audio-voice-characters' )[0].play();
 
 	gameOptions.characters = [];
+}
+
+function showSettingConfirmReady() {
+	$( '.setting-container' ).hide();
+
+	$( '.setting-confirm-ready-selection' ).html( '' );
+	$( '.setting-confirm-ready-selection' ).append( '<li>Gamemode: ' + $( '.button-setting-mode[data-mode="' + gameOptions.mode + '"]' ).text() + '</li>' );
+
+	if ( gameOptions.players == 1 ) {
+		$( '.setting-confirm-ready-selection' ).append( '<li>Player: ' + gameOptions.availableCharacters[gameOptions.characters[0] ?? 'maarten'].name + '</li>' );
+	} else {
+		gameOptions.characters.forEach(( characterId, characterIndex ) => {
+			$( '.setting-confirm-ready-selection' ).append( '<li>Player ' + ( characterIndex + 1 ) + ': ' + gameOptions.availableCharacters[gameOptions.characters[characterIndex] ?? 'maarten'].name + '</li>' );
+		});
+	}
+
+	if ( gameOptions.mode != 'story' ) {
+		$( '.setting-confirm-ready-selection' ).append( '<li>Level: ' + $( '.button-setting-minigame[data-level="' + gameOptions.nextLevel + '"]' ).text() + '</li>' );
+	}
+
+	$( '.setting-container-confirm-ready' ).show();
+
+	$( '.audio-voice-ready' )[0].pause();
+	$( '.audio-voice-ready' )[0].currentTime = 0;
+	$( '.audio-voice-ready' )[0].play();
 }
 
 function stopMenu() {

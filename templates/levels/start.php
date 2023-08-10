@@ -52,6 +52,16 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 		</div>
 	</div>
 
+	<div class="setting-container setting-container-confirm-ready">
+		<h2>Are you ready?</h2>
+
+		<ul class="setting-confirm-ready-selection"></ul>
+
+		<div class="setting-choices setting-confirm-ready-choices" >
+			<button class="button button-sfx button-setting-confirm-ready">Ready!</button>
+		</div>
+	</div>
+
 	<button class="button button-sfx button-setting-back">Back</button>
 </div>
 
@@ -66,4 +76,7 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 </audio>
 <audio class="audio audio-voice audio-voice-players" preload="auto">
 	<source src="assets/audio/voices/players.mp3" type="audio/mpeg">
+</audio>
+<audio class="audio audio-voice audio-voice-ready" preload="auto">
+	<source src="assets/audio/voices/ready.mp3" type="audio/mpeg">
 </audio>
