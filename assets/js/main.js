@@ -2,6 +2,7 @@ var urlObject = new URL(window.location.href);
 var gameOptions = {
 	level: JSON.parse( $('.game').attr( 'data-level' ) ),
 	nextLevel: $('.game').attr( 'data-next-level' ),
+	availableCharacters: JSON.parse( $('.game').attr( 'data-characters' ) ),
 	mode: urlObject.searchParams.get( 'mode' ) ? urlObject.searchParams.get( 'mode' ) : 'story',
 	players: urlObject.searchParams.getAll( 'players[]' ).length ? urlObject.searchParams.getAll( 'players[]' ).length : 1,
 	characters: urlObject.searchParams.getAll( 'players[]' ).length > 0 ? urlObject.searchParams.getAll( 'players[]' ) : [ 'maarten' ],
@@ -235,7 +236,7 @@ function showChatMessage() {
 		var oldCharacterNameParts = chatMessage.message.split(':');
 		var oldCharacterName = oldCharacterNameParts[0];
 
-		messageToShow = chatMessage.message.replace( oldCharacterName, gameOptions.characters[0] ?? 'Maarten' );
+		messageToShow = chatMessage.message.replace( oldCharacterName, gameOptions.availableCharacters[gameOptions.characters[0] ?? 'maarten'].name );
 		messageToShow = messageToShow.charAt(0).toUpperCase() + messageToShow.slice(1);
 	}
 

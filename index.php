@@ -16,6 +16,7 @@ $game = Game::getInstance();
 $currentLevel = $game->getLevel();
 $chat = $currentLevel ? $currentLevel->getChat() : null;
 $nextLevel = $game->getNextLevel();
+$characters = $game->getCharacters();
 
 ?>
 
@@ -45,6 +46,7 @@ $nextLevel = $game->getNextLevel();
 			class="game"
 			data-next-level="<?php echo $nextLevel->getId(); ?>"
 			data-level="<?php echo htmlspecialchars(json_encode($currentLevel?: '') ?: '', ENT_QUOTES); ?>"
+			data-characters="<?php echo htmlspecialchars(json_encode($characters?: '') ?: '', ENT_QUOTES); ?>"
 		>
 			<?php if ($currentLevel) { ?>
 				<?php ( new Templates() )->echoTemplate('instructions', array(
