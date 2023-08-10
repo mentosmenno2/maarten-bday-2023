@@ -53,12 +53,23 @@ use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 	</div>
 
 	<div class="setting-container setting-container-confirm-ready">
-		<h2>Are you ready?</h2>
+		<div class="setting-container-background-images">
+			<div class="setting-container-background-image">
+				<img class="pixelated flipped-horizontal" alt="" data-src="assets/images/CHARACTER_ID-duck.png" src="" >
+			</div>
+			<div class="setting-container-background-image">
+				<img class="pixelated" alt="" data-src="assets/images/CHARACTER_ID-duck.png" src="" >
+			</div>
+		</div>
 
-		<ul class="setting-confirm-ready-selection"></ul>
+		<div class="setting-container-front">
+			<h2>Are you ready?</h2>
 
-		<div class="setting-choices setting-confirm-ready-choices" >
-			<button class="button button-sfx button-setting-confirm-ready">Ready!</button>
+			<ul class="setting-confirm-ready-selection"></ul>
+
+			<div class="setting-choices setting-confirm-ready-choices" >
+				<button class="button button-sfx button-setting-confirm-ready">Ready!</button>
+			</div>
 		</div>
 	</div>
 

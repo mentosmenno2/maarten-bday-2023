@@ -209,12 +209,20 @@ function showSettingConfirmReady() {
 	$( '.setting-container' ).hide();
 
 	$( '.setting-confirm-ready-selection' ).html( '' );
+	$( '.setting-container-background-image' ).hide();
+
 	$( '.setting-confirm-ready-selection' ).append( '<li>Gamemode: ' + $( '.button-setting-mode[data-mode="' + gameOptions.mode + '"]' ).text() + '</li>' );
 
 	if ( gameOptions.players == 1 ) {
+		$( '.setting-container-background-image img' ).eq( 0 ).attr( 'src', $( '.setting-container-background-image img' ).eq( 0 ).attr( 'data-src' ).replace( 'CHARACTER_ID', gameOptions.characters[0] ?? 'maarten' ) );
+		$( '.setting-container-background-image' ).eq( 0 ).show();
+
 		$( '.setting-confirm-ready-selection' ).append( '<li>Player: ' + gameOptions.availableCharacters[gameOptions.characters[0] ?? 'maarten'].name + '</li>' );
 	} else {
 		gameOptions.characters.forEach(( characterId, characterIndex ) => {
+			$( '.setting-container-background-image img' ).eq( characterIndex ).attr( 'src', $( '.setting-container-background-image img' ).eq( 0 ).attr( 'data-src' ).replace( 'CHARACTER_ID', gameOptions.characters[characterIndex] ?? 'maarten' ) );
+			$( '.setting-container-background-image' ).eq( characterIndex ).show();
+
 			$( '.setting-confirm-ready-selection' ).append( '<li>Player ' + ( characterIndex + 1 ) + ': ' + gameOptions.availableCharacters[gameOptions.characters[characterIndex] ?? 'maarten'].name + '</li>' );
 		});
 	}
