@@ -82,7 +82,7 @@ $characters = $game->getCharacters();
 					<input type="range" min="0" max="100" value="0" class="slider slider-volume" id="volume-audio-music">
 				</div>
 				<div>
-					<label for="volume-audio-effect">Audio effect volume: <span class="volume-value volume-audio-effect-value"></span>%</label>
+					<label for="volume-audio-effect">Effects volume: <span class="volume-value volume-audio-effect-value"></span>%</label>
 					<input type="range" min="0" max="100" value="0" class="slider slider-volume" id="volume-audio-effect">
 				</div>
 			</div>
