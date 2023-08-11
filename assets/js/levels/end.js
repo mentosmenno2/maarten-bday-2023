@@ -58,7 +58,7 @@ var gameState = {
 			text: 'HeatleyBros - 8 Bit Ending!',
 		},
 		{
-			title: 'Happy birhtday Maarten!',
+			title: 'Happy birthday Maarten!',
 			text: '<button class="button button-main-menu">Main menu</button>',
 		},
 	],
