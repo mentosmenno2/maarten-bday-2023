@@ -305,3 +305,39 @@ function showChatMessage() {
 }
 
 $( document ).ready( initialize() );
+
+/* consoleimg v1.0 - chris johnson / @defaced */
+var consoleimg = (function () {
+	return {
+	  load: function (i, { size: s = 320, color: c = 'transparent' } = {}) {
+		var r = new FileReader()
+		r.addEventListener('load', function () {
+		  /* Format the CSS string for console.log */
+		  var o = 'background: url(\'' + r.result + '\') left top no-repeat; font-size: ' + s + 'px; background-size: contain; background-color:' + c
+		  /* Output to the console. */
+		  console.log('%c     ', o)
+		}, false)
+		fetch(i)
+		/* Return the data as a blob. */
+		  .then(r => r.blob())
+		  .then(b => {
+			/* Only proceed if the blob is an image. */
+			if (b.type.indexOf('image') === 0) {
+			  /* Warn if larger than the 8KB that Firefox allows. */
+			  if (b.size > 8192 && navigator.userAgent.indexOf('Firefox') > 0) {
+				throw new Error('Image size too big to be displayed in Firefox.')
+			  }
+			  return b
+			} else {
+			  /* Warn if the blob is not an image. */
+			  throw new Error('Valid image not found.')
+			}
+		  })
+		  /* Read the blob as base64. */
+		  .then(i => r.readAsDataURL(i))
+		  .catch(e => console.warn(e.message))
+	  }
+	}
+})()
+consoleimg.load('assets/images/giant-duck-wat.jpg', {size: 320});
+console.log("%c🦆 QUACK! A cheater? No no no, we don't allow those here! Feel free to look into the code after playing by asking for access to the GitHub repository.", "background: #0f0f23; color: #00cc00; font-size: 14px; font-weight: normal; border-radius: 10px; padding: 10px")
