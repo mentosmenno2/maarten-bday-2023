@@ -15,8 +15,13 @@
 		<button class="button button-sfx button-results button-results-lost">Retry</button>
 	</div>
 
-	<div class="results-option results-option-won-mp">
-		<h2>Player <span class="results-mp-player-number">1</span> wins</h2>
+	<div class="results-option results-option-won-minigame">
+		<h2>Player <span class="results-minigame-player-number">1</span> wins</h2>
+		<button class="button button-sfx button-results button-results-won">Continue</button>
+	</div>
+
+	<div class="results-option results-option-lost-minigame">
+		<h2>You lost</h2>
 		<button class="button button-sfx button-results button-results-won">Continue</button>
 	</div>
 

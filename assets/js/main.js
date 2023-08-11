@@ -144,6 +144,14 @@ function goToNextLevel( level = null ) {
 // Results
 // =====================
 
+/**
+ * Init results based on player number that has won
+ * - 0: enemy
+ * - 1: player 1
+ * - 2: player 2
+ * - -1: draw
+ * @param {number} won
+ */
 function initializeResults( playerNumberWon ) {
 	addResultsEventListeners();
 
@@ -152,11 +160,15 @@ function initializeResults( playerNumberWon ) {
 		if ( gameOptions.players == 1 ) {
 			$( '.results-option-won' ).show();
 		} else {
-			$( '.results-mp-player-number' ).text( playerNumberWon );
-			$( '.results-option-won-mp' ).show();
+			$( '.results-minigame-player-number' ).text( playerNumberWon );
+			$( '.results-option-won-minigame' ).show();
 		}
 	} else if ( playerNumberWon === 0 ) {
-		$( '.results-option-lost' ).show();
+		if ( gameOptions.mode === 'story' ) {
+			$( '.results-option-lost' ).show();
+		} else {
+			$( '.results-option-lost-minigame' ).show();
+		}
 	} else {
 		$( '.results-option-draw' ).show();
 	}
@@ -177,10 +189,14 @@ function onResultsWonButtonClick() {
 
 function onResultsLostButtonClick() {
 	window.location.reload();
+	if ( gameOptions.mode !== 'story' ) {
+		goToNextLevel( gameOptions.level.id === 'start' ? null : 'start' );
+		return;
+	}
 }
 
 function onResultsDrawButtonClick() {
-	if ( gameOptions.players == 1 && gameOptions.mode === 'story' ) {
+	if ( gameOptions.mode === 'story' ) {
 		window.location.reload();
 	} else {
 		$( '.results' ).hide();
