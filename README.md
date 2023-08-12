@@ -23,4 +23,4 @@
 
 Link: https://www.youtube.com/watch?v=mlieVi5_l4c
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mlieVi5_l4c" title="Making of Maarten Bday 2023 - The Stolen Present" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Play Making of Maarten Bday 2023 - The Stolen Present video](./assets/images/making-of-video.png)](https://www.youtube.com/watch?v=mlieVi5_l4c)
