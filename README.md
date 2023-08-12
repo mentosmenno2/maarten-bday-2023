@@ -9,6 +9,6 @@ This project has been made for Maarten because it's his birthday.
 
 ## Making of video
 
-Link: https://www.youtube.com/watch?v=mlieVi5_l4c
+Link: https://www.youtube.com/watch?v=tQeP_2efIyQ
 
-[![Play Making of Maarten Bday 2023 - The Stolen Present video](./assets/images/making-of-video.png)](https://www.youtube.com/watch?v=mlieVi5_l4c)
+[![Play Making of Maarten Bday 2023 - The Stolen Present video](./assets/images/making-of-video.png)](https://www.youtube.com/watch?v=tQeP_2efIyQ)
