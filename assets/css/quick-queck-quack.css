@@ -51,6 +51,7 @@
 .character {
 	display: none;
 	height: 80%;
+	aspect-ratio: 24 / 28;
 }
 
 .character > img {
