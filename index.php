@@ -28,6 +28,8 @@ $characters = $game->getCharacters();
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Maarten Bday 2023 - The Stolen Present</title>
 
+		<link rel="icon" type="image/png" href="assets/images/favicon.png">
+
 		<link rel="preload" href="assets/fonts/VT323/VT323-Regular.woff" as="font" type="font/woff" crossorigin>
 		<link rel="preload" href="assets/fonts/VT323/VT323-Regular.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="stylesheet" href="assets/fonts/VT323/stylesheet.css" />
