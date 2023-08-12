@@ -14,7 +14,7 @@ class LevelStart extends AbstractLevel
 
 	public function getName(): string
 	{
-		return 'The stolen present';
+		return 'The Stolen Present';
 	}
 
 	public function getChat(): ?AbstractChat

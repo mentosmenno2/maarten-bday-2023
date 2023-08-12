@@ -6,7 +6,7 @@ var gameState = {
 	currentCredit: 0,
 	credits: [
 		{
-			title: 'The stolen present',
+			title: 'The Stolen Present',
 			text: 'A game created for Maarten Sijm',
 		},
 		{
