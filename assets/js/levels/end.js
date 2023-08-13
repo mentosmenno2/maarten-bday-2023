@@ -59,7 +59,7 @@ var gameState = {
 		},
 		{
 			title: 'Happy birthday Maarten!',
-			text: '<p><a class="button button-making-of" href"https://www.youtube.com/watch?v=tQeP_2efIyQ">Making of video</a></p><p><button class="button button-main-menu">Main menu</button></p>',
+			text: '<p><a class="button button-making-of" href="https://www.youtube.com/watch?v=tQeP_2efIyQ">Making of video</a></p><p><button class="button button-main-menu">Main menu</button></p>',
 		},
 	],
 }
