@@ -42,11 +42,11 @@ var gameState = {
 			text: 'Menno van den Ende',
 		},
 		{
-			title: 'Menu Music',
+			title: 'Menu music',
 			text: 'Bulby - Menu 1 8 Bit Remix - Super Smash Bros. Melee',
 		},
 		{
-			title: 'In Game Music',
+			title: 'Minigame music',
 			text: 'Quiet Machine - Showdown!',
 		},
 		{
