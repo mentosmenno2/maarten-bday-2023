@@ -6,7 +6,7 @@ var gameState = {
 	currentCredit: 0,
 	credits: [
 		{
-			title: 'The stolen present',
+			title: 'The Stolen Present',
 			text: 'A game created for Maarten Sijm',
 		},
 		{
@@ -35,7 +35,7 @@ var gameState = {
 		},
 		{
 			title: 'Game code assistant',
-			text: 'Jan-Maarten Leegerstee',
+			text: 'Jan-Maarten Legerstee',
 		},
 		{
 			title: 'Menu voice',
@@ -58,8 +58,8 @@ var gameState = {
 			text: 'HeatleyBros - 8 Bit Ending!',
 		},
 		{
-			title: 'Happy birhtday Maarten!',
-			text: '<button class="button button-main-menu">Main menu</button>',
+			title: 'Happy birthday Maarten!',
+			text: '<p><a class="button button-making-of" href"https://www.youtube.com/watch?v=tQeP_2efIyQ">Making of video</a></p><p><button class="button button-main-menu">Main menu</button></p>',
 		},
 	],
 }

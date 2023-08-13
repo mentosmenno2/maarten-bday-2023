@@ -64,7 +64,7 @@ function addGameEventListeners() {
 function onShowChatMessage( event, index ) {
 	if ( index === 0 ) {
 		$presentElement = $( '<img class="present pixelated" als="" src="assets/images/present.png" />' );
-		$presentElement.css( 'bottom', 0 );
+		$presentElement.css( 'bottom', '20px' );
 		$presentElement.css( 'right', '30%' );
 		$('.talker__container').append($presentElement);
 	}

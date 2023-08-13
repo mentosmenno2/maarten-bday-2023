@@ -151,4 +151,17 @@ class Game
 
 		return $characters;
 	}
+
+	/**
+	 * @return array<string,AbstractCharacter>
+	 */
+	public function getCharacters(): array
+	{
+		return array_combine(
+			array_map(function (AbstractCharacter $character): string {
+				return $character->getId();
+			}, $this->characters),
+			$this->characters
+		);
+	}
 }
