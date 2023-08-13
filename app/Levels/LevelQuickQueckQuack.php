@@ -19,7 +19,7 @@ class LevelQuickQueckQuack extends AbstractLevel
 
 	public function getInstructions(): string
 	{
-		return 'When it\'s your turn, place a duck. Get three in a row to in the game.';
+		return 'When it\'s your turn, place a duck. Get three in a row to win the game.';
 	}
 
 	public function getControlsMouseClick(): string
