@@ -43,7 +43,7 @@
 	margin: 0;
 	padding: 0;
 	border: 0;
-	border-top: 2px dashed white;
+	border-top: 2px dashed #cccccc;
 }
 
 .countdown {
