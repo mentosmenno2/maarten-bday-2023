@@ -7,8 +7,9 @@ var gameOptions = {
 	players: urlObject.searchParams.getAll( 'players[]' ).length ? urlObject.searchParams.getAll( 'players[]' ).length : 1,
 	characters: urlObject.searchParams.getAll( 'players[]' ).length > 0 ? urlObject.searchParams.getAll( 'players[]' ) : [ 'maarten' ],
 	loading: {
-		timeout: null,
+		fakeInterval: null,
 		current: 0,
+		fakeCurrent: 0,
 		total: 0,
 	}
 };
@@ -19,8 +20,9 @@ function initialize() {
 	addLoadingEventListeners();
 	addVolumeSlidersEventListeners();
 
+	// Prepare loading both real and fake
 	gameOptions.loading.total += $( 'audio' ).length;
-	gameOptions.loading.timeout = setTimeout(onCannotLoadAssets, 10000);
+	gameOptions.loading.fakeInterval = setInterval(onLoadingInterval, 8000);
 }
 
 function addVolumeSlidersEventListeners() {
@@ -67,27 +69,42 @@ function addLoadingEventListeners() {
 	$( 'audio' ).on( 'canplaythrough', onLoadingItemLoaded );
 }
 
+/**
+ * Actual asset is loaded
+ */
 function onLoadingItemLoaded() {
 	gameOptions.loading.current++;
-	var percent = gameOptions.loading.current / gameOptions.loading.total * 100;
+	updateLoadingProgress();
+}
+
+/**
+ * Fake asset is loaded
+ */
+function onLoadingInterval() {
+	gameOptions.loading.fakeCurrent++;
+	updateLoadingProgress();
+}
+
+/**
+ * Update the progress bar using the furthest of the real or fake loading
+ */
+function updateLoadingProgress() {
+	var currentToUse = Math.max( gameOptions.loading.current, gameOptions.loading.fakeCurrent );
+	var percent = currentToUse / gameOptions.loading.total * 100;
 	$( '.loadingbar-progress' ).css( 'width', percent + '%' );
 	$( '.loadingbar-text' ).text( Math.round( percent ) + '%' );
 
-	if ( gameOptions.loading.current === gameOptions.loading.total ) {
+	if ( currentToUse === gameOptions.loading.total ) {
 		allAssetsLoaded();
 	}
 }
 
-function onCannotLoadAssets() {
-	gameOptions.loading.current = gameOptions.loading.total;
-	$( '.loadingbar-progress' ).css( 'width', '100%' );
-	$( '.loadingbar-text' ).text( '100%' );
-	allAssetsLoaded();
-}
-
+/**
+ * Everything is loaded. Clear fake timeout and go to next screen after a small delay.
+ */
 function allAssetsLoaded() {
-	clearTimeout( gameOptions.loading.timeout );
-	gameOptions.loading.timeout = null;
+	clearInterval( gameOptions.loading.fakeInterval );
+	gameOptions.loading.fakeInterval = null;
 
 	setTimeout(() => {
 		addEventListeners();
