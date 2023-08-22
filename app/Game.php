@@ -54,11 +54,11 @@ class Game
 
 		$this->characters = array(
 			new CharacterMaarten(),
+			new CharacterMenno(),
 			new CharacterAnnemarie(),
 			new CharacterDanielle(),
 			new CharacterDavina(),
 			new CharacterJelle(),
-			new CharacterMenno(),
 			new CharacterTom(),
 			new CharacterBatman(),
 			new CharacterHulk(),
