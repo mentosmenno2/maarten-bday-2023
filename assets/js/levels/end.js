@@ -22,12 +22,12 @@ var gameState = {
 			text: 'OpenAI ChatGPT',
 		},
 		{
-			title: 'Design',
+			title: 'Overall design',
 			text: 'Menno van den Ende with inspiration from The Advent of Code',
 		},
 		{
-			title: 'Artwork',
-			text: 'Menno van den Ende',
+			title: 'Character design',
+			text: 'Annemarie Sijm, Jelle van den Ende, Daniëlle Sijm, Davina van Meer, Tom den Harder, Menno van den Ende',
 		},
 		{
 			title: 'Game code',
