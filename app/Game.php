@@ -3,12 +3,18 @@
 namespace Mentosmenno2\MaartenBday2023;
 
 use Mentosmenno2\MaartenBday2023\Characters\AbstractCharacter;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterAnnemarie;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterBatman;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterDanielle;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterDavina;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterHulk;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterJelle;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterMaarten;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterMenno;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterNinjaTurtle;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterSonic;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterSpiderman;
+use Mentosmenno2\MaartenBday2023\Characters\CharacterTom;
 use Mentosmenno2\MaartenBday2023\Characters\CharacterWaldo;
 use Mentosmenno2\MaartenBday2023\Levels\AbstractLevel;
 use Mentosmenno2\MaartenBday2023\Levels\LevelDuckPong;
@@ -48,6 +54,12 @@ class Game
 
 		$this->characters = array(
 			new CharacterMaarten(),
+			new CharacterMenno(),
+			new CharacterAnnemarie(),
+			new CharacterDanielle(),
+			new CharacterDavina(),
+			new CharacterJelle(),
+			new CharacterTom(),
 			new CharacterBatman(),
 			new CharacterHulk(),
 			new CharacterNinjaTurtle(),

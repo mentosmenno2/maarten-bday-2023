@@ -22,12 +22,12 @@ var gameState = {
 			text: 'OpenAI ChatGPT',
 		},
 		{
-			title: 'Design',
+			title: 'Overall design',
 			text: 'Menno van den Ende with inspiration from The Advent of Code',
 		},
 		{
-			title: 'Artwork',
-			text: 'Menno van den Ende',
+			title: 'Character design',
+			text: 'Annemarie Sijm, Jelle van den Ende, Daniëlle Sijm, Davina van Meer, Tom den Harder, Menno van den Ende',
 		},
 		{
 			title: 'Game code',
@@ -59,7 +59,7 @@ var gameState = {
 		},
 		{
 			title: 'Happy birthday Maarten!',
-			text: '<p><a class="button button-making-of" href="https://www.youtube.com/watch?v=tQeP_2efIyQ">Making of video</a></p><p><button class="button button-main-menu">Main menu</button></p>',
+			text: '<p><a class="button button-making-of" href="https://www.youtube.com/watch?v=ikeGPPJ7A3I">Making of video</a></p><p><button class="button button-main-menu">Main menu</button></p>',
 		},
 	],
 }
