@@ -116,23 +116,18 @@ h1, h2, h3, h4, h5 {
 	padding: 0 5px;
 }
 
-.button:hover:enabled, .button:focus:enabled {
+.button:hover, .button:focus {
 	-webkit-box-shadow: 0px 0px 10px 0px #00cc00;
 	-moz-box-shadow: 0px 0px 10px 0px #00cc00;
 	box-shadow: 0px 0px 10px 0px #00cc00;
 }
 
-.button:active:enabled {
+.button:active {
 	border-style: solid;
 	border-top-color: grey;
 	border-right-color: #cccccc;
 	border-bottom-color: #cccccc;
 	border-left-color: grey;
-}
-
-.button:disabled {
-	background: grey;
-	cursor: not-allowed;
 }
 
 img.pixelated {
