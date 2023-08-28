@@ -22,7 +22,7 @@ function initialize() {
 
 	// Prepare loading both real and fake
 	gameOptions.loading.total += $( 'audio' ).length;
-	gameOptions.loading.fakeInterval = setInterval(onLoadingInterval, 8000);
+	gameOptions.loading.fakeInterval = setInterval(onLoadingInterval, 8 / gameOptions.loading.total * 1000);
 }
 
 function addVolumeSlidersEventListeners() {
