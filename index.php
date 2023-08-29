@@ -91,6 +91,9 @@ $characters = $game->getCharacters();
 			<p class="copyright">&#169; Menno van den Ende - 2023</p>
 		</footer>
 
+		<audio class="audio audio-effect audio-effect-button" preload="auto">
+			<source src="assets/audio/effects/button.mp3" type="audio/mpeg">
+		</audio>
 		<audio class="audio audio-effect audio-effect-rubberduck-2" preload="auto">
 			<source src="assets/audio/effects/rubberduck-2.mp3" type="audio/mpeg">
 		</audio>
@@ -100,17 +103,14 @@ $characters = $game->getCharacters();
 		<audio class="audio audio-effect audio-effect-fail" preload="auto">
 			<source src="assets/audio/effects/fail.mp3" type="audio/mpeg">
 		</audio>
-		<audio class="audio audio-effect audio-effect-button" preload="auto">
-			<source src="assets/audio/effects/button.mp3" type="audio/mpeg">
-		</audio>
-		<audio class="audio audio-music audio-music-chat" preload="auto" loop>
-			<source src="assets/audio/music/chat.mp3" type="audio/mpeg">
+		<audio class="audio audio-music audio-music-menu" preload="auto" loop>
+			<source src="assets/audio/music/menu.mp3" type="audio/mpeg">
 		</audio>
 		<audio class="audio audio-music audio-music-ingame" preload="auto" loop>
 			<source src="assets/audio/music/ingame.mp3" type="audio/mpeg">
 		</audio>
-		<audio class="audio audio-music audio-music-menu" preload="auto" loop>
-			<source src="assets/audio/music/menu.mp3" type="audio/mpeg">
+		<audio class="audio audio-music audio-music-chat" preload="auto" loop>
+			<source src="assets/audio/music/chat.mp3" type="audio/mpeg">
 		</audio>
 
 
