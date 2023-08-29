@@ -13,6 +13,6 @@
 			</span>
 		</div>
 
-		<p class="loading-description">Please wait, it will never take longer than 30 seconds. But if it takes 30 seconds, both your internet connection and the game sounds might not work as expected.</p>
+		<p class="loading-description">Please wait, it will never take longer than 10 seconds. But if it takes 10 seconds, both your internet connection and the game sounds might not work as expected.</p>
 	</div>
 </div>
