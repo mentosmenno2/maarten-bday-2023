@@ -85,16 +85,12 @@ function onCharacterButtonClick() {
 
 function onCharacterSelectKeyUp( event ) {
 	if ( [37, 65].includes( event.keyCode ) ) { // Left
-		console.log('left');
-		console.log(gameState.player2CharacterIndex % 2);
 		if ( gameState.player2CharacterIndex % 2 != 0 ) {
 			gameState.player2CharacterIndex = gameState.player2CharacterIndex - 1;
 		}
 	}
 
 	if ( [39, 68].includes( event.keyCode ) ) { // Right
-		console.log('right');
-		console.log(gameState.player2CharacterIndex % 2);
 		if ( gameState.player2CharacterIndex % 2 != 1 ) {
 			gameState.player2CharacterIndex = gameState.player2CharacterIndex + 1;
 		}
