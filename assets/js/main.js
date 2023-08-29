@@ -15,6 +15,7 @@ var gameOptions = {
 };
 
 function initialize() {
+	loadAudioFiles();
 	setAudioVolumes();
 
 	addLoadingEventListeners();
@@ -65,6 +66,20 @@ function setAudioVolumes() {
 	} );
 }
 
+function loadAudioFiles() {
+	$( '.audio-music' ).each( function( index ) {
+		$( this )[0].load();
+	} );
+
+	$( '.audio-effect' ).each( function( index ) {
+		$( this )[0].load();
+	} );
+
+	$( '.audio-voice' ).each( function( index ) {
+		$( this )[0].load();
+	} );
+}
+
 function addLoadingEventListeners() {
 	$( 'audio' ).on( 'canplaythrough', onLoadingItemLoaded );
 }
@@ -105,6 +120,7 @@ function updateLoadingProgress() {
 function allAssetsLoaded() {
 	clearInterval( gameOptions.loading.fakeInterval );
 	gameOptions.loading.fakeInterval = null;
+	$( 'audio' ).off( 'canplaythrough', onLoadingItemLoaded );
 
 	setTimeout(() => {
 		addEventListeners();
