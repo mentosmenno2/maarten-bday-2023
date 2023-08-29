@@ -372,5 +372,5 @@ var consoleimg = (function () {
 	  }
 	}
 })()
-consoleimg.load('assets/images/giant-duck-wat.jpg', {size: 320});
-console.log("%c🦆 QUACK! A cheater? No no no, we don't allow those here! Feel free to look into the code after playing by asking for access to the GitHub repository.", "background: #0f0f23; color: #00cc00; font-size: 14px; font-weight: normal; border-radius: 10px; padding: 10px")
+consoleimg.load('assets/images/giant-duck-wat-small.jpg', {size: 320});
+console.log("%c🦆 QUACK! A cheater? No no no, we don't allow those here! Feel free to look into the code after playing by asking for access to the GitHub repository.", "background: #0f0f23; color: #00cc00; font-size: 14px; font-weight: normal; border-radius: 10px; padding: 10px; line-height: 40px;");
