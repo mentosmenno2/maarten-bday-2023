@@ -162,11 +162,14 @@ function update(deltaTime) {
 		gameState.ball.y += gameState.ball.speedY * deltaTime;
 	}
 
-	if ( gameState.ball.x > gameState.level.width - gameState.ball.width ) {
+	var ballMaxX = gameState.level.width - gameState.ball.width;
+	if ( gameState.ball.x > ballMaxX ) {
 		gameState.ball.speedX *= -1;
+		gameState.ball.x = 2 * ballMaxX - gameState.ball.x; // Mirror in ballMaxX
 	}
 	if ( gameState.ball.x < 0 ) {
 		gameState.ball.speedX *= -1;
+		gameState.ball.x *= -1;
 	}
 
 	// Ball hitting character
