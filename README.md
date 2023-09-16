@@ -30,5 +30,5 @@ That's all that's needed to run the game.
 If you wish to contribute, you also need Composer installed.
 Then, don't forget to install composer dependencies using the `composer install` command in your terminal.
 You can now make changes to the code.
-When making changes to PHP files, you can run `compoeser test` to make sure your changes comply with the coding standards and contain no obvious bugs.
+When making changes to PHP files, you can run `composer test` to make sure your changes comply with the coding standards and contain no obvious bugs.
 Those tests will also run when creating a PR for the repository. Tests must be passed before changes can be merged into the source code.
