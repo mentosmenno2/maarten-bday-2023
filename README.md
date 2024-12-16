@@ -11,6 +11,10 @@ This project has been made for Maarten because it's his birthday.
 
 [https://maarten.mennovandenende.nl/2023/](https://maarten.mennovandenende.nl/2023/)
 
+### Playthrough
+
+[https://youtu.be/jcHdwnBPlmg](https://youtu.be/jcHdwnBPlmg)
+
 ## 2: Watch the making of video
 
 Link: https://www.youtube.com/watch?v=ikeGPPJ7A3I
